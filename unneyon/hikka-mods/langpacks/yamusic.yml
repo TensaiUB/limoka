@@ -1,0 +1,63 @@
+en:
+    guide: "<emoji document_id=5956561916573782596>📜</emoji> <b><a href=\"https://yandex-music.rtfd.io/en/main/token.html\">Guide for obtaining access token for Yandex.Music</a></b>"
+    iguide: "📜 <b><a href=\"https://yandex-music.rtfd.io/en/main/token.html\">Guide for obtaining access token for Yandex.Music</a></b>"
+    no_token: "<emoji document_id=5778527486270770928>❌</emoji> <b>You didn't specify the access token in the config!</b>"
+    autobio:
+        d: "<emoji document_id=5429189857324841688>🎧</emoji> <b>Autobio is off now</b>"
+        e: "<emoji document_id=5429189857324841688>🎧</emoji> <b>Autobio is on now</b>"
+    there_is_no_playing: "<emoji document_id=5474140048741901455>❌</emoji> <b>You don't listening to anything right now</b>"
+    queue_types:
+        VARIOUS: "Your queue"
+        RADIO: "«My Wave»"
+        PLAYLIST: "Playlist «{}»"
+        ALBUM: "«{}»"
+        ARTIST: "Popular tracks by {}"
+    downloading: "\n\n<emoji document_id=5841359499146825803>🕔</emoji> <i>Downloading audio…</i>"
+    uploading_banner: "\n\n<emoji document_id=5841359499146825803>🕔</emoji> <i>Uploading banner…</i>"
+    likes:
+        liked: "<emoji document_id=6037533152593842454>❤️</emoji> <b>Track <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> was liked</b>"
+        unliked: "<emoji document_id=5992453811510186287>❤️</emoji> <b>Track <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> was unliked</b>"
+        disliked: "<emoji document_id=5222400230133081714>💔</emoji> <b>Track <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> was disliked</b>"
+    lyrics: "<emoji document_id=5956561916573782596>📜</emoji> <b>Lyrics of the <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> track:</b>\n<blockquote expandable>{text}</blockquote>\n\n<emoji document_id=5247213725080890199>©️</emoji> <b>Writers:</b> {writers}"
+    no_lyrics: "<emoji document_id=5886285363869126932>❌</emoji> <b>Track <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> has no lyrics!</b>"
+    args: "<emoji document_id=5778527486270770928>❌</emoji> <b>Specify search query</b>"
+    searching: "<emoji document_id=5258274739041883702>🔍</emoji> <b>Searching…</b>"
+    404: "<emoji document_id=5778527486270770928>❌</emoji> <b>No results found</b>"
+    search: "<emoji document_id=5474304919651491706>🎧</emoji> <b>{performer} — {title}</b>\n<emoji document_id=5429189857324841688>🎵</emoji> <b><a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">Yandex.Music</a> | <a href=\"https://song.link/ya/{track_id}\">song.link</a></b>"
+    _cfg:
+        token: "Your access token for Yandex.Music"
+        now_playing_text: "The text that is used in commands to get now playing track. May contain {performer}, {title}, {device}, {volume}, {playing_from}, {link}, {track_id}, {album_id} keywords"
+        autobio: "Automatic bio template (may contain {artist} and {title} keywords)"
+        no_playing_bio: "Bio that is set when nothing is playing"
+
+ru:
+    guide: "<emoji document_id=5956561916573782596>📜</emoji> <b><a href=\"https://yandex-music.rtfd.io/en/main/token.html\">Гайд по получению токена Яндекс.Музыки</a></b>"
+    iguide: "📜 <b><a href=\"https://yandex-music.rtfd.io/en/main/token.html\">Гайд по получению токена Яндекс.Музыки</a></b>"
+    no_token: "<emoji document_id=5312526098750252863>❌</emoji> <b>Вы не указали токен Яндекс.Музыки в конфиге!</b>"
+    autobio:
+        d: "<emoji document_id=5429189857324841688>🎧</emoji> <b>Автобио выключено</b>"
+        e: "<emoji document_id=5429189857324841688>🎧</emoji> <b>Автобио включено</b>"
+    there_is_no_playing: "<emoji document_id=5474140048741901455>❌</emoji> <b>Вы ничего не слушаете сейчас</b>"
+    queue_types:
+        VARIOUS: "Ваша очередь"
+        RADIO: "«Моя Волна»"
+        PLAYLIST: "Плейлист «{}»"
+        ALBUM: "«{}»"
+        ARTIST: "Популярные треки {}"
+    downloading: "\n\n<emoji document_id=5841359499146825803>🕔</emoji> <i>Загрузка трека…</i>"
+    uploading_banner: "\n\n<emoji document_id=5841359499146825803>🕔</emoji> <i>Загрузка баннера…</i>"
+    likes:
+        liked: "<emoji document_id=6037533152593842454>❤️</emoji> <b>Трек <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> лайкнут</b>"
+        unliked: "<emoji document_id=5992453811510186287>❤️</emoji> <b>С трека <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> снят лайк</b>"
+        disliked: "<emoji document_id=5222400230133081714>💔</emoji> <b>Трек <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> дизлайкнут</b>"
+    lyrics: "<emoji document_id=5956561916573782596>📜</emoji> <b>Текст трека <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a>:</b>\n<blockquote expandable>{text}</blockquote>\n\n<emoji document_id=5247213725080890199>©️</emoji> <b>Авторы:</b> {writers}"
+    no_lyrics: "<emoji document_id=5886285363869126932>❌</emoji> <b>У трека <a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">{track}</a> нет текста!</b>"
+    args: "<emoji document_id=5312526098750252863>❌</emoji> <b>Укажите поисковый запрос</b>"
+    searching: "<emoji document_id=5258274739041883702>🔍</emoji> <b>Ищем…</b>"
+    404: "<emoji document_id=5312526098750252863>❌</emoji> <b>Ничего не найдено</b>"
+    search: "<emoji document_id=5474304919651491706>🎧</emoji> <b>{performer} — {title}</b>\n<emoji document_id=5429189857324841688>🎵</emoji> <b><a href=\"https://music.yandex.ru/album/{album_id}/track/{track_id}\">Яндекс.Музыка</a> | <a href=\"https://song.link/ya/{track_id}\">song.link</a></b>"
+    _cfg:
+        token: "Ваш токен от Яндекс.Музыки"
+        now_playing_text: "Текст, использующийся в командах для получения прослушиваемого трека. Может содержать ключевые слова {performer}, {title}, {device}, {volume}, {playing_from}, {link}, {track_id}, {album_id}"
+        autobio: "Шаблон автоматического био (может содержать ключевые слова {artist} и {title})"
+        no_playing_bio: "Био, которое ставится, когда ничего не играет"
