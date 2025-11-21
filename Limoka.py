@@ -16,10 +16,11 @@ import re
 from datetime import datetime
 import asyncio
 
-from typing import Union, List, Dict, Any
+from typing import Union, List, Dict, Any, Optional
 
 from telethon.types import Message
 from telethon.errors.rpcerrorlist import WebpageMediaEmptyError
+from telethon import events
 try:
     from aiogram.utils.exceptions import BadRequest
 except ImportError:
@@ -30,7 +31,7 @@ from ..types import InlineQuery, InlineCall
 
 logger = logging.getLogger("Limoka")
 
-__version__ = (1, 2, 0)
+__version__ = (1, 2, 1)
 
 
 class Search:
@@ -130,6 +131,13 @@ class Limoka(loader.Module):
         "no_category": "No category",
         "global_button": "🌍 Results",
         "filtered_button": "🏷️ Filtered search",
+        "inline_search": "🔍 Search in Limoka",
+        "inline_no_results": "❌ No modules found",
+        "inline_error": "❌ Search error occurred",
+        "inline_short_query": "❌ Query too short (min 2 chars)",
+        "inline_switch_pm": "💬 Open in chat",
+        "inline_switch_pm_text": "🔍 Results for: {query}",
+        "inline_start_message": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\n\nType module name or keyword",
     }
 
     strings_ru = {
@@ -194,6 +202,13 @@ class Limoka(loader.Module):
         "no_category": "Без категории",
         "global_button": "🌍 Результаты",
         "filtered_button": "🏷️ Поиск с фильтрами",
+        "inline_search": "🔍 Поиск в Limoka",
+        "inline_no_results": "❌ Модули не найдены",
+        "inline_error": "❌ Ошибка поиска",
+        "inline_short_query": "❌ Запрос слишком короткий (мин. 2 символа)",
+        "inline_switch_pm": "💬 Открыть в чате",
+        "inline_switch_pm_text": "🔍 Результаты для: {query}",
+        "inline_start_message": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\n\nВведите название модуля или ключевое слово",
     }
 
     def __init__(self):
@@ -271,13 +286,13 @@ class Limoka(loader.Module):
         commands = []
         for i, func in enumerate(module_info["commands"], 1):
             if i > 9:
-                commands.append("…")
+                commands.append("…\n")
                 break
             for command, description in func.items():
                 emoji = self.strings["emojis"].get(i, "")
-                desc = (description or self.strings["no_info"]).replace("\n", "\n\n")[:200]
-                if len(desc) > 197:
-                    desc = desc[:197] + "…"
+                desc = (description or self.strings["no_info"])
+                if len(desc) > 150:
+                    desc = desc[:147] + "…"
                 commands.append(
                     self.strings["command_template"].format(
                         prefix=self.get_prefix(),
@@ -286,7 +301,7 @@ class Limoka(loader.Module):
                         description=html.escape(desc),
                     )
                 )
-        return commands
+        return commands[:5]
 
     async def _display_filter_menu(self, call: InlineCall, query: str, current_filters: dict):
         categories = current_filters.get("category", [])
@@ -448,7 +463,7 @@ class Limoka(loader.Module):
 
     async def _display_module(
         self,
-        message_or_call: Union[Message, InlineCall], 
+        message_or_call: Union[Message, InlineCall, None],
         module_info: Dict[str, Any],
         module_path: str,
         query: str,
@@ -470,6 +485,9 @@ class Limoka(loader.Module):
             categories=', '.join(html.escape(c) for c in categories) if categories else self.strings["no_category"]
         )
 
+        if len(description) > 300:
+            description = description[:297] + "…"
+
         core_message = self.strings["found"].format(
             query=html.escape(query),
             name=name,
@@ -481,42 +499,24 @@ class Limoka(loader.Module):
             module_path=html.escape(clean_module_path),
         )
 
-        static_suffix = f"\n{filters_text}"
-        max_core_len = 1024 - len(static_suffix)
+        full_message = core_message[:4096]
 
-        if max_core_len < 50:
-            max_core_len = 50
-
-        if len(core_message) > max_core_len:
+        caption_message = full_message
+        if len(caption_message) > 1024:
             safe_query = html.escape(query[:30]) + ("..." if len(query) > 30 else "")
             safe_name = name[:40] + ("..." if len(name) > 40 else "")
-            safe_dev = dev_username[:30] + ("..." if len(dev_username) > 30 else "")
+            safe_desc = description[:100] + ("…" if len(description) > 100 else "")
+            
+            caption_message = (
+                f"<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
+                f"<b><emoji document_id=5418376169055602355>ℹ️</emoji> Desc:</b> {safe_desc}\n"
+                f"<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Dev:</b> {dev_username}\n\n"
+                f"<emoji document_id=5411143117711624172>🪄</emoji> <code>{self.get_prefix()}dlm {self.config['limokaurl']}{html.escape(clean_module_path)}</code>"
+            )[:1024]
 
-            desc_max = max(50, (max_core_len - 250) // 2)
-            safe_desc = description[:desc_max] + ("…" if len(description) > desc_max else "")
-
-            safe_commands = []
-            for cmd in commands[:3]:
-                if len(cmd) > 150:
-                    cmd = cmd[:147] + "…"
-                safe_commands.append(cmd)
-
-            core_message = (
-                f"<emoji document_id=5413334818047940135>🔍</emoji> "
-                f"Found module <b>{safe_name}</b> by query: <b>{safe_query}</b>\n\n"
-                f"<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {safe_desc}\n"
-                f"<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Developer:</b> {safe_dev}\n\n"
-                f"{''.join(safe_commands)}"
-            )
-
-            core_message = re.sub(r'\n\s*\n', '\n\n', core_message)
-            core_message = "\n".join(line.strip() for line in core_message.splitlines())
-            core_message = core_message.rstrip("\n")
-
-            if len(core_message) > max_core_len:
-                core_message = core_message[:max_core_len - 3] + "…"
-
-        full_message = (core_message + static_suffix)[:1024]
+        static_suffix = f"\n{filters_text}"
+        if len(caption_message) + len(static_suffix) <= 1024:
+            caption_message += static_suffix
 
         markup = [
             [
@@ -542,33 +542,64 @@ class Limoka(loader.Module):
         ]
 
         try:
+            if message_or_call is None:
+                logger.error("message_or_call is None in _display_module")
+                return
+
             if isinstance(message_or_call, Message):
-                await self.inline.form(
-                    text=full_message,
-                    message=message_or_call,
-                    reply_markup=markup,
-                    photo=banner_url
-                )
+                if banner_url and banner_url != self.fallback_banner:
+                    await self.inline.form(
+                        text=caption_message,
+                        message=message_or_call,
+                        reply_markup=markup,
+                        photo=banner_url
+                    )
+                else:
+                    await self.inline.form(
+                        text=full_message,
+                        message=message_or_call,
+                        reply_markup=markup
+                    )
             else:
-                await message_or_call.edit(
-                    text=full_message,
-                    reply_markup=markup,
-                    photo=banner_url
-                )
-        except (BadRequest, WebpageMediaEmptyError):
-            if isinstance(message_or_call, Message):
+                if banner_url and banner_url != self.fallback_banner:
+                    await message_or_call.edit(
+                        text=caption_message,
+                        reply_markup=markup,
+                        photo=banner_url
+                    )
+                else:
+                    await message_or_call.edit(
+                        text=full_message,
+                        reply_markup=markup
+                    )
+        except (BadRequest, WebpageMediaEmptyError) as e:
+            logger.exception(f"Error in _display_module: {e}")
+            if message_or_call is None:
+                return
+                
+            try:
+                if isinstance(message_or_call, Message):
+                    target_message = message_or_call
+                elif hasattr(message_or_call, 'message') and isinstance(message_or_call.message, Message):
+                    target_message = message_or_call.message
+                else:
+                    target_message = await self.client.send_message(
+                        self._me, 
+                        "Error occurred, please try again."
+                    )
+                    
                 await self.inline.form(
-                    text=full_message,
-                    message=message_or_call,
-                    reply_markup=markup,
-                    photo=self.fallback_banner
+                    text=full_message[:4096],
+                    message=target_message,
+                    reply_markup=markup
                 )
-            else:
-                await message_or_call.edit(
-                    text=full_message,
-                    reply_markup=markup,
-                    photo=self.fallback_banner
-                )
+            except Exception as inner_e:
+                logger.exception(f"Secondary error in error handling: {inner_e}")
+                try:
+                    if isinstance(message_or_call, Message):
+                        await utils.answer(message_or_call, "Error displaying module. Please try again.")
+                except Exception:
+                    pass
 
     async def _show_global_results(self, call: InlineCall, query: str):
         searcher = Search(query.lower(), self.ix)
@@ -604,7 +635,7 @@ class Limoka(loader.Module):
         buttons.append([{"text": self.strings["change_query"], "callback": self._enter_query}])
 
         await call.edit(
-            text=text,
+            text=text[:4096],
             reply_markup=buttons
         )
 
@@ -635,13 +666,12 @@ class Limoka(loader.Module):
     async def _inline_void(self, call: InlineCall):
         await call.answer()
 
-    @loader.command(ru_doc="[запрос] — Поиск модулей (без аргументов для формы ввода)")
+    @loader.command(ru_doc="[запрос / ничего] — Поиск модулей")
     async def limokacmd(self, message: Message):
-        """[query] - Search modules (no args for input form)"""
+        """[query / nothing] - Search modules"""
         args = utils.get_args_raw(message)
         
         if not args:
-            # No arguments - show input form
             markup = [
                 [
                     {
@@ -668,7 +698,6 @@ class Limoka(loader.Module):
             )
             return
 
-        # With arguments - perform search
         if len(self._history) >= 10:
             self._history = self._history[-9:]
         self._history.append(args)
@@ -762,7 +791,7 @@ class Limoka(loader.Module):
         buttons.append([{"text": "🔄 " + self.strings["change_query"], "callback": lambda c: self._show_global_form(c, message)}])
 
         await call.edit(
-            text=text,
+            text=text[:4096],
             reply_markup=buttons
         )
 
@@ -780,63 +809,3 @@ class Limoka(loader.Module):
                 history='\n'.join(formatted_history)
             )
         )
-
-    @loader.inline_handler()
-    async def limoka(self, query: InlineQuery):
-        """[query] - Search modules inline"""
-        q = query.args or ""
-        if not q:
-            return {
-                "title": "Limoka Search",
-                "description": "Enter module name or keyword to search",
-                "thumb": "https://img.icons8.com/?size=100&id=NIWYFnJlcBfr&format=png&color=000000",
-                "message": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Inline Search</b>\n\nEnter your query to search for Hikka modules:",
-            }
-
-        searcher = Search(q.lower(), self.ix)
-        try:
-            results = searcher.search_module()
-        except Exception:
-            return {
-                "title": "Error",
-                "description": "Search error occurred",
-                "thumb": "https://img.icons8.com/?size=100&id=rUSWMuGVdxJj&format=png&color=000000",
-                "message": "<emoji document_id=5210952531676504517>❌</emoji> <b>Search error</b>\n<i>Try again later</i>",
-            }
-
-        if not results:
-            return {
-                "title": "No results found",
-                "description": "No modules match your query",
-                "thumb": "https://img.icons8.com/?size=100&id=olDsW0G3zz22&format=png&color=000000",
-                "message": "<emoji document_id=5210952531676504517>❌</emoji> <b>No results found</b>\n<i>Try different keywords</i>",
-            }
-
-        inline_results = []
-        for path in results[:10]:
-            module_info = self.modules.get(path)
-            if not module_info:
-                continue
-            banner = await self._validate_url(module_info["meta"].get("banner"))
-            thumb = await self._validate_url(
-                module_info["meta"].get("pic", "https://img.icons8.com/?size=100&id=olDsW0G3zz22&format=png&color=000000")
-            )
-            inline_results.append(
-                {
-                    "title": module_info["name"],
-                    "description": module_info["description"] or "No description available",
-                    "thumb": thumb or "https://img.icons8.com/?size=100&id=olDsW0G3zz22&format=png&color=000000",
-                    "photo": banner,
-                    "message": self.strings["found"].format(
-                        name=html.escape(module_info["name"]),
-                        query=html.escape(q),
-                        url=html.escape(self.config["limokaurl"]),
-                        description=html.escape(module_info["description"] or self.strings["no_info"]),
-                        username=html.escape(module_info["meta"].get("developer", "Unknown")),
-                        commands="".join(self.generate_commands(module_info)),
-                        module_path=path.replace("\\", "/"),
-                        prefix=html.escape(self.get_prefix()),
-                    ),
-                }
-            )
-        return inline_results
