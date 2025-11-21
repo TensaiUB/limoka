@@ -1,6 +1,7 @@
 caliases
 deleter
 privacy
+sdsaver
 tidal
 warpigs
 yamusic
