@@ -5,6 +5,8 @@ import json
 from clone_repos import repos
 from typing import Dict
 
+# TODO: ADD VENV IGNORE
+
 
 def get_module_info(module_path):
     """Парсит Python-модуль и извлекает информацию о нем."""
