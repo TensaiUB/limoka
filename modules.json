@@ -9,35 +9,25 @@
     },
     "commands": [
       {
-        "limokacmd": "[query] - Search module with filter options [запрос] - Поиск модуля с опциями фильтрации"
+        "limokacmd": "[query / nothing] - Search modules [запрос / ничего] — Поиск модулей"
       },
       {
-        "lshistorycmd": "- Showing the last 10 requests  - Показать последние 10 запросов"
-      },
-      {
-        "limokadotd": "- Show the Module of the Day - Показать модуль дня"
+        "lshistorycmd": "- Show search history — Показать историю поиска"
       }
     ],
     "new_commands": [
       {
         "limoka": {
-          "ru_doc": "[запрос] - Поиск модуля с опциями фильтрации",
+          "ru_doc": "[запрос / ничего] — Поиск модулей",
           "en_doc": null,
-          "doc": "[query] - Search module with filter options"
+          "doc": "[query / nothing] - Search modules"
         }
       },
       {
         "lshistory": {
-          "ru_doc": " - Показать последние 10 запросов",
+          "ru_doc": "— Показать историю поиска",
           "en_doc": null,
-          "doc": "- Showing the last 10 requests"
-        }
-      },
-      {
-        "limokadotd": {
-          "ru_doc": "- Показать модуль дня",
-          "en_doc": null,
-          "doc": "- Show the Module of the Day"
+          "doc": "- Show search history"
         }
       }
     ],
@@ -5758,6 +5748,97 @@
     "category": [
       "Chat",
       "Tools"
+    ]
+  },
+  "ZetGoHack/nullmod/HaremManager.py": {
+    "name": "HaremManager",
+    "description": "Module for harem bots: Gif Harem, Waifu Harem, Horny Harem",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@nullmod"
+    },
+    "commands": [
+      {
+        "Harems": "Открыть меню управления"
+      },
+      {
+        "lightsout": "[ответ на соо с полем] Автоматически решает Lights Out"
+      }
+    ],
+    "new_commands": [
+      {
+        "Harems": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Открыть меню управления"
+        }
+      },
+      {
+        "lightsout": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "[ответ на соо с полем] Автоматически решает Lights Out"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "ZetGoHack/nullmod/Chess.py": {
+    "name": "Chess",
+    "description": "A reworked version of the Chess module",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@nullmod"
+    },
+    "commands": [
+      {
+        "chess": "[reply/username/id] - propose a person to play a game [reply/username/id] - предложить человеку сыграть партию"
+      }
+    ],
+    "new_commands": [
+      {
+        "chess": {
+          "ru_doc": "[reply/username/id] - предложить человеку сыграть партию",
+          "en_doc": null,
+          "doc": "[reply/username/id] - propose a person to play a game"
+        }
+      }
+    ],
+    "category": [
+      "Games",
+      "Tools"
+    ]
+  },
+  "ZetGoHack/nullmod/SchedulePlus.py": {
+    "name": "SchedulePlus",
+    "description": "Планирование периодичных сообщений",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@nullmod"
+    },
+    "commands": [
+      {
+        "sch": "Используй .sch <периодичность в секундах> <количество отправок> <текст/содержимое из ответа>\n\nПроф. режим: .sch 15 3 test{x=1;x*2}/{y=0;y+1}\nЗапланирует три сообщения: test2/1, test4/2, test8/3"
+      }
+    ],
+    "new_commands": [
+      {
+        "sch": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Используй .sch <периодичность в секундах> <количество отправок> <текст/содержимое из ответа>\n\nПроф. режим: .sch 15 3 test{x=1;x*2}/{y=0;y+1}\nЗапланирует три сообщения: test2/1, test4/2, test8/3"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
     ]
   },
   "shadowhikka/sh.modules/RandomMemes.py": {
@@ -22530,6 +22611,227 @@
     "category": [
       "Tools",
       "Fun"
+    ]
+  },
+  "SenkoGuardian/SenModules/NekoEditorMod.py": {
+    "name": "NekoEditorMod",
+    "description": "Neko-редактор сообщений | Владелецы: @SstAngelStar × @ilovesenko ",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@SenkoGuardianModules"
+    },
+    "commands": [
+      {
+        "nekoedcmd": "Управление Neko-режимом | .nekoed [on/off]"
+      }
+    ],
+    "new_commands": [
+      {
+        "nekoed": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Управление Neko-режимом | .nekoed [on/off]"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "SenkoGuardian/SenModules/GiftFinder.py": {
+    "name": "GiftFinderMod",
+    "description": "Парсер пользователей с NFT-подарками в чате.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@SenkoGuardianModules"
+    },
+    "commands": [
+      {
+        "giftscancmd": "Ищет пользователей с NFT-подарками в чате.\nИспользование: .giftscan [лимит] или .giftscan [ID чата] [лимит]"
+      }
+    ],
+    "new_commands": [
+      {
+        "giftscan": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Ищет пользователей с NFT-подарками в чате.\nИспользование: .giftscan [лимит] или .giftscan [ID чата] [лимит]"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "SenkoGuardian/SenModules/MaillingChatGT99.py": {
+    "name": "MailChats",
+    "description": "Модуль для массовой рассылки сообщений по чатам (Поддерживает все типы сообщений)",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@SenkoGuardianModules"
+    },
+    "commands": [
+      {
+        "mail_help": "📋 Показать пошаговую инструкцию по настройке рассылки."
+      },
+      {
+        "add_chat": "➕ Добавить чат. Можно несколько: .add_chat @user1 ссылка ..."
+      },
+      {
+        "remove_chat": "🗑️ Удалить чат по номеру."
+      },
+      {
+        "clear_chats": "🗑️ Очистить список чатов."
+      },
+      {
+        "list_chats": "📜 Показать список чатов."
+      },
+      {
+        "add_msg": "➕ Добавить сообщение (ответом)."
+      },
+      {
+        "remove_msg": "➖ Удалить сообщение по номеру."
+      },
+      {
+        "clear_msgs": "🗑️ Очистить список сообщений."
+      },
+      {
+        "list_msgs": "📜 Показать список сообщений."
+      },
+      {
+        "set_seller": "⚙️ Установить ID для уведомлений."
+      },
+      {
+        "mail_status": "📊 Показать статус рассылки."
+      },
+      {
+        "start_mail": "🚀 Запустить рассылку."
+      },
+      {
+        "stop_mail": "⏹️ Остановить рассылку."
+      },
+      {
+        "dump_chats": "📤 Выгрузить список чатов рассылки в .txt файл (для бэкапа)."
+      },
+      {
+        "load_chats": "📤 Загрузить чаты в рассылку из .txt файла (ответом на файл)."
+      }
+    ],
+    "new_commands": [
+      {
+        "mail_help": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "📋 Показать пошаговую инструкцию по настройке рассылки."
+        }
+      },
+      {
+        "add_chat": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "➕ Добавить чат. Можно несколько: .add_chat @user1 ссылка ..."
+        }
+      },
+      {
+        "remove_chat": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "🗑️ Удалить чат по номеру."
+        }
+      },
+      {
+        "clear_chats": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "🗑️ Очистить список чатов."
+        }
+      },
+      {
+        "list_chats": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "📜 Показать список чатов."
+        }
+      },
+      {
+        "add_msg": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "➕ Добавить сообщение (ответом)."
+        }
+      },
+      {
+        "remove_msg": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "➖ Удалить сообщение по номеру."
+        }
+      },
+      {
+        "clear_msgs": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "🗑️ Очистить список сообщений."
+        }
+      },
+      {
+        "list_msgs": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "📜 Показать список сообщений."
+        }
+      },
+      {
+        "set_seller": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "⚙️ Установить ID для уведомлений."
+        }
+      },
+      {
+        "mail_status": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "📊 Показать статус рассылки."
+        }
+      },
+      {
+        "start_mail": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "🚀 Запустить рассылку."
+        }
+      },
+      {
+        "stop_mail": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "⏹️ Остановить рассылку."
+        }
+      },
+      {
+        "dump_chats": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "📤 Выгрузить список чатов рассылки в .txt файл (для бэкапа)."
+        }
+      },
+      {
+        "load_chats": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "📤 Загрузить чаты в рассылку из .txt файла (ответом на файл)."
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
     ]
   },
   "1jpshiro/hikka-modules/Autotime.py": {
