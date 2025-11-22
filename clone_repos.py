@@ -49,7 +49,9 @@ repos = [
     "https://github.com/Ruslan-Isaev/modules",
     "https://github.com/shadowhikka/sh.modules",
     "https://github.com/fiksofficial/python-modules",
-    "https://github.com/mead0wsss/mead0wsMods"
+    "https://github.com/mead0wsss/mead0wsMods",
+    "https://github.com/SenkoGuardian/SenModules",
+    "https://github.com/ZetGoHack/nullmod"
 ]
 
 def configure_git():
