@@ -293,7 +293,7 @@ class Limoka(loader.Module):
                 validator=loader.validators.String(),
             ),
             loader.ConfigValue(
-                "external_install",
+                "external_install_allowed",
                 True,
                 lambda: "If enabled, module installation can be handled via external Limoka bot (@limoka_bbot) for better reliability.",
                 validator=loader.validators.Boolean(),
