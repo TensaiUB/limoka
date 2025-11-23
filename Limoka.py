@@ -1385,7 +1385,7 @@ class Limoka(loader.Module):
                 signature = bytes.fromhex(signature_hex)
                 signed_payload = f"{module_path}|{sha256}".encode()
                 public_key.verify(signature, signed_payload)
-                logger.info(f"Signature verified for {module_path} (sha256={sha256})")
+                # logger.info(f"Signature verified for {module_path} (sha256={sha256})")
             except Exception as e:
                 logger.error(f"Signature verification failed for {module_path}: {e}")
                 await utils.answer(message, self.strings["watcher_signature_invalid"])
