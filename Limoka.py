@@ -1,5 +1,5 @@
 # meta developer: @limokanews
-# requires: whoosh
+# requires: whoosh cryptography
 
 # Limoka search module.
 
@@ -38,9 +38,12 @@ import os
 import html
 import json
 
+import re
+
 import asyncio
 
 from typing import Union, List, Dict, Any, Optional
+import hashlib
 
 from telethon.types import Message
 from telethon.errors.rpcerrorlist import WebpageMediaEmptyError
@@ -55,7 +58,7 @@ from ..types import InlineCall
 
 logger = logging.getLogger("Limoka")
 
-__version__ = (1, 2, 3)
+__version__ = (1, 3, 0)
 
 
 class Search:
@@ -175,6 +178,12 @@ class Limoka(loader.Module):
         "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b>",
         "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history",
         "close": "❌ Close",
+        "watcher_no_tag": "❌ Invalid message format. No #limoka tag found.",
+        "watcher_invalid_format": "❌ Invalid format. Expected: #limoka:path:signature",
+        "watcher_signature_invalid": "❌ Signature invalid! Installation aborted.",
+        "watcher_loader_missing": "❌ Loader module not found.",
+        "watcher_module_not_found": "❌ Module not found in Limoka database: <code>{path}</code>",
+        "watcher_critical": "❌ Critical error: {error}",
     }
 
     strings_ru = {
@@ -217,6 +226,10 @@ class Limoka(loader.Module):
         "facts": [
             "<emoji document_id=5472193350520021357>🛡</emoji> Каталог Limoka тщательно модерируется!",
             "<emoji document_id=5940434198413184876>🚀</emoji> Limoka позволяет искать модули с невероятной скоростью!",
+            (
+                "<emoji document_id=5188311512791393083>🔎</emoji> Limoka имеет лучший поиск*!"
+                "\n <i>* В сравнении с предыдущей версией Limoka</i>"
+            )
         ],
         "inline404": "Не найдено",
         "inline?": "Запрос слишком короткий / не найден",
@@ -261,6 +274,12 @@ class Limoka(loader.Module):
         "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b>",
         "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю",
         "close": "❌ Закрыть",
+        "watcher_no_tag": "❌ Неверный формат сообщения. Тег #limoka не найден.",
+        "watcher_invalid_format": "❌ Неверный формат. Ожидается: #limoka:path:signature",
+        "watcher_signature_invalid": "❌ Неверная подпись! Установка отменена.",
+        "watcher_loader_missing": "❌ Модуль загрузчика не найден.",
+        "watcher_module_not_found": "❌ Модуль не найден в базе Limoka: <code>{path}</code>",
+        "watcher_critical": "❌ Критическая ошибка: {error}",
         "_cls_doc": "Модули теперь в одном месте с простым и удобным поиском!",
     }
 
@@ -270,9 +289,15 @@ class Limoka(loader.Module):
             loader.ConfigValue(
                 "limokaurl",
                 "https://raw.githubusercontent.com/MuRuLOSE/limoka/refs/heads/main/",
-                lambda: "Зеркало (не работает): https://raw.githubusercontent.com/MuRuLOSE/limoka-mirror/refs/heads/main/",
+                lambda: "Mirror (doesn't work): https://raw.githubusercontent.com/MuRuLOSE/limoka-mirror/refs/heads/main/",
                 validator=loader.validators.String(),
-            )
+            ),
+            loader.ConfigValue(
+                "external_install",
+                True,
+                lambda: "If enabled, module installation can be handled via external Limoka bot (@limoka_bbot) for better reliability.",
+                validator=loader.validators.Boolean(),
+            ) 
         )
         self.name = self.strings["name"]
         self._invalid_banners = set()
@@ -1237,3 +1262,186 @@ class Limoka(loader.Module):
             message,
             self.strings["history"].format(history="\n".join(formatted_history)),
         )
+
+    @loader.watcher(from_dl=False)
+    async def secure_install_watcher(self, message: Message):
+        """Secure install watcher for official Limoka bot.
+
+        This watcher cleans HTML from incoming messages, extracts a
+        signed #limoka:<path>:<signature> tag, verifies the signature and
+        triggers the loader to download and install the module if valid.
+        """
+        if not message.text:
+            return
+
+        # Verify sender id is present and comes from the official Limoka bot
+        if not hasattr(message, "from_id") or not message.from_id:
+            return
+
+        sender_id = None
+        if hasattr(message.from_id, "user_id"):
+            sender_id = message.from_id.user_id
+        elif hasattr(message.from_id, "channel_id"):
+            sender_id = message.from_id.channel_id
+
+        if sender_id != 7538432559:
+            logger.debug("Message not from official bot, ignoring")
+            return
+
+        # Only act when external installs are enabled
+        if not self.config["external_install"]:
+            return
+
+        try:
+            # Prefer raw_text/message when available to preserve original
+            # formatting (some clients provide parsed .text that loses
+            # tags/links). Fall back to .text if needed.
+            clean_text = getattr(message, "raw_text", None) or getattr(
+                message, "message", None
+            ) or message.text or ""
+
+            if message.entities:
+                from html import unescape
+
+                clean_text = unescape(clean_text)
+                # Remove HTML tags but keep their inner text so we don't
+                # accidentally remove the tag content when it's wrapped
+                # in an <a> or similar.
+                clean_text = re.sub(r"<[^>]+>", "", clean_text)
+
+            # Extract the first #limoka:<content> occurrence. Allow for
+            # characters until whitespace or HTML/quote delimiters.
+            match = re.search(r"#limoka:([^\s\"'<>]+)", clean_text)
+            if not match:
+                logger.debug(
+                    "No #limoka tag found in cleaned text; leaving original message intact"
+                )
+                # Do not send a user-visible reply for missing tag; simply exit.
+                return
+
+            tag_content = match.group(1)
+
+            # Expect format: <path>:<hex_signature>
+            parts = tag_content.split(":", 1)
+            if len(parts) != 2:
+                logger.error("Invalid tag format after cleaning")
+                await utils.answer(message, self.strings["watcher_invalid_format"])
+                # Do not delete the original message on parse errors.
+                return
+
+            module_path, signature_hex = parts
+
+            # Strip leftover quote characters and whitespace
+            module_path = re.sub(r"[<>\"']", "", module_path).strip()
+
+            # Handle possible href= artifacts
+            if module_path.startswith("href="):
+                module_path = module_path[5:].strip('"').strip("'")
+
+            # Try to resolve the module key in database
+            if module_path not in self.modules:
+                found = False
+                for db_path in self.modules.keys():
+                    if module_path in db_path or db_path in module_path:
+                        module_path = db_path
+                        found = True
+                        break
+
+                if not found:
+                    logger.warning(f"Module not found after cleanup: {module_path}")
+                    await utils.answer(
+                        message, self.strings["watcher_module_not_found"].format(path=html.escape(module_path))
+                    )
+                    # Keep original message in chat for inspection.
+                    return
+
+            # logger.info(f"Module found in database: {module_path}")
+
+            # Verify signature using embedded public key — signature covers
+            # the module path AND the SHA256 of the module content (format:
+            # "{module_path}|{sha256}"). Download module, compute hash and
+            # verify signature against that combined payload.
+            try:
+                import base64
+                from cryptography.hazmat.primitives.asymmetric import ed25519
+
+                PUB_KEY_B64 = "MCowBQYDK2VwAyEA1ltSnqtf3pGBuctuAYqHivCXsaRtKOVxavai7yin7ZE="
+                der_bytes = base64.b64decode(PUB_KEY_B64)
+                raw_pubkey = der_bytes[-32:]
+
+                # Download module content to compute SHA256
+                module_url = self.config["limokaurl"] + module_path
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(module_url, timeout=10) as resp:
+                        if resp.status != 200:
+                            logger.error(f"Failed to fetch module for verification: {module_url} (HTTP {resp.status})")
+                            await utils.answer(message, self.strings["watcher_loader_missing"])
+                            return
+                        module_bytes = await resp.read()
+
+                sha256 = hashlib.sha256(module_bytes).hexdigest()
+
+                public_key = ed25519.Ed25519PublicKey.from_public_bytes(raw_pubkey)
+                signature = bytes.fromhex(signature_hex)
+                signed_payload = f"{module_path}|{sha256}".encode()
+                public_key.verify(signature, signed_payload)
+                logger.info(f"Signature verified for {module_path} (sha256={sha256})")
+            except Exception as e:
+                logger.error(f"Signature verification failed for {module_path}: {e}")
+                await utils.answer(message, self.strings["watcher_signature_invalid"])
+                # Keep original message so admins can inspect the signed payload.
+                return
+
+            # Perform install via loader
+            loader_mod = self.lookup("loader")
+            if not loader_mod:
+                logger.error("Loader module not found")
+                await utils.answer(message, self.strings["watcher_loader_missing"])
+                # Do not delete the original message on loader problems.
+                return
+
+            module_url = self.config["limokaurl"] + module_path
+            # logger.info(f"Installing from URL: {module_url}")
+
+            status = await loader_mod.download_and_install(module_url, None)
+
+            if getattr(loader_mod, "fully_loaded", False):
+                loader_mod.update_modules_in_db()
+
+            # Attempt to remove the original message
+            try:
+                await message.delete()
+                # logger.info("Original message deleted")
+            except Exception as e:
+                logger.error(f"Failed to delete message: {e}")
+
+            logger.info(status)
+
+            if status:
+                # module_name = module_path.split("/")[-1].replace(".py", "")
+                # Notify official bot about success
+                try:
+                    bot_peer = await self.client.get_entity(7538432559)
+                    await self.client.send_message(bot_peer, f"#limoka:sucsess:{message.id}")
+                    # logger.info(f"Sent success confirmation to bot for message {message.id}")
+                except Exception as e:
+                    logger.error(f"Failed to send success confirmation: {e}")
+
+                # logger.info(f"Module {module_name} installed successfully")
+            else:
+                logger.error(f"Installation failed with status: {status}")
+                try:
+                    bot_peer = await self.client.get_entity(7538432559)
+                    await self.client.send_message(bot_peer, f"#limoka:failed:{message.id}")
+                    # logger.info(f"Sent failure notification to bot for message {message.id}")
+                except Exception as e:
+                    logger.error(f"Failed to send failure notification: {e}")
+
+        except Exception as e:
+            logger.exception(f"CRITICAL ERROR in secure_install_watcher: {e}")
+            try:
+                await utils.answer(message, self.strings["watcher_critical"].format(error=str(e)[:100]))
+                await asyncio.sleep(5)
+                await message.delete()
+            except Exception:
+                pass
