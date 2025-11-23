@@ -1284,7 +1284,7 @@ class Limoka(loader.Module):
         elif hasattr(message.from_id, "channel_id"):
             sender_id = message.from_id.channel_id
 
-        if sender_id != 7538432559:
+        if sender_id != 8581621390:
             logger.debug("Message not from official bot, ignoring")
             return
 
