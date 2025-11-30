@@ -34,7 +34,7 @@ repos = [
     "https://github.com/AmoreForever/amoremods",
     "https://github.com/idiotcoders/idiotmodules",
     "https://github.com/CakesTwix/Hikka-Modules",
-    "https://github.com/C0dwiz/H.Modules",
+    "https://github.com/archquise/H.Modules",
     "https://github.com/GD-alt/mm-hikka-mods",
     "https://github.com/HitaloSama/FTG-modules-repo",
     "https://github.com/SekaiYoneya/Friendly-telegram",
@@ -51,7 +51,9 @@ repos = [
     "https://github.com/fiksofficial/python-modules",
     "https://github.com/mead0wsss/mead0wsMods",
     "https://github.com/SenkoGuardian/SenModules",
-    "https://github.com/ZetGoHack/nullmod"
+    "https://github.com/ZetGoHack/nullmod",
+    "https://github.com/yummy1gay/limoka"
+    
 ]
 
 def configure_git():
