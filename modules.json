@@ -30508,6 +30508,2460 @@
       "Chat"
     ]
   },
+  "archquise/H.Modules/Text2File.py": {
+    "name": "Text2File",
+    "description": "Module for convertation your text to file",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "ttfcmd": "Создать файл с вашим текстом или кодом Create a file with your text or code"
+      }
+    ],
+    "new_commands": [
+      {
+        "ttf": {
+          "ru_doc": "Создать файл с вашим текстом или кодом",
+          "en_doc": "Create a file with your text or code",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/IrisSimpleMod.py": {
+    "name": "IrisSimpleMod",
+    "description": "Модуль для базового взаимодействия с Ирисом",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "bag": "Check bag Проверить мешок"
+      },
+      {
+        "farm": "Farm iris-coins Зафармить ирис-коины"
+      },
+      {
+        "irisstats": "Display user stats Вывести анкету"
+      },
+      {
+        "irisping": "Display bot stats Вывести статистику ботов"
+      }
+    ],
+    "new_commands": [
+      {
+        "bag": {
+          "ru_doc": "Проверить мешок",
+          "en_doc": null,
+          "doc": "Check bag"
+        }
+      },
+      {
+        "farm": {
+          "ru_doc": "Зафармить ирис-коины",
+          "en_doc": null,
+          "doc": "Farm iris-coins"
+        }
+      },
+      {
+        "irisstats": {
+          "ru_doc": "Вывести анкету",
+          "en_doc": null,
+          "doc": "Display user stats"
+        }
+      },
+      {
+        "irisping": {
+          "ru_doc": "Вывести статистику ботов",
+          "en_doc": null,
+          "doc": "Display bot stats"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/nsfwart.py": {
+    "name": "NSFWArtMod",
+    "description": "Sends cute anime nsfw-art",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "nsfwartcmd": "Отправьте симпатичный nsfw-арт Send cute nsfw-art"
+      }
+    ],
+    "new_commands": [
+      {
+        "nsfwart": {
+          "ru_doc": "Отправьте симпатичный nsfw-арт",
+          "en_doc": "Send cute nsfw-art",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/CryptoCurrency.py": {
+    "name": "CryptoCurrencyMod",
+    "description": "Module for displaying current cryptocurrency exchange rates.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "crypto": "Отображает текущий курс криптовалюты в рублях, долларах США и евро Displays the current cryptocurrency rate in RUB, USD, and EUR"
+      }
+    ],
+    "new_commands": [
+      {
+        "crypto": {
+          "ru_doc": "Отображает текущий курс криптовалюты в рублях, долларах США и евро",
+          "en_doc": "Displays the current cryptocurrency rate in RUB, USD, and EUR",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Media"
+    ]
+  },
+  "archquise/H.Modules/FolderAutoRead.py": {
+    "name": "FolderAutoReadMod",
+    "description": "Automatically reads chats in selected folders",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "addfolder": ""
+      },
+      {
+        "delfolder": ""
+      },
+      {
+        "listfolders": ""
+      }
+    ],
+    "new_commands": [
+      {
+        "addfolder": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": null
+        }
+      },
+      {
+        "delfolder": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": null
+        }
+      },
+      {
+        "listfolders": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/AnimeQuotes.py": {
+    "name": "AnimeQuotesMod",
+    "description": "A module for sending random quotes from anime",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "quote": "Получить случайную цитату из аниме Get a random quote from the anime"
+      }
+    ],
+    "new_commands": [
+      {
+        "quote": {
+          "ru_doc": "Получить случайную цитату из аниме",
+          "en_doc": "Get a random quote from the anime",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/HModsLibrary.py": {
+    "name": "HModsLib",
+    "description": "Library required for most H:Mods modules.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [],
+    "new_commands": [],
+    "category": [
+      "Fun",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/VoiceDL.py": {
+    "name": "VoiceDL",
+    "description": "Voice Downloader module",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "voicedl": " [reply] — загружает выбранное голосовое сообщение в виде файла mp3 и кидает его в чат.  [reply] — downloads the selected voice message as an MP3 file and sends it in the chat."
+      }
+    ],
+    "new_commands": [
+      {
+        "voicedl": {
+          "ru_doc": " [reply] — загружает выбранное голосовое сообщение в виде файла mp3 и кидает его в чат.",
+          "en_doc": " [reply] — downloads the selected voice message as an MP3 file and sends it in the chat.",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/FakeWallet.py": {
+    "name": "FakeWallet",
+    "description": "Fun joke - fake crypto wallet. You can change cryptocurrency values ​​using .cfg FakeWallet.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "fwalletcmd": "Чтобы заполучить поддельный кошелек To get a fake wallet"
+      },
+      {
+        "fwinfocmd": "Информация о FakeModule Info about FakeModule"
+      }
+    ],
+    "new_commands": [
+      {
+        "fwallet": {
+          "ru_doc": "Чтобы заполучить поддельный кошелек",
+          "en_doc": "To get a fake wallet",
+          "doc": null
+        }
+      },
+      {
+        "fwinfo": {
+          "ru_doc": "Информация о FakeModule",
+          "en_doc": "Info about FakeModule",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Admin"
+    ]
+  },
+  "archquise/H.Modules/profile.py": {
+    "name": "ProfileEditorMod",
+    "description": "This module can change your Telegram profile.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "namecmd": "для того, чтобы сменить свое имя/отчество for change your first/second name"
+      },
+      {
+        "aboutcmd": "чтобы изменить свою биографию for change your bio"
+      },
+      {
+        "usercmd": "- for change your username. Enter value without \"@\". для изменения вашего имени пользователя. Введите значение без '@' for change your username. Enter value without '@'"
+      }
+    ],
+    "new_commands": [
+      {
+        "name": {
+          "ru_doc": "для того, чтобы сменить свое имя/отчество",
+          "en_doc": "for change your first/second name",
+          "doc": null
+        }
+      },
+      {
+        "about": {
+          "ru_doc": "чтобы изменить свою биографию",
+          "en_doc": "for change your bio",
+          "doc": null
+        }
+      },
+      {
+        "user": {
+          "ru_doc": "для изменения вашего имени пользователя. Введите значение без '@'",
+          "en_doc": "for change your username. Enter value without '@'",
+          "doc": "- for change your username. Enter value without \"@\"."
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/animals.py": {
+    "name": "animals",
+    "description": "Random cats and dogs",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "fcatcmd": "Файлы случайных фотографий кошек Random photos of cats files"
+      },
+      {
+        "fdogcmd": "Случайные фотографии собачьих файлов Random photos of dog files"
+      },
+      {
+        "catcmd": "Случайные фотографии кошек Random photos of cats"
+      },
+      {
+        "dogcmd": "Случайные фотографии собаки Random photos of dog"
+      }
+    ],
+    "new_commands": [
+      {
+        "fcat": {
+          "ru_doc": "Файлы случайных фотографий кошек",
+          "en_doc": "Random photos of cats files",
+          "doc": null
+        }
+      },
+      {
+        "fdog": {
+          "ru_doc": "Случайные фотографии собачьих файлов",
+          "en_doc": "Random photos of dog files",
+          "doc": null
+        }
+      },
+      {
+        "cat": {
+          "ru_doc": "Случайные фотографии кошек",
+          "en_doc": "Random photos of cats",
+          "doc": null
+        }
+      },
+      {
+        "dog": {
+          "ru_doc": "Случайные фотографии собаки",
+          "en_doc": "Random photos of dog",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/FakeActions.py": {
+    "name": "FakeActionsMod",
+    "description": "Module for simulating various actions in chat",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "ftcmd": "<seconds> - Simulates typing in chat for the specified number of seconds."
+      },
+      {
+        "ffcmd": "<seconds> - Simulates sending a file."
+      },
+      {
+        "fgcmd": "<seconds> - Simulates recording a voice message."
+      },
+      {
+        "fvgcmd": "<seconds> - Simulates recording a video message."
+      },
+      {
+        "fpgcmd": "<seconds> - Simulates playing a game."
+      }
+    ],
+    "new_commands": [
+      {
+        "ft": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<seconds> - Simulates typing in chat for the specified number of seconds."
+        }
+      },
+      {
+        "ff": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<seconds> - Simulates sending a file."
+        }
+      },
+      {
+        "fg": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<seconds> - Simulates recording a voice message."
+        }
+      },
+      {
+        "fvg": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<seconds> - Simulates recording a video message."
+        }
+      },
+      {
+        "fpg": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<seconds> - Simulates playing a game."
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/AutofarmCookies.py": {
+    "name": "AutofarmCookiesMod",
+    "description": "Autofarm in the bot @cookies_game_bot",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "cookon": "Запустить автофарминг Launch auto-farming"
+      },
+      {
+        "cookoff": "Остановить автофарминг Stop auto-farming"
+      },
+      {
+        "cookies": "Вывод кол-ва коинов, добытых этим модулем Output of the number of coins mined by this module"
+      },
+      {
+        "me": "Показывает ваш мешок Shows your bag"
+      },
+      {
+        "ckies": "Помощь по модулю AutofarmCookies Help with the AutofarmCookies module"
+      }
+    ],
+    "new_commands": [
+      {
+        "cookon": {
+          "ru_doc": "Запустить автофарминг",
+          "en_doc": "Launch auto-farming",
+          "doc": null
+        }
+      },
+      {
+        "cookoff": {
+          "ru_doc": "Остановить автофарминг",
+          "en_doc": "Stop auto-farming",
+          "doc": null
+        }
+      },
+      {
+        "cookies": {
+          "ru_doc": "Вывод кол-ва коинов, добытых этим модулем",
+          "en_doc": "Output of the number of coins mined by this module",
+          "doc": null
+        }
+      },
+      {
+        "me": {
+          "ru_doc": "Показывает ваш мешок",
+          "en_doc": "Shows your bag",
+          "doc": null
+        }
+      },
+      {
+        "ckies": {
+          "ru_doc": "Помощь по модулю AutofarmCookies",
+          "en_doc": "Help with the AutofarmCookies module",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/BirthdayTime.py": {
+    "name": "DaysToMyBirthday",
+    "description": "Counting down to your birthday",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "btname": "Выставить таймер дней в ник (нестабильно) Set the timer of days in the nickname (unstable)"
+      },
+      {
+        "bt": "Вывести таймер Display the timer"
+      }
+    ],
+    "new_commands": [
+      {
+        "btname": {
+          "ru_doc": "Выставить таймер дней в ник (нестабильно)",
+          "en_doc": "Set the timer of days in the nickname (unstable)",
+          "doc": null
+        }
+      },
+      {
+        "bt": {
+          "ru_doc": "Вывести таймер",
+          "en_doc": "Display the timer",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Productivity"
+    ]
+  },
+  "archquise/H.Modules/face.py": {
+    "name": "face",
+    "description": "random face",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "rfacecmd": "Рандом kaomoji Random kaomoji"
+      }
+    ],
+    "new_commands": [
+      {
+        "rface": {
+          "ru_doc": "Рандом kaomoji",
+          "en_doc": "Random kaomoji",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/HAFK.py": {
+    "name": "HAFK",
+    "description": null,
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "afk": "[reason / none] – Установить режим AFK [reason / none] – Set AFK mode globally"
+      },
+      {
+        "afkhere": "[reason / none] – Установить режим AFK только в этом чате. [reason / none] – Set AFK mode in current chat only."
+      },
+      {
+        "unafk": "Выйти из режима AFK Exit AFK mode"
+      },
+      {
+        "unafkhere": "Выйти из режима AFK в этом чате Exit AFK mode in this chat"
+      }
+    ],
+    "new_commands": [
+      {
+        "afk": {
+          "ru_doc": "[reason / none] – Установить режим AFK",
+          "en_doc": "[reason / none] – Set AFK mode globally",
+          "doc": null
+        }
+      },
+      {
+        "afkhere": {
+          "ru_doc": "[reason / none] – Установить режим AFK только в этом чате.",
+          "en_doc": "[reason / none] – Set AFK mode in current chat only.",
+          "doc": null
+        }
+      },
+      {
+        "unafk": {
+          "ru_doc": "Выйти из режима AFK",
+          "en_doc": "Exit AFK mode",
+          "doc": null
+        }
+      },
+      {
+        "unafkhere": {
+          "ru_doc": "Выйти из режима AFK в этом чате",
+          "en_doc": "Exit AFK mode in this chat",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/TelegramStatusCodes.py": {
+    "name": "TelegramStatusCodes",
+    "description": "Dictionary of telegram status codes",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "tgccmd": "<код состояния> - Получение информации о коде состояния <statuscode> - Get status code info"
+      },
+      {
+        "tgcscmd": "Получите все коды статуса telegram Get all telegram status codes"
+      }
+    ],
+    "new_commands": [
+      {
+        "tgc": {
+          "ru_doc": "<код состояния> - Получение информации о коде состояния",
+          "en_doc": "<statuscode> - Get status code info",
+          "doc": null
+        }
+      },
+      {
+        "tgcs": {
+          "ru_doc": "Получите все коды статуса telegram",
+          "en_doc": "Get all telegram status codes",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/GigaChat.py": {
+    "name": "GigaChatMod",
+    "description": "Module for using GigaChat",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "giga": "Получите исчерпывающий ответ на свой вопрос Get GigaResponse to your question"
+      },
+      {
+        "gigamodel": "Получить список моделей Get a list of models"
+      }
+    ],
+    "new_commands": [
+      {
+        "giga": {
+          "ru_doc": "Получите исчерпывающий ответ на свой вопрос",
+          "en_doc": "Get GigaResponse to your question",
+          "doc": null
+        }
+      },
+      {
+        "gigamodel": {
+          "ru_doc": "Получить список моделей",
+          "en_doc": "Get a list of models",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/InlineButton.py": {
+    "name": "InlineButtonMod",
+    "description": "Create inline button",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "crinl_inline_handler": "Создать inline кнопку\nНапример: @username_bot crinl Текст сообщения, Текст кнопки, Ссылка в кнопке Create an inline button\nexample: @username_bot crinl Message text, Button text, Link in the button"
+      }
+    ],
+    "new_commands": [
+      {
+        "crinl_inline_handler": {
+          "ru_doc": "Создать inline кнопку\nНапример: @username_bot crinl Текст сообщения, Текст кнопки, Ссылка в кнопке",
+          "en_doc": "Create an inline button\nexample: @username_bot crinl Message text, Button text, Link in the button",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/Memes.py": {
+    "name": "MemesMod",
+    "description": "Random memes",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "memescmd": ""
+      }
+    ],
+    "new_commands": [
+      {
+        "memes": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/H.py": {
+    "name": "H",
+    "description": "H",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "h": "H H"
+      }
+    ],
+    "new_commands": [
+      {
+        "h": {
+          "ru_doc": "H",
+          "en_doc": null,
+          "doc": "H"
+        }
+      }
+    ],
+    "category": [
+      "Fun",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/WindowsKeys.py": {
+    "name": "WindowsKeys",
+    "description": "Provides you Windows activation keys",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "winkey": "Открывает выбор ключа для активации Windows Opens the Windows activation key selection"
+      }
+    ],
+    "new_commands": [
+      {
+        "winkey": {
+          "ru_doc": "Открывает выбор ключа для активации Windows",
+          "en_doc": "Opens the Windows activation key selection",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/AniLibria.py": {
+    "name": "AniLibriaMod",
+    "description": "Searches and gives random agtme on the AniLibria database.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "arandom": "Возвращает случайный тайтл из базы Returns a random title from the database"
+      }
+    ],
+    "new_commands": [
+      {
+        "arandom": {
+          "ru_doc": "Возвращает случайный тайтл из базы",
+          "en_doc": "Returns a random title from the database",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/hikkahost.py": {
+    "name": "HikkahostMod",
+    "description": "Hikkahost manager.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "hinfocmd": "Статус HikkaHost Status HikkaHost"
+      },
+      {
+        "hlogscmd": "Логи HikkaHost Logs HikkaHost"
+      },
+      {
+        "hrestartcmd": "Рестарт HikkaHost Restart HikkaHost"
+      }
+    ],
+    "new_commands": [
+      {
+        "hinfo": {
+          "ru_doc": "Статус HikkaHost",
+          "en_doc": "Status HikkaHost",
+          "doc": null
+        }
+      },
+      {
+        "hlogs": {
+          "ru_doc": "Логи HikkaHost",
+          "en_doc": "Logs HikkaHost",
+          "doc": null
+        }
+      },
+      {
+        "hrestart": {
+          "ru_doc": "Рестарт HikkaHost",
+          "en_doc": "Restart HikkaHost",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/Video2GIF.py": {
+    "name": "Video2GIF",
+    "description": "Converts video to GIF",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "gifc": "[reply | в одном сообщении с видео] — конвертирует видео в GIF. [reply | in one message with video] — Converts video to GIF."
+      }
+    ],
+    "new_commands": [
+      {
+        "gifc": {
+          "ru_doc": "[reply | в одном сообщении с видео] — конвертирует видео в GIF.",
+          "en_doc": "[reply | in one message with video] — Converts video to GIF.",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Media",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/ReplaceVowels.py": {
+    "name": "VowelReplacer",
+    "description": "Replaces vowel letters with ё",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "vowelreplace": "Включить или отключить замену гласных на ё. Enable or disable vowel substitution for ё."
+      }
+    ],
+    "new_commands": [
+      {
+        "vowelreplace": {
+          "ru_doc": "Включить или отключить замену гласных на ё.",
+          "en_doc": "Enable or disable vowel substitution for ё.",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/TempChat.py": {
+    "name": "TempChatMod",
+    "description": "Creates a temporary private chat with a message forwarding restriction and adds the specified user to it.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "tmpchat": "Create temporary chat. Usage: .tmpchat [@user/reply] [time] Создает временный чат. Использование: .tmpchat [@user/reply] [time]"
+      }
+    ],
+    "new_commands": [
+      {
+        "tmpchat": {
+          "ru_doc": "Создает временный чат. Использование: .tmpchat [@user/reply] [time]",
+          "en_doc": null,
+          "doc": "Create temporary chat. Usage: .tmpchat [@user/reply] [time]"
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/Weather.py": {
+    "name": "Weather",
+    "description": "Advanced weather module with detailed information",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "weather": "Узнайте погоду для указанного города Get the weather for the specified city"
+      },
+      {
+        "weatherset": "Установите город по умолчанию для определения погоды Set the default city for weather"
+      }
+    ],
+    "new_commands": [
+      {
+        "weather": {
+          "ru_doc": "Узнайте погоду для указанного города",
+          "en_doc": "Get the weather for the specified city",
+          "doc": null
+        }
+      },
+      {
+        "weatherset": {
+          "ru_doc": "Установите город по умолчанию для определения погоды",
+          "en_doc": "Set the default city for weather",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/Article.py": {
+    "name": "ArticleMod",
+    "description": "Displays your article Criminal Code of the Russian Federation",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "arccmd": "Отображается ваша статья Уголовного кодекса Российской Федерации Displays your article Criminal Code of the Russian Federation"
+      }
+    ],
+    "new_commands": [
+      {
+        "arc": {
+          "ru_doc": "Отображается ваша статья Уголовного кодекса Российской Федерации",
+          "en_doc": "Displays your article Criminal Code of the Russian Federation",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/EnvsSH.py": {
+    "name": "EnvsMod",
+    "description": "Module for reuploading files to envs.sh",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "envcmd": "Reupload to envs.sh."
+      }
+    ],
+    "new_commands": [
+      {
+        "env": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Reupload to envs.sh."
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/SMAcrhiver.py": {
+    "name": "SMArchiver",
+    "description": "unloads all messages from Favorites",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "smdump": "выгружает все сообщения из Избранного / Saved Messages и собирает их в одном архиве. downloads all messages from Favorites / Saved Messages and collects them in one archive."
+      }
+    ],
+    "new_commands": [
+      {
+        "smdump": {
+          "ru_doc": "выгружает все сообщения из Избранного / Saved Messages и собирает их в одном архиве.",
+          "en_doc": "downloads all messages from Favorites / Saved Messages and collects them in one archive.",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/jacques.py": {
+    "name": "JacquesMod",
+    "description": "Жаконизатор",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "ionicmd": "<реплай на сообщение/свой текст> <reply to the message/your own text>"
+      }
+    ],
+    "new_commands": [
+      {
+        "ioni": {
+          "ru_doc": "<реплай на сообщение/свой текст>",
+          "en_doc": "<reply to the message/your own text>",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/InfoBannersManager.py": {
+    "name": "InfoBannersManagerMod",
+    "description": "Автоматически меняет баннеры на случайные из выбранного списка через заданный промежуток времени",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "autobannertoggle": "Включить или выключить модуль"
+      }
+    ],
+    "new_commands": [
+      {
+        "autobannertoggle": {
+          "ru_doc": "Включить или выключить модуль",
+          "en_doc": null,
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/ASCIIArt.py": {
+    "name": "ASCIIArtMod",
+    "description": "Converting images to ASCII art",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "cascii": "<реплай на изображение> сделать ascii art <replay on image> make ascii art"
+      }
+    ],
+    "new_commands": [
+      {
+        "cascii": {
+          "ru_doc": "<реплай на изображение> сделать ascii art",
+          "en_doc": "<replay on image> make ascii art",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/shortener.py": {
+    "name": "Shortener",
+    "description": "Module for working with the api bit.ly",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "shortencmd": "Сократить ссылку через bit.ly Shorten the link via bit.ly"
+      },
+      {
+        "statclcmd": "Посмотреть статистику ссылки через bit.ly View link statistics via bit.ly"
+      }
+    ],
+    "new_commands": [
+      {
+        "shorten": {
+          "ru_doc": "Сократить ссылку через bit.ly",
+          "en_doc": "Shorten the link via bit.ly",
+          "doc": null
+        }
+      },
+      {
+        "statcl": {
+          "ru_doc": "Посмотреть статистику ссылки через bit.ly",
+          "en_doc": "View link statistics via bit.ly",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/InlineHelper.py": {
+    "name": "InlineHelperMod",
+    "description": "Basic management of the UB in case only the inline works",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "terminal_inline_handler": ""
+      }
+    ],
+    "new_commands": [
+      {
+        "terminal_inline_handler": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/PastebinAPI.py": {
+    "name": "PastebinAPIMod",
+    "description": "PastebinAPI",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "past": "Заливает код в Pastebin Uploads the code to Pastebin"
+      }
+    ],
+    "new_commands": [
+      {
+        "past": {
+          "ru_doc": "Заливает код в Pastebin",
+          "en_doc": "Uploads the code to Pastebin",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/UserbotAvast.py": {
+    "name": "UserbotAvast",
+    "description": "A module for checking modules for security.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "checkmodcmd": "[module_link] или [reply file] или [send file] - выполняет проверку модуля на безопасность."
+      }
+    ],
+    "new_commands": [
+      {
+        "checkmod": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "[module_link] или [reply file] или [send file] - выполняет проверку модуля на безопасность."
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/MooFarmRC1.py": {
+    "name": "AutoFarmbotMod",
+    "description": "Модуль для автофарма в \"Коровке\"!\nВ конфиге настройте: сhat_id и bot_id ->\nСинхронизируйте скин в меню ->\nЗарегистрируйтесь на Redis.io и ссылку добавьте в конфиг",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods and @Frost_Shard"
+    },
+    "commands": [
+      {
+        "fmoo": "Инлайн-меню управления автофармом"
+      },
+      {
+        "auto_eating": "Автоматически кормит персонажа, если уровень еды ниже 70%"
+      },
+      {
+        "auto_craft_txt": "Команда для автоматической работы авто-крафта"
+      },
+      {
+        "auto_forest_txt": "Команда для автоматической работы авто-леса"
+      }
+    ],
+    "new_commands": [
+      {
+        "fmoo": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Инлайн-меню управления автофармом"
+        }
+      },
+      {
+        "auto_eating": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Автоматически кормит персонажа, если уровень еды ниже 70%"
+        }
+      },
+      {
+        "auto_craft_txt": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Команда для автоматической работы авто-крафта"
+        }
+      },
+      {
+        "auto_forest_txt": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Команда для автоматической работы авто-леса"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/Text_Sticker.py": {
+    "name": "TextinstickerMod",
+    "description": "Text to sticker",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "stcmd": "<название цвета> [текст] <color name> [text]"
+      }
+    ],
+    "new_commands": [
+      {
+        "st": {
+          "ru_doc": "<название цвета> [текст]",
+          "en_doc": "<color name> [text]",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/VirusTotal.py": {
+    "name": "VirusTotalMod",
+    "description": "Checks files for viruses using VirusTotal.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "vt": "<ответ на файл> - Проверяет файлы на наличие вирусов с использованием VirusTotal <file response> - Checks files for viruses using VirusTotal"
+      }
+    ],
+    "new_commands": [
+      {
+        "vt": {
+          "ru_doc": "<ответ на файл> - Проверяет файлы на наличие вирусов с использованием VirusTotal",
+          "en_doc": "<file response> - Checks files for viruses using VirusTotal",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Security",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/search.py": {
+    "name": "Search",
+    "description": "Поисковик",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "google": "Поискать в Google Search on Google"
+      },
+      {
+        "yandex": "Поискать в Yandex Search on Yandex"
+      },
+      {
+        "duckduckgo": "Поискать в Duckduckgo Search on Duckduckgo"
+      },
+      {
+        "bing": "Поискать в Bing Search on Bing"
+      },
+      {
+        "you": "Поискать в You Search on You"
+      },
+      {
+        "igoogle": "Поискать в Google инлайн Search on Google inline"
+      },
+      {
+        "iyandex": "Поискать в Yandex инлайн Search on Yandex inline"
+      },
+      {
+        "iduckduckgo": "Поискать в Duckduckgo инлайн Search on Duckduckgo inline"
+      },
+      {
+        "ibing": "Поискать в Bing инлайн Search on Bing inline"
+      },
+      {
+        "iyou": "Поискать в You инлайн Search on You inline"
+      }
+    ],
+    "new_commands": [
+      {
+        "google": {
+          "ru_doc": "Поискать в Google",
+          "en_doc": "Search on Google",
+          "doc": null
+        }
+      },
+      {
+        "yandex": {
+          "ru_doc": "Поискать в Yandex",
+          "en_doc": "Search on Yandex",
+          "doc": null
+        }
+      },
+      {
+        "duckduckgo": {
+          "ru_doc": "Поискать в Duckduckgo",
+          "en_doc": "Search on Duckduckgo",
+          "doc": null
+        }
+      },
+      {
+        "bing": {
+          "ru_doc": "Поискать в Bing",
+          "en_doc": "Search on Bing",
+          "doc": null
+        }
+      },
+      {
+        "you": {
+          "ru_doc": "Поискать в You",
+          "en_doc": "Search on You",
+          "doc": null
+        }
+      },
+      {
+        "igoogle": {
+          "ru_doc": "Поискать в Google инлайн",
+          "en_doc": "Search on Google inline",
+          "doc": null
+        }
+      },
+      {
+        "iyandex": {
+          "ru_doc": "Поискать в Yandex инлайн",
+          "en_doc": "Search on Yandex inline",
+          "doc": null
+        }
+      },
+      {
+        "iduckduckgo": {
+          "ru_doc": "Поискать в Duckduckgo инлайн",
+          "en_doc": "Search on Duckduckgo inline",
+          "doc": null
+        }
+      },
+      {
+        "ibing": {
+          "ru_doc": "Поискать в Bing инлайн",
+          "en_doc": "Search on Bing inline",
+          "doc": null
+        }
+      },
+      {
+        "iyou": {
+          "ru_doc": "Поискать в You инлайн",
+          "en_doc": "Search on You inline",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/TaskManager.py": {
+    "name": "TaskManagerModule",
+    "description": "Manages tasks with Telegram commands and inline keyboards.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "taskadd": "Добавить задачу:\n.taskadd <описание> | <дата (необязательно)> Add task:\n.taskadd <description> | <date (opt)>"
+      },
+      {
+        "taskremove": "[index] - удалить задачу [index] - remove task"
+      },
+      {
+        "taskcomplete": "[index] - Завершите задачу [index] - Complete task"
+      },
+      {
+        "tasklist": "Список задач List tasks"
+      },
+      {
+        "taskinfo": "[index] - Посмотреть информацию о задаче [index] - Show task info"
+      },
+      {
+        "taskclear": "Удалить все задачи Clear all tasks"
+      }
+    ],
+    "new_commands": [
+      {
+        "taskadd": {
+          "ru_doc": "Добавить задачу:\n.taskadd <описание> | <дата (необязательно)>",
+          "en_doc": "Add task:\n.taskadd <description> | <date (opt)>",
+          "doc": null
+        }
+      },
+      {
+        "taskremove": {
+          "ru_doc": "[index] - удалить задачу",
+          "en_doc": "[index] - remove task",
+          "doc": null
+        }
+      },
+      {
+        "taskcomplete": {
+          "ru_doc": "[index] - Завершите задачу",
+          "en_doc": "[index] - Complete task",
+          "doc": null
+        }
+      },
+      {
+        "tasklist": {
+          "ru_doc": "Список задач",
+          "en_doc": "List tasks",
+          "doc": null
+        }
+      },
+      {
+        "taskinfo": {
+          "ru_doc": "[index] - Посмотреть информацию о задаче",
+          "en_doc": "[index] - Show task info",
+          "doc": null
+        }
+      },
+      {
+        "taskclear": {
+          "ru_doc": "Удалить все задачи",
+          "en_doc": "Clear all tasks",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/globalrestrict.py": {
+    "name": "GlobalRestrict",
+    "description": "Global mutation or ban",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "glban": "<реплай | юзер> [причина] [-s] - Забанить пользователя во всех чатах где ты админ <replay | user> [reason] [-s] - Ban the user in all chats where you are the admin"
+      },
+      {
+        "glunban": "<реплай | юзер> [причина] [-s] - Разбанить пользователя во всех где ты админ <replay | user> [reason] [-s] - To unban the user in all where you are the admin"
+      },
+      {
+        "glmute": "<реплай | юзер> [причина] [-s] - Замутить пользователя во всех чатах где ты админ <replay | user> [reason] [-s] - To hook up the user in all chats where you are the admin"
+      },
+      {
+        "glunmute": "<реплай | юзер> [причина] [-s] - Размутит пользователя во всех где ты админ <replay | user> [reason] [-s] - Will confuse the user in all where you are the admin"
+      }
+    ],
+    "new_commands": [
+      {
+        "glban": {
+          "ru_doc": "<реплай | юзер> [причина] [-s] - Забанить пользователя во всех чатах где ты админ",
+          "en_doc": "<replay | user> [reason] [-s] - Ban the user in all chats where you are the admin",
+          "doc": null
+        }
+      },
+      {
+        "glunban": {
+          "ru_doc": "<реплай | юзер> [причина] [-s] - Разбанить пользователя во всех где ты админ",
+          "en_doc": "<replay | user> [reason] [-s] - To unban the user in all where you are the admin",
+          "doc": null
+        }
+      },
+      {
+        "glmute": {
+          "ru_doc": "<реплай | юзер> [причина] [-s] - Замутить пользователя во всех чатах где ты админ",
+          "en_doc": "<replay | user> [reason] [-s] - To hook up the user in all chats where you are the admin",
+          "doc": null
+        }
+      },
+      {
+        "glunmute": {
+          "ru_doc": "<реплай | юзер> [причина] [-s] - Размутит пользователя во всех где ты админ",
+          "en_doc": "<replay | user> [reason] [-s] - Will confuse the user in all where you are the admin",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/numbersapi.py": {
+    "name": "NumbersAPI",
+    "description": "Many interesting facts about numbers.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "num": "Дает интересный факт про число или дату\nНапример: .num 10 math или .num 01.01 date Gives an interesting fact about a number or date\nexample: .num 10 math or .num 01.01 date"
+      }
+    ],
+    "new_commands": [
+      {
+        "num": {
+          "ru_doc": "Дает интересный факт про число или дату\nНапример: .num 10 math или .num 01.01 date",
+          "en_doc": "Gives an interesting fact about a number or date\nexample: .num 10 math or .num 01.01 date",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Social"
+    ]
+  },
+  "archquise/H.Modules/TikTokDownloader.py": {
+    "name": "TikTokDownloader",
+    "description": "TikTok Downloader module",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "ttsound": "Скачать звук с TikTok Download sound from TikTok"
+      },
+      {
+        "tt": "Скачать видео или фото с TikTok Download videos or photos from TikTok"
+      }
+    ],
+    "new_commands": [
+      {
+        "ttsound": {
+          "ru_doc": "Скачать звук с TikTok",
+          "en_doc": "Download sound from TikTok",
+          "doc": null
+        }
+      },
+      {
+        "tt": {
+          "ru_doc": "Скачать видео или фото с TikTok",
+          "en_doc": "Download videos or photos from TikTok",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Media",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/InlineCoin.py": {
+    "name": "CoinSexMod",
+    "description": "Mini game heads or tails",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "coin_inline_handler": "Подбросит монетку  Flip a coin"
+      }
+    ],
+    "new_commands": [
+      {
+        "coin_inline_handler": {
+          "ru_doc": "Подбросит монетку ",
+          "en_doc": "Flip a coin",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/AccountData.py": {
+    "name": "AccountData",
+    "description": "Find out the approximate date of registration of the telegram account",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "accdata": "Узнать примерную дату регистрации Telergam-аккаунта Find out the approximate date of registration of the telegram account"
+      }
+    ],
+    "new_commands": [
+      {
+        "accdata": {
+          "ru_doc": "Узнать примерную дату регистрации Telergam-аккаунта",
+          "en_doc": "Find out the approximate date of registration of the telegram account",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Fun"
+    ]
+  },
+  "archquise/H.Modules/MessageMonitor.py": {
+    "name": "MessageMonitor",
+    "description": "Monitor messages for trigger words in all chats.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "triggers": "Set trigger words Установить триггерные слова. Пример: .triggers слово1 слово2 Set trigger words. Example: .triggers word1 word2"
+      },
+      {
+        "settarget": "Set target chat Установить целевой чат для уведомлений. Ответьте на сообщение или укажите ID Set target chat for notifications. Reply to a message or provide its ID"
+      },
+      {
+        "ignore": "Set ignored chats Установить игнорируемые чаты. Укажите ID чатов через пробел. Set ignored chats. Provide chat IDs separated by space."
+      }
+    ],
+    "new_commands": [
+      {
+        "triggers": {
+          "ru_doc": "Установить триггерные слова. Пример: .triggers слово1 слово2",
+          "en_doc": "Set trigger words. Example: .triggers word1 word2",
+          "doc": "Set trigger words"
+        }
+      },
+      {
+        "settarget": {
+          "ru_doc": "Установить целевой чат для уведомлений. Ответьте на сообщение или укажите ID",
+          "en_doc": "Set target chat for notifications. Reply to a message or provide its ID",
+          "doc": "Set target chat"
+        }
+      },
+      {
+        "ignore": {
+          "ru_doc": "Установить игнорируемые чаты. Укажите ID чатов через пробел.",
+          "en_doc": "Set ignored chats. Provide chat IDs separated by space.",
+          "doc": "Set ignored chats"
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/CheckSpamBan.py": {
+    "name": "SpamBanCheckMod",
+    "description": "Checks spam ban for your account.",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "spambot": "Проверяет вашу учетную запись на спам-бан с помощью бота @SpamBot Checks your account for spam ban via @SpamBot bot"
+      }
+    ],
+    "new_commands": [
+      {
+        "spambot": {
+          "ru_doc": "Проверяет вашу учетную запись на спам-бан с помощью бота @SpamBot",
+          "en_doc": "Checks your account for spam ban via @SpamBot bot",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/Music.py": {
+    "name": "MusicMod",
+    "description": null,
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "music": "Найти трек в Yandex Music или VK: `.music yandex {название}` или `.music vk {название}` Find a track in Yandex Music or VK: `.music yandex {name}` or `.music vk {name}`"
+      }
+    ],
+    "new_commands": [
+      {
+        "music": {
+          "ru_doc": "Найти трек в Yandex Music или VK: `.music yandex {название}` или `.music vk {название}`",
+          "en_doc": "Find a track in Yandex Music or VK: `.music yandex {name}` or `.music vk {name}`",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/SafetyMod.py": {
+    "name": "SafetyMod",
+    "description": "generate random password",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "password": "random password\n-n - numbers\n-s - symbols \n -l - letters Случайный пароль\n-n - цифры\n-s - символы \n -l - буквы Random password\n-n - numbers\n-s - symbols \n -l - letters"
+      }
+    ],
+    "new_commands": [
+      {
+        "password": {
+          "ru_doc": "Случайный пароль\n-n - цифры\n-s - символы \n -l - буквы",
+          "en_doc": "Random password\n-n - numbers\n-s - symbols \n -l - letters",
+          "doc": "random password\n-n - numbers\n-s - symbols \n -l - letters"
+        }
+      }
+    ],
+    "category": [
+      "Security",
+      "Tools"
+    ]
+  },
+  "archquise/H.Modules/novoice.py": {
+    "name": "NoVoiceMod",
+    "description": "A module for prohibiting the sending of voice and video messages",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "novoice": "[on/off] — запрещает/разрешает всем пользователям отправку голосовых и видеосообщений. [on/off] — prohibits/allows all users to send voice and video messages."
+      },
+      {
+        "novoiceuser": "[username/reply] — запрещает пользователю отправку голосовых и видеосообщений. [username/reply] — prohibits the user from sending voice and video messages."
+      },
+      {
+        "novoicerm": "[username/reply] — разрешает пользователю отправку голосовых и видеосообщений. [username/reply] — allows the user to send voice and video messages."
+      }
+    ],
+    "new_commands": [
+      {
+        "novoice": {
+          "ru_doc": "[on/off] — запрещает/разрешает всем пользователям отправку голосовых и видеосообщений.",
+          "en_doc": "[on/off] — prohibits/allows all users to send voice and video messages.",
+          "doc": null
+        }
+      },
+      {
+        "novoiceuser": {
+          "ru_doc": "[username/reply] — запрещает пользователю отправку голосовых и видеосообщений.",
+          "en_doc": "[username/reply] — prohibits the user from sending voice and video messages.",
+          "doc": null
+        }
+      },
+      {
+        "novoicerm": {
+          "ru_doc": "[username/reply] — разрешает пользователю отправку голосовых и видеосообщений.",
+          "en_doc": "[username/reply] — allows the user to send voice and video messages.",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "archquise/H.Modules/KBSwapper.py": {
+    "name": "KBSwapperMod",
+    "description": "KBSwapper is a module for changing the keyboard layout",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@hikka_mods"
+    },
+    "commands": [
+      {
+        "swap": "При ответе на своё сообщение меняет раскладку путем редактирования, на чужое — в отдельном сообщении. Change keyboard layout for the replied message."
+      }
+    ],
+    "new_commands": [
+      {
+        "swap": {
+          "ru_doc": "При ответе на своё сообщение меняет раскладку путем редактирования, на чужое — в отдельном сообщении.",
+          "en_doc": "Change keyboard layout for the replied message.",
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Security"
+    ]
+  },
+  "archquise/H.Modules/aiogram3/hikarichat.py": {
+    "name": "HikariChatMod",
+    "description": "Advanced chat admin toolkit",
+    "meta": {
+      "pic": "https://static.dan.tatar/hikarichat_icon.png",
+      "banner": "https://mods.hikariatama.ru/badges/hikarichat.jpg",
+      "desc": "Chat administrator toolkit, now with powerful free version",
+      "developer": "@hikarimods"
+    },
+    "commands": [
+      {
+        "purgecmd": "[user(-s)] - Clean message history starting from replied one"
+      },
+      {
+        "delcmd": "Delete the replied message"
+      },
+      {
+        "versioncmd": "Get module info"
+      },
+      {
+        "deletedcmd": "Remove deleted accounts from chat"
+      },
+      {
+        "fcleancmd": "Remove deleted accounts from federation"
+      },
+      {
+        "newfedcmd": "<shortname> <name> - Create new federation"
+      },
+      {
+        "rmfedcmd": "<shortname> - Remove federation"
+      },
+      {
+        "fpromotecmd": "<user> - Promote user in federation"
+      },
+      {
+        "fdemotecmd": "<shortname> <reply|user> - Demote user in federation"
+      },
+      {
+        "faddcmd": "<fed name> - Add chat to federation"
+      },
+      {
+        "frmcmd": "Remove chat from federation"
+      },
+      {
+        "gban": "<reply|user> [reason] [-s] - Ban user in all chats where you are admin <реплай | юзер> [причина] [-s] - Заблокировать пользователя во всех чатах, где ты админ"
+      },
+      {
+        "gunban": "<reply|user> [reason] [-s] - Unban user in all chats where you are admin <реплай | юзер> [причина] [-s] - Разблокировать пользователя во всех чатах, где ты админ"
+      },
+      {
+        "fbancmd": "<reply | user> [reason] - Ban user in federation"
+      },
+      {
+        "punishsuffcmd": "Set new punishment suffix"
+      },
+      {
+        "sethclogcmd": "Set logchat"
+      },
+      {
+        "funbancmd": "<user> [reason] - Unban user in federation"
+      },
+      {
+        "fmutecmd": "<reply | user> [reason] - Mute user in federation"
+      },
+      {
+        "funmutecmd": "<user> [reason] - Unban user in federation"
+      },
+      {
+        "kickcmd": "<user> [reason] - Kick user"
+      },
+      {
+        "bancmd": "<user> [reason] - Ban user"
+      },
+      {
+        "mutecmd": "<user> [time] [reason] - Mute user"
+      },
+      {
+        "unmutecmd": "<reply | user> - Unmute user"
+      },
+      {
+        "unbancmd": "<user> - Unban user"
+      },
+      {
+        "protectscmd": "typing.List available filters"
+      },
+      {
+        "fedscmd": "typing.List federations"
+      },
+      {
+        "fedcmd": "<shortname> - Info about federation"
+      },
+      {
+        "pchatcmd": "typing.List protection for current chat"
+      },
+      {
+        "warncmd": "<user> - Warn user"
+      },
+      {
+        "warnscmd": "[user] - Show warns in chat \\ of user"
+      },
+      {
+        "delwarncmd": "<user> - Forgave last warn"
+      },
+      {
+        "clrwarnscmd": "<reply | user_id | username> - Remove all warns from user"
+      },
+      {
+        "clrallwarnscmd": "Remove all warns from current federation"
+      },
+      {
+        "welcomecmd": "<text> - Change welcome text"
+      },
+      {
+        "fdefcmd": "<user> - Toggle global user invulnerability"
+      },
+      {
+        "fsavecmd": "<note name> <reply> - Save federative note"
+      },
+      {
+        "fstopcmd": "<note name> - Remove federative note"
+      },
+      {
+        "fnotescmd": "Show federative notes"
+      },
+      {
+        "fdeflistcmd": "Show global invulnerable users"
+      },
+      {
+        "dmutecmd": "Delete and mute"
+      },
+      {
+        "dbancmd": "Delete and ban"
+      },
+      {
+        "dwarncmd": "Delete and warn"
+      },
+      {
+        "frenamecmd": "Rename federation"
+      },
+      {
+        "clnraidcmd": "<number of users> - Clean raid"
+      },
+      {
+        "myrightscmd": "typing.List your admin rights in all chats"
+      }
+    ],
+    "new_commands": [
+      {
+        "purge": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "[user(-s)] - Clean message history starting from replied one"
+        }
+      },
+      {
+        "del": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Delete the replied message"
+        }
+      },
+      {
+        "version": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Get module info"
+        }
+      },
+      {
+        "deleted": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Remove deleted accounts from chat"
+        }
+      },
+      {
+        "fclean": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Remove deleted accounts from federation"
+        }
+      },
+      {
+        "newfed": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<shortname> <name> - Create new federation"
+        }
+      },
+      {
+        "rmfed": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<shortname> - Remove federation"
+        }
+      },
+      {
+        "fpromote": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> - Promote user in federation"
+        }
+      },
+      {
+        "fdemote": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<shortname> <reply|user> - Demote user in federation"
+        }
+      },
+      {
+        "fadd": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<fed name> - Add chat to federation"
+        }
+      },
+      {
+        "frm": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Remove chat from federation"
+        }
+      },
+      {
+        "gban": {
+          "ru_doc": "<реплай | юзер> [причина] [-s] - Заблокировать пользователя во всех чатах, где ты админ",
+          "en_doc": null,
+          "doc": "<reply|user> [reason] [-s] - Ban user in all chats where you are admin"
+        }
+      },
+      {
+        "gunban": {
+          "ru_doc": "<реплай | юзер> [причина] [-s] - Разблокировать пользователя во всех чатах, где ты админ",
+          "en_doc": null,
+          "doc": "<reply|user> [reason] [-s] - Unban user in all chats where you are admin"
+        }
+      },
+      {
+        "fban": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<reply | user> [reason] - Ban user in federation"
+        }
+      },
+      {
+        "punishsuff": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Set new punishment suffix"
+        }
+      },
+      {
+        "sethclog": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Set logchat"
+        }
+      },
+      {
+        "funban": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> [reason] - Unban user in federation"
+        }
+      },
+      {
+        "fmute": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<reply | user> [reason] - Mute user in federation"
+        }
+      },
+      {
+        "funmute": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> [reason] - Unban user in federation"
+        }
+      },
+      {
+        "kick": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> [reason] - Kick user"
+        }
+      },
+      {
+        "ban": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> [reason] - Ban user"
+        }
+      },
+      {
+        "mute": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> [time] [reason] - Mute user"
+        }
+      },
+      {
+        "unmute": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<reply | user> - Unmute user"
+        }
+      },
+      {
+        "unban": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> - Unban user"
+        }
+      },
+      {
+        "protects": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "typing.List available filters"
+        }
+      },
+      {
+        "feds": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "typing.List federations"
+        }
+      },
+      {
+        "fed": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<shortname> - Info about federation"
+        }
+      },
+      {
+        "pchat": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "typing.List protection for current chat"
+        }
+      },
+      {
+        "warn": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> - Warn user"
+        }
+      },
+      {
+        "warns": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "[user] - Show warns in chat \\ of user"
+        }
+      },
+      {
+        "delwarn": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> - Forgave last warn"
+        }
+      },
+      {
+        "clrwarns": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<reply | user_id | username> - Remove all warns from user"
+        }
+      },
+      {
+        "clrallwarns": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Remove all warns from current federation"
+        }
+      },
+      {
+        "welcome": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<text> - Change welcome text"
+        }
+      },
+      {
+        "fdef": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user> - Toggle global user invulnerability"
+        }
+      },
+      {
+        "fsave": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<note name> <reply> - Save federative note"
+        }
+      },
+      {
+        "fstop": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<note name> - Remove federative note"
+        }
+      },
+      {
+        "fnotes": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Show federative notes"
+        }
+      },
+      {
+        "fdeflist": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Show global invulnerable users"
+        }
+      },
+      {
+        "dmute": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Delete and mute"
+        }
+      },
+      {
+        "dban": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Delete and ban"
+        }
+      },
+      {
+        "dwarn": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Delete and warn"
+        }
+      },
+      {
+        "frename": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Rename federation"
+        }
+      },
+      {
+        "clnraid": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<number of users> - Clean raid"
+        }
+      },
+      {
+        "myrights": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "typing.List your admin rights in all chats"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
   "SkillsAngels/Modules/IrisLab.py": {
     "name": "IrisLabMod",
     "description": "Показывает лаб/жертв. Возможны задержки на получение инф-ции",
@@ -37385,6 +39839,637 @@
     "category": [
       "Fun",
       "Tools"
+    ]
+  },
+  "yummy1gay/limoka/yg_quotes.py": {
+    "name": "Quotes",
+    "description": "Модуль для создания цитат из сообщений",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "qcmd": "Обычные цитаты:\n• .q — процитировать одно сообщение из реплая\n• .q 2 — процитировать 2 сообщения\n• .q 3 #2d2d2d — 3 сообщения на тёмном фоне\n• .q pink — фон по имени цвета\n• .q !file — отправить как файл (PNG)"
+      },
+      {
+        "fqcmd": "Фейковые цитаты:\n• .fq <@ или ID> <текст> — цитата от пользователя\n• .fq <reply> <текст> — цитата от автора реплая\n• .fq <@/ID> <текст> -r <@/ID> <текст> — с ответом\n• .fq user1 текст; user2 текст — несколько сообщений"
+      }
+    ],
+    "new_commands": [
+      {
+        "q": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Обычные цитаты:\n• .q — процитировать одно сообщение из реплая\n• .q 2 — процитировать 2 сообщения\n• .q 3 #2d2d2d — 3 сообщения на тёмном фоне\n• .q pink — фон по имени цвета\n• .q !file — отправить как файл (PNG)"
+        }
+      },
+      {
+        "fq": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Фейковые цитаты:\n• .fq <@ или ID> <текст> — цитата от пользователя\n• .fq <reply> <текст> — цитата от автора реплая\n• .fq <@/ID> <текст> -r <@/ID> <текст> — с ответом\n• .fq user1 текст; user2 текст — несколько сообщений"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "yummy1gay/limoka/yg_playlist.py": {
+    "name": "yg_playlist",
+    "description": "Module for creating, visualizing, and managing Telegram music playlists with customizable themes, fonts, and detailed metadata extraction!",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "pset": "<text> - set set custom theme"
+      },
+      {
+        "playlistcmd": "<user/reply> [count] [!file] - create a playlist"
+      },
+      {
+        "psend": "<user/reply> [count] - send all audio files from user's playlist"
+      },
+      {
+        "pinfo": "<user/reply> [count] - get text information about user's playlist"
+      },
+      {
+        "pjson": "<user/reply> [count] - get JSON information about user's playlist"
+      }
+    ],
+    "new_commands": [
+      {
+        "pset": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<text> - set set custom theme"
+        }
+      },
+      {
+        "playlist": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user/reply> [count] [!file] - create a playlist"
+        }
+      },
+      {
+        "psend": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user/reply> [count] - send all audio files from user's playlist"
+        }
+      },
+      {
+        "pinfo": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user/reply> [count] - get text information about user's playlist"
+        }
+      },
+      {
+        "pjson": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<user/reply> [count] - get JSON information about user's playlist"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "yummy1gay/limoka/yg_balance.py": {
+    "name": "yg_balance",
+    "description": "Модуль для просмотра балансов в @CryptoBot и @wallet",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "bc": "check balance in @CryptoBot проверить баланс в @CryptoBot"
+      },
+      {
+        "bw": "check balance in @wallet проверить баланс в @wallet"
+      },
+      {
+        "hide0": "on/off hiding zero balances вкл/выкл скрытие нулевых балансов"
+      }
+    ],
+    "new_commands": [
+      {
+        "bc": {
+          "ru_doc": "проверить баланс в @CryptoBot",
+          "en_doc": null,
+          "doc": "check balance in @CryptoBot"
+        }
+      },
+      {
+        "bw": {
+          "ru_doc": "проверить баланс в @wallet",
+          "en_doc": null,
+          "doc": "check balance in @wallet"
+        }
+      },
+      {
+        "hide0": {
+          "ru_doc": "вкл/выкл скрытие нулевых балансов",
+          "en_doc": null,
+          "doc": "on/off hiding zero balances"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "yummy1gay/limoka/yg_trigger.py": {
+    "name": "yg_trigger",
+    "description": "Триггер-модуль. Документация: kok.gay/trigger",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "triggercmd": "вкл/выкл вотчер"
+      },
+      {
+        "list_triggerscmd": "показать все существующие триггеры"
+      },
+      {
+        "add_triggercmd": "<условия> | <ответ> - добавить новый триггер"
+      },
+      {
+        "remove_triggercmd": "<номер> - удалить триггер"
+      },
+      {
+        "clear_triggerscmd": "удалить все триггеры"
+      }
+    ],
+    "new_commands": [
+      {
+        "trigger": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "вкл/выкл вотчер"
+        }
+      },
+      {
+        "list_triggers": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "показать все существующие триггеры"
+        }
+      },
+      {
+        "add_trigger": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<условия> | <ответ> - добавить новый триггер"
+        }
+      },
+      {
+        "remove_trigger": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<номер> - удалить триггер"
+        }
+      },
+      {
+        "clear_triggers": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "удалить все триггеры"
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Automation"
+    ]
+  },
+  "yummy1gay/limoka/yg_stars.py": {
+    "name": "yg_stars",
+    "description": "Get current prices for stars in different currencies!",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "starscmd": "<amount> - get the rate of stars <amount> - получить курс звезд"
+      }
+    ],
+    "new_commands": [
+      {
+        "stars": {
+          "ru_doc": "<amount> - получить курс звезд",
+          "en_doc": null,
+          "doc": "<amount> - get the rate of stars"
+        }
+      }
+    ],
+    "category": [
+      "Fun",
+      "Tools"
+    ]
+  },
+  "yummy1gay/limoka/SwitchToTelethon.py": {
+    "name": "SwitchToTelethon",
+    "description": "Auto switch from Hikka-TL to Telethon",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "switch": "Automatically switch to Telethon"
+      }
+    ],
+    "new_commands": [
+      {
+        "switch": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Automatically switch to Telethon"
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "yummy1gay/limoka/yg_chatid.py": {
+    "name": "yg_chatid",
+    "description": "Модуль для отображения ID чатов, каналов или пользователей",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "chatidcmd": "<reply>/@username - узнать ID юзера (на сообщение которого вы ответили), указанного юзера или текущего чата"
+      }
+    ],
+    "new_commands": [
+      {
+        "chatid": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<reply>/@username - узнать ID юзера (на сообщение которого вы ответили), указанного юзера или текущего чата"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Games"
+    ]
+  },
+  "yummy1gay/limoka/yg_owner.py": {
+    "name": "yg_owner",
+    "description": "Получить информацию о владельце стикер/эмодзи пака",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "ownercmd": "<reply to sticker/premium emoji> - узнать овнера пака"
+      }
+    ],
+    "new_commands": [
+      {
+        "owner": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "<reply to sticker/premium emoji> - узнать овнера пака"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Games"
+    ]
+  },
+  "yummy1gay/limoka/yg_gemini.py": {
+    "name": "yg_gemini",
+    "description": "Gemini AI module with media support, regeneration, and chat context!",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "gcreate": "[name] - create a new Gemini chat session with context [имя] - создать чат Gemini с контекстом"
+      },
+      {
+        "gask": "<chat_id> <question> - ask a question in a Gemini chat session <id_чата> <вопрос> - задать вопрос в чат Gemini"
+      },
+      {
+        "geminicmd": "<reply to media / text> — send stateless request to Gemini (photo/video/audio) <реплай на медиа / текст> — запрос к Gemini (фото/видео/аудио), без контекста"
+      },
+      {
+        "gchats": "show and manage Gemini chat sessions показать/управлять чатами Gemini"
+      },
+      {
+        "gset": "<text> - set instruction for Gemini <текст> - установить инструкцию для Gemini"
+      },
+      {
+        "gmodels": "показывает доступные модели Gemini"
+      }
+    ],
+    "new_commands": [
+      {
+        "gcreate": {
+          "ru_doc": "[имя] - создать чат Gemini с контекстом",
+          "en_doc": null,
+          "doc": "[name] - create a new Gemini chat session with context"
+        }
+      },
+      {
+        "gask": {
+          "ru_doc": "<id_чата> <вопрос> - задать вопрос в чат Gemini",
+          "en_doc": null,
+          "doc": "<chat_id> <question> - ask a question in a Gemini chat session"
+        }
+      },
+      {
+        "gemini": {
+          "ru_doc": "<реплай на медиа / текст> — запрос к Gemini (фото/видео/аудио), без контекста",
+          "en_doc": null,
+          "doc": "<reply to media / text> — send stateless request to Gemini (photo/video/audio)"
+        }
+      },
+      {
+        "gchats": {
+          "ru_doc": "показать/управлять чатами Gemini",
+          "en_doc": null,
+          "doc": "show and manage Gemini chat sessions"
+        }
+      },
+      {
+        "gset": {
+          "ru_doc": "<текст> - установить инструкцию для Gemini",
+          "en_doc": null,
+          "doc": "<text> - set instruction for Gemini"
+        }
+      },
+      {
+        "gmodels": {
+          "ru_doc": "показывает доступные модели Gemini",
+          "en_doc": null,
+          "doc": null
+        }
+      }
+    ],
+    "category": [
+      "Chat",
+      "Tools"
+    ]
+  },
+  "yummy1gay/limoka/yg_vm.py": {
+    "name": "VoiceModule",
+    "description": "Converts music and video (required ffmpeg)",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "m2vcmd": "Convert music to voice message"
+      },
+      {
+        "v2acmd": "Convert video to audio"
+      }
+    ],
+    "new_commands": [
+      {
+        "m2v": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Convert music to voice message"
+        }
+      },
+      {
+        "v2a": {
+          "ru_doc": null,
+          "en_doc": null,
+          "doc": "Convert video to audio"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "yummy1gay/limoka/yg_gamee.py": {
+    "name": "yg_gamee",
+    "description": "Module to cheat score in @gamee",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "gameecmd": "<reply/link to message with game> <score> <time in seconds> - cheat score <reply/link to message with game> <score> <time in seconds> - накрутить рекорд"
+      }
+    ],
+    "new_commands": [
+      {
+        "gamee": {
+          "ru_doc": "<reply/link to message with game> <score> <time in seconds> - накрутить рекорд",
+          "en_doc": null,
+          "doc": "<reply/link to message with game> <score> <time in seconds> - cheat score"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Chat"
+    ]
+  },
+  "yummy1gay/limoka/yg_tgs.py": {
+    "name": "yg_tgs",
+    "description": "Модуль для работы с .tgs (Telegram Animated Sticker)",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "svg2tgscmd": "<reply to .svg> - convert svg to tgs <reply to .svg> - конвертировать svg в tgs"
+      },
+      {
+        "tgs2jsoncmd": "<reply to tgs or custom emoji> - convert tgs to lottie json <reply to tgs or custom emoji> - конвертировать tgs в lottie json"
+      },
+      {
+        "tgs2pngscmd": "<reply to tgs or custom emoji> - split tgs into frames (ZIP with PNGs) <reply to tgs or custom emoji> - разбить tgs на кадры (ZIP с PNG)"
+      },
+      {
+        "json2tgscmd": "<reply to .json> - convert lottie json to tgs <reply to .json> - конвертировать lottie json в tgs"
+      },
+      {
+        "tgs2gifcmd": "<reply to tgs or custom emoji> - convert tgs to gif <reply to tgs or custom emoji> - конвертировать tgs в gif"
+      },
+      {
+        "emoji2tgscmd": "<reply to custom emoji> - convert custom emoji to tgs <reply to custom emoji> - конвертировать кастом эмодзи в tgs"
+      }
+    ],
+    "new_commands": [
+      {
+        "svg2tgs": {
+          "ru_doc": "<reply to .svg> - конвертировать svg в tgs",
+          "en_doc": null,
+          "doc": "<reply to .svg> - convert svg to tgs"
+        }
+      },
+      {
+        "tgs2json": {
+          "ru_doc": "<reply to tgs or custom emoji> - конвертировать tgs в lottie json",
+          "en_doc": null,
+          "doc": "<reply to tgs or custom emoji> - convert tgs to lottie json"
+        }
+      },
+      {
+        "tgs2pngs": {
+          "ru_doc": "<reply to tgs or custom emoji> - разбить tgs на кадры (ZIP с PNG)",
+          "en_doc": null,
+          "doc": "<reply to tgs or custom emoji> - split tgs into frames (ZIP with PNGs)"
+        }
+      },
+      {
+        "json2tgs": {
+          "ru_doc": "<reply to .json> - конвертировать lottie json в tgs",
+          "en_doc": null,
+          "doc": "<reply to .json> - convert lottie json to tgs"
+        }
+      },
+      {
+        "tgs2gif": {
+          "ru_doc": "<reply to tgs or custom emoji> - конвертировать tgs в gif",
+          "en_doc": null,
+          "doc": "<reply to tgs or custom emoji> - convert tgs to gif"
+        }
+      },
+      {
+        "emoji2tgs": {
+          "ru_doc": "<reply to custom emoji> - конвертировать кастом эмодзи в tgs",
+          "en_doc": null,
+          "doc": "<reply to custom emoji> - convert custom emoji to tgs"
+        }
+      }
+    ],
+    "category": [
+      "Tools",
+      "Games"
+    ]
+  },
+  "yummy1gay/limoka/yg_checks.py": {
+    "name": "yg_checks",
+    "description": "Активатор чеков @send (@CryptoBot)",
+    "meta": {
+      "pic": null,
+      "banner": null,
+      "developer": "@yg_modules"
+    },
+    "commands": [
+      {
+        "checkscmd": "on/off auto-check activation вкл/выкл активатор"
+      },
+      {
+        "testnetcmd": "on/off auto-check activation for testnet вкл/выкл активатор testnet"
+      },
+      {
+        "yglogscmd": "on/off log sending вкл/выкл отправку логов"
+      },
+      {
+        "passwordscmd": "on/off password cracking with neural network вкл/выкл подбор паролей с помощью нейросети"
+      },
+      {
+        "yglscmd": "on/off activation of checks sent in private messages вкл/выкл активацию чеков отправленных в личке"
+      },
+      {
+        "subscribecmd": "on/off auto-subscription вкл/выкл авто-подписку"
+      },
+      {
+        "unsubscribecmd": "on/off auto-unsubscription вкл/выкл авто-отписку"
+      }
+    ],
+    "new_commands": [
+      {
+        "checks": {
+          "ru_doc": "вкл/выкл активатор",
+          "en_doc": null,
+          "doc": "on/off auto-check activation"
+        }
+      },
+      {
+        "testnet": {
+          "ru_doc": "вкл/выкл активатор testnet",
+          "en_doc": null,
+          "doc": "on/off auto-check activation for testnet"
+        }
+      },
+      {
+        "yglogs": {
+          "ru_doc": "вкл/выкл отправку логов",
+          "en_doc": null,
+          "doc": "on/off log sending"
+        }
+      },
+      {
+        "passwords": {
+          "ru_doc": "вкл/выкл подбор паролей с помощью нейросети",
+          "en_doc": null,
+          "doc": "on/off password cracking with neural network"
+        }
+      },
+      {
+        "ygls": {
+          "ru_doc": "вкл/выкл активацию чеков отправленных в личке",
+          "en_doc": null,
+          "doc": "on/off activation of checks sent in private messages"
+        }
+      },
+      {
+        "subscribe": {
+          "ru_doc": "вкл/выкл авто-подписку",
+          "en_doc": null,
+          "doc": "on/off auto-subscription"
+        }
+      },
+      {
+        "unsubscribe": {
+          "ru_doc": "вкл/выкл авто-отписку",
+          "en_doc": null,
+          "doc": "on/off auto-unsubscription"
+        }
+      }
+    ],
+    "category": [
+      "Automation",
+      "Chat"
     ]
   },
   "AmoreForever/amoremods/fileext.py": {
