@@ -1,0 +1,15 @@
+﻿SwitchToTelethon
+yg_balance
+yg_chatid
+yg_checks
+yg_gamee
+yg_gemini
+yg_ocr
+yg_owner
+yg_playlist
+yg_quotes
+yg_stars
+yg_tgs
+yg_trigger
+yg_vm
+yg_prem
