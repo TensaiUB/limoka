@@ -21,3 +21,4 @@ multiunloadmodule
 tagall2.0
 point
 deviceinfo
+mpi
