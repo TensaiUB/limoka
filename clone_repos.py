@@ -3,58 +3,18 @@ import shutil
 import subprocess
 import re
 import requests
+import json
 
-repos = [
-    "https://github.com/DziruModules/hikkamods",
-    "https://github.com/kamolgks/Hikkamods",
-    "https://github.com/thomasmod/hikkamods",
-    "https://github.com/SkillsAngels/Modules",
-    "https://github.com/Sad0ff/modules-ftg",
-    "https://github.com/Yahikoro/Modules-for-FTG",
-    "https://github.com/KeyZenD/modules",
-    "https://github.com/AlpacaGang/ftg-modules",
-    "https://github.com/trololo65/Modules",
-    "https://github.com/Ijidishurka/modules",
-    "https://github.com/Fl1yd/FTG-Modules",
-    "https://github.com/D4n13l3k00/FTG-Modules",
-    "https://github.com/iamnalinor/FTG-modules",
-    "https://github.com/SekaiYoneya/modules",
-    "https://github.com/GeekTG/FTG-Modules",
-    "https://github.com/Den4ikSuperOstryyPer4ik/Astro-modules",
-    "https://github.com/vsecoder/hikka_modules",
-    "https://github.com/sqlmerr/hikka_mods",
-    "https://github.com/N3rcy/modules",
-    "https://github.com/KorenbZla/HikkaModules",
-    "https://github.com/MuRuLOSE/HikkaModulesRepo",
-    "https://github.com/coddrago/modules",
-    "https://github.com/1jpshiro/hikka-modules",
-    "https://github.com/MoriSummerz/ftg-mods",
-    "https://github.com/anon97945/hikka-mods",
-    "https://github.com/dorotorothequickend/DorotoroModules",
-    "https://github.com/AmoreForever/amoremods",
-    "https://github.com/idiotcoders/idiotmodules",
-    "https://github.com/CakesTwix/Hikka-Modules",
-    "https://github.com/archquise/H.Modules",
-    "https://github.com/GD-alt/mm-hikka-mods",
-    "https://github.com/HitaloSama/FTG-modules-repo",
-    "https://github.com/SekaiYoneya/Friendly-telegram",
-    "https://github.com/blazedzn/ftg-modules",
-    "https://github.com/hikariatama/ftg",
-    "https://github.com/m4xx1m/FTG",
-    "https://github.com/skillzmeow/skillzmods_hikka",
-    "https://github.com/fajox1/famods",
-    "https://github.com/unneyon/hikka-mods",
-    "https://github.com/TheKsenon/MyHikkaModules",
-    "https://github.com/cryptexctl/modules-mirror",
-    "https://github.com/Ruslan-Isaev/modules",
-    "https://github.com/shadowhikka/sh.modules",
-    "https://github.com/fiksofficial/python-modules",
-    "https://github.com/mead0wsss/mead0wsMods",
-    "https://github.com/SenkoGuardian/SenModules",
-    "https://github.com/ZetGoHack/nullmod",
-    "https://github.com/yummy1gay/limoka"
-    
-]
+def parse_repos(file_path: str) -> list:
+    """Parse repository URLs from a given json file."""
+    repos = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        for repo in data.get("repositories", []):
+            repos.append(repo["url"])
+    return repos
+
+repos = parse_repos("repositories.json")
 
 def configure_git():
     """Configure Git to ignore file mode changes."""
