@@ -1,191 +1,191 @@
 {
     "repositories": [
         {
-            "url": "https://github.com/DziruModules/hikkamods",
+            "path": "DziruModules/hikkamods",
             "tags": []
         },
         {
-            "url": "https://github.com/kamolgks/Hikkamods",
+            "path": "kamolgks/Hikkamods",
             "tags": []
         },
         {
-            "url": "https://github.com/thomasmod/hikkamods",
+            "path": "thomasmod/hikkamods",
             "tags": []
         },
         {
-            "url": "https://github.com/SkillsAngels/Modules",
+            "path": "SkillsAngels/Modules",
             "tags": []
         },
         {
-            "url": "https://github.com/Sad0ff/modules-ftg",
+            "path": "Sad0ff/modules-ftg",
             "tags": []
         },
         {
-            "url": "https://github.com/Yahikoro/Modules-for-FTG",
+            "path": "Yahikoro/Modules-for-FTG",
             "tags": []
         },
         {
-            "url": "https://github.com/KeyZenD/modules",
+            "path": "KeyZenD/modules",
             "tags": []
         },
         {
-            "url": "https://github.com/AlpacaGang/ftg-modules",
+            "path": "AlpacaGang/ftg-modules",
             "tags": []
         },
         {
-            "url": "https://github.com/trololo65/Modules",
+            "path": "trololo65/Modules",
             "tags": []
         },
         {
-            "url": "https://github.com/Ijidishurka/modules",
+            "path": "Ijidishurka/modules",
             "tags": []
         },
         {
-            "url": "https://github.com/Fl1yd/FTG-Modules",
+            "path": "Fl1yd/FTG-Modules",
             "tags": []
         },
         {
-            "url": "https://github.com/D4n13l3k00/FTG-Modules",
+            "path": "D4n13l3k00/FTG-Modules",
             "tags": []
         },
         {
-            "url": "https://github.com/iamnalinor/FTG-modules",
+            "path": "iamnalinor/FTG-modules",
             "tags": ["hikkatrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/SekaiYoneya/modules",
+            "path": "SekaiYoneya/modules",
             "tags": []
         },
         {
-            "url": "https://github.com/GeekTG/FTG-Modules",
+            "path": "GeekTG/FTG-Modules",
             "tags": []
         },
         {
-            "url": "https://github.com/Den4ikSuperOstryyPer4ik/Astro-modules",
+            "path": "Den4ikSuperOstryyPer4ik/Astro-modules",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/vsecoder/hikka_modules",
+            "path": "vsecoder/hikka_modules",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/sqlmerr/hikka_mods",
+            "path": "sqlmerr/hikka_mods",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/N3rcy/modules",
+            "path": "N3rcy/modules",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/KorenbZla/HikkaModules",
+            "path": "KorenbZla/HikkaModules",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/MuRuLOSE/HikkaModulesRepo",
+            "path": "MuRuLOSE/HikkaModulesRepo",
             "tags": []
         },
         {
-            "url": "https://github.com/coddrago/modules",
+            "path": "coddrago/modules",
             "tags": ["herokutrusted", "hikkatrusted"]
         },
         {
-            "url": "https://github.com/1jpshiro/hikka-modules",
+            "path": "1jpshiro/hikka-modules",
             "tags": []
         },
         {
-            "url": "https://github.com/MoriSummerz/ftg-mods",
+            "path": "MoriSummerz/ftg-mods",
             "tags": ["hikkatrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/anon97945/hikka-mods",
+            "path": "anon97945/hikka-mods",
             "tags": ["hikkatrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/dorotorothequickend/DorotoroModules",
+            "path": "dorotorothequickend/DorotoroModules",
             "tags": ["hikkatrusted", "nonlongermaintained"]
         },
         {
-            "url": "https://github.com/AmoreForever/amoremods",
+            "path": "AmoreForever/amoremods",
             "tags": []
         },
         {
-            "url": "https://github.com/idiotcoders/idiotmodules",
+            "path": "idiotcoders/idiotmodules",
             "tags": ["hikkatrusted", "herokutrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/CakesTwix/Hikka-Modules",
+            "path": "CakesTwix/Hikka-Modules",
             "tags": ["hikkatrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/archquise/H.Modules",
+            "path": "archquise/H.Modules",
             "tags": ["hikkatrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/GD-alt/mm-hikka-mods",
+            "path": "GD-alt/mm-hikka-mods",
             "tags": ["hikkatrusted", "herokutrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/HitaloSama/FTG-modules-repo",
+            "path": "HitaloSama/FTG-modules-repo",
             "tags": []
         },
         {
-            "url": "https://github.com/SekaiYoneya/Friendly-telegram",
+            "path": "SekaiYoneya/Friendly-telegram",
             "tags": []
         },
         {
-            "url": "https://github.com/blazedzn/ftg-modules",
+            "path": "blazedzn/ftg-modules",
             "tags": []
         },
         {
-            "url": "https://github.com/hikariatama/ftg",
+            "path": "hikariatama/ftg",
             "tags": ["hikkatrusted", "nonactive"]
         },
         {
-            "url": "https://github.com/m4xx1m/FTG",
+            "path": "m4xx1m/FTG",
             "tags": []
         },
         {
-            "url": "https://github.com/skillzmeow/skillzmods_hikka",
+            "path": "skillzmeow/skillzmods_hikka",
             "tags": []
         },
         {
-            "url": "https://github.com/fajox1/famods",
+            "path": "fajox1/famods",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/TheKsenon/MyHikkaModules",
+            "path": "TheKsenon/MyHikkaModules",
             "tags": ["hikkatrusted", "herokutrusted"]
         },
         {
-            "url": "https://github.com/cryptexctl/modules-mirror",
+            "path": "cryptexctl/modules-mirror",
             "tags": []
         },
         {
-            "url": "https://github.com/Ruslan-Isaev/modules",
+            "path": "Ruslan-Isaev/modules",
             "tags": ["herokutrusted"]
         },
         {
-            "url": "https://github.com/shadowhikka/sh.modules",
+            "path": "shadowhikka/sh.modules",
             "tags": []
         },
         {
-            "url": "https://github.com/fiksofficial/python-modules",
+            "path": "fiksofficial/python-modules",
             "tags": ["herokutrusted"]
         },
         {
-            "url": "https://github.com/mead0wsss/mead0wsMods",
+            "path": "mead0wsss/mead0wsMods",
             "tags": ["herokutrusted"]
         },
         {
-            "url": "https://github.com/SenkoGuardian/SenModules",
+            "path": "SenkoGuardian/SenModules",
             "tags": ["herokutrusted"]
         },
         {
-            "url": "https://github.com/ZetGoHack/nullmod",
+            "path": "ZetGoHack/nullmod",
             "tags": ["herokutrusted"]
         },
         {
-            "url": "https://github.com/yummy1gay/limoka",
+            "path": "yummy1gay/limoka",
             "tags": []
         }
     ]
