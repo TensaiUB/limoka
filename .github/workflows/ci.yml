@@ -206,61 +206,53 @@ jobs:
             echo "Branch ${{ env.BRANCH_NAME }} does not exist in remote repository, skipping PR creation."
           fi
 
+  notify_diffs:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+    needs: parse
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ env.GIT_DEPTH }}
+      - name: Configure Git for github-actions[bot]
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install Python dependencies
+        run: pip install aiohttp
+      - name: Send module diffs to channel
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }}
+        run: |
+          git fetch origin main
+          python3 update_diffs.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }} --base_commit HEAD~1
+
   backup:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     needs: parse
     steps:
-      - name: Configure Git for github-actions[bot]
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git config --global --list
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
-      - name: Create and send backup to Telegram
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install Python dependencies
+        run: pip install aiohttp
+      - name: Run backup script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "Creating .zip file of the repository with maximum compression..."
-          git archive --format=zip --output=repository-original.zip HEAD
-          zip -9 repository.zip repository-original.zip
-          rm repository-original.zip
-          echo "File size of the created .zip file:"
-          du -sh repository.zip
-          echo "Splitting the .zip file into 8 parts..."
-          split -b 49M repository.zip repository-part-
-          echo "Files created after split:"
-          ls repository-part-*
-          COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
-          COMMIT_DATE="$(date --date="$(git log -1 --pretty=%ci)" +'%Y-%m-%d %H:%M:%S')"
-          COMMIT_HASH="$(git rev-parse --short=6 HEAD)"
-          COMMIT_URL="https://${REPO_URL}/commit/$(git rev-parse HEAD)"
-          MESSAGE="Commit Date: $COMMIT_DATE, Commit Message: $COMMIT_MESSAGE, Commit Hash: [\`$COMMIT_HASH\`]($COMMIT_URL)"
-          
-          echo "Sending .zip file parts to Telegram..."
-          
-          FIRST_PART=true
-          for part in $(ls repository-part-* | sort); do
-            if $FIRST_PART; then
-              TELEGRAM_API_URL="https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument"
-              echo "Sending first file to Telegram: $TELEGRAM_API_URL"
-              curl -X POST "$TELEGRAM_API_URL" \
-                -F chat_id=$TELEGRAM_CHAT_ID \
-                -F document=@$part \
-                -F caption="$MESSAGE" \
-                -F parse_mode="Markdown"
-              FIRST_PART=false
-            else
-              TELEGRAM_API_URL="https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument"
-              echo "Sending file to Telegram: $TELEGRAM_API_URL"
-              curl -X POST "$TELEGRAM_API_URL" \
-                -F chat_id=$TELEGRAM_CHAT_ID \
-                -F document=@$part
-            fi
-          done
-          
-          echo "Files sent to Telegram successfully!"
+          python backup.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID }}

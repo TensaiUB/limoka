@@ -1,171 +1,353 @@
-import os
 import ast
 import json
+import os
+import logging
+from typing import Dict, Any, Optional, List
 
-from clone_repos import repos
-from typing import Dict
+logging.basicConfig(level=logging.WARNING, format="%(message)s")
+logger = logging.getLogger(__name__)
 
-# TODO: ADD VENV IGNORE
+def safe_unparse(node: ast.AST) -> str:
+    try:
+        return ast.unparse(node)
+    except AttributeError:
+        return getattr(node, 'id', str(type(node).__name__))
 
+def load_blacklist(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        repositories = data.get("repositories", [])
+        blacklisted_modules = {}
 
-def get_module_info(module_path):
-    """Парсит Python-модуль и извлекает информацию о нем."""
-    with open(module_path, "r", encoding="utf-8") as f:
-        module_content = f.read()
+        for i in repositories:
+            path = i.get("path", "")
+            blacklist = i.get("blacklist", [])
+            if path and blacklist:
+                blacklisted_modules[path] = blacklist
 
-    meta_info = {"pic": None, "banner": None}
-    for line in module_content.split("\n"):
-        if line.startswith("# meta"):
-            key, value = line.replace("# meta ", "").split(": ")
-            meta_info[key] = value
+    return blacklisted_modules
 
-    tree = ast.parse(module_content)
+def extract_string_value(node: ast.AST) -> Optional[str]:
+    try:
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            return node.value
+        if isinstance(node, ast.Str):
+            return node.s
+        if isinstance(node, ast.Name):
+            return node.id
+        if isinstance(node, ast.Attribute):
+            return f"{safe_unparse(node.value)}.{node.attr}"
+        return str(node)
+    except Exception:
+        return None
 
-    def get_decorator_names(decorator_list):
-        return [ast.unparse(decorator) for decorator in decorator_list]
-
-    def extract_loader_command_args(decorator):
-        """Извлекает аргументы `ru_doc` и `en_doc` из `@loader.command`."""
-        if (
-            isinstance(decorator, ast.Call)
-            and hasattr(decorator.func, "attr")
-            and decorator.func.attr == "command"
-        ):
-            ru_doc = None
-            en_doc = None
-            for keyword in decorator.keywords:
-                if keyword.arg == "ru_doc":
-                    ru_doc = ast.literal_eval(keyword.value)
-                elif keyword.arg == "en_doc":
-                    en_doc = ast.literal_eval(keyword.value)
-            return ru_doc, en_doc
-        return None, None
-
-    result = {}
-    for node in ast.walk(tree):
-        if isinstance(node, ast.ClassDef):
-            decorators = get_decorator_names(node.decorator_list)
-            is_tds_mod = [d for d in decorators if "loader.tds" in d]
-            if "Mod" not in node.name and not is_tds_mod:
+def extract_loader_command_args(decorator: ast.Call) -> Dict[str, Any]:
+    args = {"lang_docs": {}, "aliases": [], "usage": None}
+    try:
+        for kw in decorator.keywords:
+            arg_name = kw.arg
+            if not arg_name:
                 continue
+            if arg_name.endswith("_doc"):
+                lang = arg_name[:-4]
+                args["lang_docs"][lang] = extract_string_value(kw.value)
+            elif arg_name == "aliases":
+                try:
+                    val = ast.literal_eval(kw.value)
+                    if isinstance(val, (list, tuple)):
+                        args["aliases"] = list(val)
+                except (ValueError, SyntaxError):
+                    pass
+            elif arg_name == "usage":
+                args["usage"] = extract_string_value(kw.value)
+    except Exception:
+        pass
+    return args
 
-            class_docstring = ast.get_docstring(node)
-            class_info = {
-                "name": node.name,
-                "description": class_docstring,
-                "meta": meta_info,
-                "commands": [],
-                "new_commands": [],
-            }
+def get_module_info(module_path: str) -> Optional[Dict[str, Any]]:
+    try:
+        with open(module_path, "r", encoding="utf-8") as f:
+            source = f.read()
+    except Exception as e:
+        logger.warning(f"Skipping {module_path}: read failed — {e}")
+        return None
 
-            for class_body_node in node.body:
-                if isinstance(class_body_node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    decorators = get_decorator_names(class_body_node.decorator_list)
-                    is_loader_command = [d for d in decorators if "command" in d]
-                    if not is_loader_command and "cmd" not in class_body_node.name:
-                        continue
+    source = source.lstrip('\ufeff')
+    source = ''.join(c for c in source if ord(c) >= 32 or c in '\n\r\t') if source else source
 
-                    method_docstring = ast.get_docstring(class_body_node)
-                    command_name = class_body_node.name
-                    ru_doc, en_doc = None, None
+    meta = {"pic": None, "banner": None, "developer": None}
+    for line in source.splitlines():
+        line = line.strip()
+        if line.startswith("# meta "):
+            try:
+                key, val = line[len("# meta "):].split(":", 1)
+                meta[key.strip()] = val.strip()
+            except ValueError:
+                pass
 
-                    for decorator in class_body_node.decorator_list:
-                        ru_doc_tmp, en_doc_tmp = extract_loader_command_args(decorator)
-                        if ru_doc_tmp:
-                            ru_doc = ru_doc_tmp
-                        if en_doc_tmp:
-                            en_doc = en_doc_tmp
+    try:
+        tree = ast.parse(source, filename=module_path)
+    except SyntaxError as e:
+        logger.warning(f"Skipping {module_path}: syntax error — {e}")
+        return {
+            "name": module_path.split(os.sep)[-1].replace(".py", ""),
+            "description": "",
+            "cls_doc": {},
+            "meta": meta,
+            "commands": [],
+            "new_commands": [],
+            "inline_handlers": [],
+            "strings": {},
+            "has_on_load": False,
+            "has_on_unload": False,
+            "class_cmd_names": {},
+        }
 
-                    descriptions = []
-                    if method_docstring:
-                        descriptions.append(method_docstring)
-                    if ru_doc:
-                        descriptions.append(ru_doc)
-                    if en_doc:
-                        descriptions.append(en_doc)
+    module_data = None
 
-                    class_info["commands"].append(
-                        {command_name: ' '.join(descriptions)}
-                    )
-
-                    command_name = command_name.replace('cmd', '')
-
-                    class_info["new_commands"].append(
-                        {
-                            command_name: {
-                                "ru_doc": ru_doc,
-                                "en_doc": en_doc,
-                                "doc": method_docstring,
-                            }
-                        }
-                    )
-
-            result = class_info
-
-    return result
-
-def parse_developers(base_dir: str) -> Dict[str, list]:
-    developers = {
-        "repo": set(),  # используем set внутри функции
-        "channel": set()
-    }
-    
-    for repo_url in repos:
-        repo_path = repo_url.replace("https://github.com/", "")
-        try:
-            owner, repo_name = repo_path.split("/")
-            developers["repo"].add(owner)
-        except ValueError:
-            print(f"Incorrect URL of repository: {repo_url}")
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ClassDef):
             continue
 
-    for root, _, files in os.walk(base_dir):
-        for file in files:
-            if file.endswith(".py"):
-                file_path = os.path.join(root, file)
-                try:
-                    module_info = get_module_info(file_path)
-                    if module_info and "meta" in module_info:
-                        developer = module_info["meta"].get('developer')
-                        if developer:  # Проверяем, что developer не None
-                            # Разделяем строки с запятыми, &, | и пробелами
-                            for dev in developer.replace(',', ' ').replace('&', ' ').replace('|', ' ').split():
-                                # Добавляем только элементы, начинающиеся с @
-                                if dev.startswith('@'):
-                                    developers["channel"].add(dev.strip())
-                except Exception as e:
-                    print(f"Ошибка при парсинге файла {file_path}: {e}")
+        is_module_class = (
+            "Mod" in node.name or
+            any(isinstance(d, ast.Attribute) and safe_unparse(d).startswith("loader.tds") for d in node.decorator_list) or
+            any(isinstance(d, ast.Name) and d.id == "loader" for d in node.decorator_list)
+        )
 
-    # Преобразуем set в list перед возвратом
-    return {
-        "repo": list(developers["repo"]),
-        "channel": list(developers["channel"])
+        if not is_module_class:
+            continue
+
+        info = {
+            "name": node.name,
+            "description": ast.get_docstring(node) or "",
+            "cls_doc": {},
+            "meta": meta,
+            "commands": [],
+            "new_commands": [],
+            "inline_handlers": [],
+            "strings": {},
+            "has_on_load": False,
+            "has_on_load": False,
+            "has_on_unload": False,
+            "class_cmd_names": {},
+        }
+
+        for item in node.body:
+            if isinstance(item, ast.Assign):
+                for target in item.targets:
+                    if isinstance(target, ast.Name) and (target.id == "strings" or target.id.startswith("strings_")):
+                        try:
+                            lit = ast.literal_eval(item.value)
+                            if isinstance(lit, dict):
+                                if target.id == "strings":
+                                    info["strings"].update(lit)
+                                    if "_cls_doc" in lit:
+                                        info["cls_doc"]["default"] = lit["_cls_doc"]
+                                else:
+                                    lang = target.id.split("_", 1)[1] if "_" in target.id else None
+                                    if lang:
+                                        for k, v in lit.items():
+                                            if isinstance(k, str) and isinstance(v, str):
+                                                if k == "_cls_doc":
+                                                    info["cls_doc"][lang] = v
+                                                elif k.startswith("_cmd_doc_"):
+                                                    rest = k[len("_cmd_doc_"):]
+                                                    info["strings"][f"_cmd_doc_{lang}_{rest}"] = v
+                                                    info["strings"][f"_cmd_doc_{rest}_{lang}"] = v
+                                                elif k.startswith("_ihandle_doc_"):
+                                                    rest = k[len("_ihandle_doc_"):]
+                                                    info["strings"][f"_ihandle_doc_{lang}_{rest}"] = v
+                                                    info["strings"][f"_ihandle_doc_{rest}_{lang}"] = v
+                                                elif k.startswith("_cls_cmd_"):
+                                                    info["class_cmd_names"][lang] = v
+                                                else:
+                                                    info["strings"][f"{k}_{lang}"] = v
+                        except Exception:
+                            pass
+
+        if "_cls_doc" in info["strings"]:
+            info["cls_doc"]["default"] = info["strings"]["_cls_doc"]
+
+        for func in node.body:
+            if not isinstance(func, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+
+            name = func.name
+            if name == "on_load":
+                info["has_on_load"] = True
+                continue
+            if name == "on_unload":
+                info["has_on_unload"] = True
+                continue
+
+            is_decorated = any(
+                isinstance(d, ast.Call) and hasattr(d.func, 'attr') and 
+                d.func.attr in ("command", "inline_handler", "unrestricted", "owner")
+                for d in func.decorator_list
+            )
+            
+            if name.startswith("_") and not is_decorated:
+                continue
+
+            cmd = {
+                "name": name,
+                "doc": ast.get_docstring(func) or "",
+                "lang_docs": {},
+                "aliases": [],
+                "usage": None,
+                "inline": False,
+                "is_inline_handler": False,
+                "decorators": [],
+                "cmd_names": {},
+            }
+
+            for dec in func.decorator_list:
+                if isinstance(dec, ast.Call) and hasattr(dec.func, 'attr'):
+                    attr = dec.func.attr
+                    if attr == "command":
+                        cmd.update(extract_loader_command_args(dec))
+                    elif attr == "inline_handler":
+                        cmd["inline"] = True
+                        cmd["is_inline_handler"] = True
+                    elif attr in ("unrestricted", "owner", "support"):
+                        cmd["decorators"].append(attr)
+
+            for stmt in func.body:
+                if isinstance(stmt, ast.Assign):
+                    for target in stmt.targets:
+                        if isinstance(target, ast.Attribute):
+                            attr = target.attr
+                            val = extract_string_value(stmt.value)
+                            if not val:
+                                continue
+                            if attr == "_cmd":
+                                cmd["name"] = val
+                            elif attr == "_doc":
+                                cmd["doc"] = val
+                            elif attr == "_cls_doc":
+                                info["cls_doc"]["default"] = val
+                            elif attr.startswith("_cls_doc_"):
+                                lang = attr[len("_cls_doc_"):]
+                                info["cls_doc"][lang] = val
+                            elif attr.startswith("_cmd_"):
+                                lang = attr[len("_cmd_"):]
+                                cmd["cmd_names"][lang] = val
+
+            is_command_name = "cmd" in name and not name.startswith("__")
+            if not (is_decorated or is_command_name):
+                continue
+
+            clean_name = cmd["name"].replace("cmd", "").replace("_", "")
+            
+            descs = []
+            legacy_key = f"_cmd_doc_{clean_name}"
+            legacy_doc = info["strings"].get(legacy_key)
+            base_doc = legacy_doc if legacy_doc else cmd["doc"]
+            if base_doc:
+                descs.append(base_doc)
+            
+            for lang, text in cmd["lang_docs"].items():
+                if text:
+                    descs.append(f"({lang.upper()}) {text}")
+            
+            for k, v in info["strings"].items():
+                if k.startswith("_cmd_doc_") and clean_name in k and v:
+                    if k.endswith(f"_{clean_name}"):
+                        lang_part = k[len("_cmd_doc_"):-len(f"_{clean_name}")-1]
+                        if lang_part:
+                            descs.append(f"({lang_part.upper()}) {v}")
+                    elif k.startswith(f"_cmd_doc_{clean_name}_"):
+                        lang_part = k[len(f"_cmd_doc_{clean_name}_"):]
+                        if lang_part:
+                            descs.append(f"({lang_part.upper()}) {v}")
+
+            full_desc = " | ".join(filter(None, descs))
+            info["commands"].append({clean_name: full_desc})
+
+            desc_map = {"default": legacy_doc or cmd["doc"]}
+            desc_map.update(cmd["lang_docs"])
+            
+            for k, v in info["strings"].items():
+                if k.startswith("_cmd_doc_") and clean_name in k and v:
+                    if k.endswith(f"_{clean_name}"):
+                        lang_part = k[len("_cmd_doc_"):-len(f"_{clean_name}")-1]
+                        if lang_part:
+                            desc_map[lang_part] = v
+                    elif k.startswith(f"_cmd_doc_{clean_name}_"):
+                        lang_part = k[len(f"_cmd_doc_{clean_name}_"):]
+                        if lang_part:
+                            desc_map[lang_part] = v
+
+            info["new_commands"].append({
+                "name": clean_name,
+                "original_name": cmd["name"],
+                "description": desc_map,
+                "cmd_names": cmd["cmd_names"],
+                "aliases": cmd["aliases"],
+                "usage": cmd["usage"],
+                "inline": cmd["inline"],
+                "is_inline_handler": cmd["is_inline_handler"],
+                "decorators": cmd["decorators"],
+            })
+
+            if cmd["is_inline_handler"]:
+                inline_desc_map = {"default": cmd["doc"]}
+                inline_desc_map.update(cmd["lang_docs"])
+                
+                for k, v in info["strings"].items():
+                    if k.startswith("_ihandle_doc_") and clean_name in k and v:
+                        if k.endswith(f"_{clean_name}"):
+                            lang_part = k[len("_ihandle_doc_"):-len(f"_{clean_name}")-1]
+                            if lang_part:
+                                inline_desc_map[lang_part] = v
+                        elif k.startswith(f"_ihandle_doc_{clean_name}_"):
+                            lang_part = k[len(f"_ihandle_doc_{clean_name}_"):]
+                            if lang_part:
+                                inline_desc_map[lang_part] = v
+                
+                info["inline_handlers"].append({
+                    "name": clean_name,
+                    "description": inline_desc_map,
+                    "decorators": cmd["decorators"],
+                })
+
+        module_data = info
+        break
+
+    return module_data
+
+def main():
+    base_dir = os.getcwd()
+    modules = {}
+    blacklisted_modules = load_blacklist("repositories.json")
+
+    for root, dirs, files in os.walk(base_dir):
+        dirs[:] = [d for d in dirs if d not in ("venv", ".venv", "env", ".env", ".git")]
+
+        for file in files:
+            if file.endswith(".py") and not file.startswith("_") and file not in blacklisted_modules.get(os.path.relpath(root, base_dir), []):
+                path = os.path.join(root, file)
+                try:
+                    data = get_module_info(path)
+                    if data:
+                        rel = os.path.relpath(path, base_dir).replace("\\", "/")
+                        modules[rel] = data
+                except Exception as e:
+                    logger.error(f"Error processing {path}: {e}")
+
+    output = {
+        "modules": modules,
+        "meta": {
+            "total_modules": len(modules),
+            "generated_at": __import__("datetime").datetime.now().isoformat(),
+        }
     }
 
+    with open("modules.json", "w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, indent=2)
 
-modules_data = {}
-base_dir = os.getcwd()
+    print(f"modules.json written ({len(modules)} modules)")
 
-for root, _, files in os.walk(base_dir):
-    for file in files:
-        if file.endswith(".py"):
-            file_path = os.path.join(root, file)
-            try:
-                module_info = get_module_info(file_path)
-                if module_info:
-                    relative_path = os.path.relpath(file_path, base_dir)
-                    modules_data[relative_path] = module_info
-            except Exception as e:
-                print(f"Ошибка при парсинге файла {file_path}: {e}")
-
-developers = parse_developers(base_dir)
-
-with open("modules.json", "w", encoding="utf-8") as json_file:
-   json.dump(modules_data, json_file, ensure_ascii=False, indent=2)
-
-print("Файл modules.json создан!")
-
-with open("developers.json", "w", encoding="utf-8") as json_file:
-   json.dump(developers, json_file, ensure_ascii=False, indent=2)
-
-print("Файл developers.json создан!")
+if __name__ == "__main__":
+    main()

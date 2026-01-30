@@ -2,191 +2,238 @@
     "repositories": [
         {
             "path": "DziruModules/hikkamods",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "kamolgks/Hikkamods",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "thomasmod/hikkamods",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "SkillsAngels/Modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "Sad0ff/modules-ftg",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "Yahikoro/Modules-for-FTG",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "KeyZenD/modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "AlpacaGang/ftg-modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "trololo65/Modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "Ijidishurka/modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "Fl1yd/FTG-Modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "D4n13l3k00/FTG-Modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "iamnalinor/FTG-modules",
-            "tags": ["hikkatrusted", "nonactive"]
+            "tags": ["hikkatrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "SekaiYoneya/modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "GeekTG/FTG-Modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "Den4ikSuperOstryyPer4ik/Astro-modules",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "vsecoder/hikka_modules",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "sqlmerr/hikka_mods",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "N3rcy/modules",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "KorenbZla/HikkaModules",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "MuRuLOSE/HikkaModulesRepo",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "coddrago/modules",
-            "tags": ["herokutrusted", "hikkatrusted"]
+            "tags": ["herokutrusted", "hikkatrusted"],
+            "blacklist": []
         },
         {
             "path": "1jpshiro/hikka-modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "MoriSummerz/ftg-mods",
-            "tags": ["hikkatrusted", "nonactive"]
+            "tags": ["hikkatrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "anon97945/hikka-mods",
-            "tags": ["hikkatrusted", "nonactive"]
+            "tags": ["hikkatrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "dorotorothequickend/DorotoroModules",
-            "tags": ["hikkatrusted", "nonlongermaintained"]
+            "tags": ["hikkatrusted", "nonlongermaintained"],
+            "blacklist": []
         },
         {
             "path": "AmoreForever/amoremods",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "idiotcoders/idiotmodules",
-            "tags": ["hikkatrusted", "herokutrusted", "nonactive"]
+            "tags": ["hikkatrusted", "herokutrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "CakesTwix/Hikka-Modules",
-            "tags": ["hikkatrusted", "nonactive"]
+            "tags": ["hikkatrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "archquise/H.Modules",
-            "tags": ["hikkatrusted", "nonactive"]
+            "tags": ["hikkatrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "GD-alt/mm-hikka-mods",
-            "tags": ["hikkatrusted", "herokutrusted", "nonactive"]
+            "tags": ["hikkatrusted", "herokutrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "HitaloSama/FTG-modules-repo",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "SekaiYoneya/Friendly-telegram",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "blazedzn/ftg-modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "hikariatama/ftg",
-            "tags": ["hikkatrusted", "nonactive"]
+            "tags": ["hikkatrusted", "nonactive"],
+            "blacklist": []
         },
         {
             "path": "m4xx1m/FTG",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "skillzmeow/skillzmods_hikka",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "fajox1/famods",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "TheKsenon/MyHikkaModules",
-            "tags": ["hikkatrusted", "herokutrusted"]
+            "tags": ["hikkatrusted", "herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "cryptexctl/modules-mirror",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "Ruslan-Isaev/modules",
-            "tags": ["herokutrusted"]
+            "tags": ["herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "shadowhikka/sh.modules",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         },
         {
             "path": "fiksofficial/python-modules",
-            "tags": ["herokutrusted"]
+            "tags": ["herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "mead0wsss/mead0wsMods",
-            "tags": ["herokutrusted"]
+            "tags": ["herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "SenkoGuardian/SenModules",
-            "tags": ["herokutrusted"]
+            "tags": ["herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "ZetGoHack/nullmod",
-            "tags": ["herokutrusted"]
+            "tags": ["herokutrusted"],
+            "blacklist": []
         },
         {
             "path": "yummy1gay/limoka",
-            "tags": []
+            "tags": [],
+            "blacklist": []
         }
     ]
 }
