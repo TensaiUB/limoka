@@ -27,7 +27,7 @@ except ImportError:
 from .. import utils, loader
 from ..types import InlineCall
 logger = logging.getLogger("Limoka")
-__version__ = (1, 3, 1)
+__version__ = (1, 4, 0)
 
 def _get_lang_value(data: Dict[str, Any], lang: str) -> str:
     if not isinstance(data, dict):
