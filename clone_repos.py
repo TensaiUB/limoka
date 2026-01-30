@@ -11,7 +11,7 @@ def parse_repos(file_path: str) -> list:
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
         for repo in data.get("repositories", []):
-            repos.append(repo["path"])
+            repos.append(repo["url"])
     return repos
 
 repos = parse_repos("repositories.json")
