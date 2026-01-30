@@ -10,7 +10,9 @@ on:
   pull_request:
     branches:
       - main
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch: # Allows manual triggering from GitHub UI
+
 
 # Environment variables available to all jobs
 env:
