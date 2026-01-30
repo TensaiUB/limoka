@@ -481,18 +481,19 @@ class Limoka(loader.Module):
 
     def generate_commands(self, module_info, lang: str = "en"):
         commands = []
-        for i, func in enumerate(module_info.get("commands", []), 1):
-            for command, description in func.items():
-                emoji = self.strings["emojis"].get(i, "")
-                desc = description or self.strings["no_info"]
-                commands.append(
-                    self.strings["command_template"].format(
-                        prefix=self.get_prefix(),
-                        command=html.escape(command.replace("cmd", "")),
-                        emoji=emoji,
-                        description=html.escape(desc),
-                    )
+        for i, cmd in enumerate(module_info.get("new_commands", []), 1):
+            name = cmd.get("name", "")
+            desc_map = cmd.get("description", {})
+            emoji = self.strings["emojis"].get(i, "")
+            desc = _get_lang_value(desc_map, lang) or self.strings["no_info"]
+            commands.append(
+                self.strings["command_template"].format(
+                    prefix=self.get_prefix(),
+                    command=html.escape(name),
+                    emoji=emoji,
+                    description=html.escape(desc),
                 )
+            )
         for i, handler in enumerate(module_info.get("inline_handlers", []), 1):
             name = handler.get("name", "")
             desc_map = handler.get("description", {})
@@ -505,6 +506,7 @@ class Limoka(loader.Module):
                 )
             )
         return commands
+
 
     def _format_module_content(
         self,
