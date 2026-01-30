@@ -137,9 +137,8 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
-          pip install requests scikit-learn tqdm
+          pip install requests
           python3 parse.py
-          python3 categories.py
           git add modules.json
           git commit -m "Updated modules.json after parse $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for modules.json"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${REPO_URL}"
