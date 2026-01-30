@@ -1,3 +1,0 @@
-Chess
-HaremManager
-SchedulePlus
