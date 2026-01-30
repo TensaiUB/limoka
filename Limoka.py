@@ -412,7 +412,7 @@ class Limoka(loader.Module):
             try:
                 message = await self.client.get_messages(self._bot_username, limit=1)
                 if not message:
-                    message = await self.client.send_message(self._service_bot_id, "/start")
+                    message = await self.client.send_message(self._bot_username, "/start")
                     await message.delete()
             except YouBlockedUserError:
                 logger.warning(f"Please unblock {self._bot_username} to enable external installation feature. Or disable external_install_allowed in Limoka settings to get rid of this message.")
