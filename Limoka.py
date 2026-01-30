@@ -2,6 +2,7 @@
 # requires: whoosh cryptography
 
 
+import datetime
 from whoosh.index import create_in, open_dir
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.qparser import QueryParser, OrGroup
@@ -20,6 +21,7 @@ from telethon.types import Message
 from telethon.errors.rpcerrorlist import WebpageMediaEmptyError
 from telethon import TelegramClient
 from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon import functions, types
 try:
     from aiogram.utils.exceptions import BadRequest
 except ImportError:
@@ -414,6 +416,13 @@ class Limoka(loader.Module):
                 if not message:
                     message = await self.client.send_message(self._bot_username, "/start")
                     await message.delete()
+                    await self.client(functions.messages.DeleteHistoryRequest(
+                        peer=self._bot_username,
+                        max_id=0,
+                        just_clear=True,
+                        revoke=True,
+                    ))
+
             except YouBlockedUserError:
                 logger.warning(f"Please unblock {self._bot_username} to enable external installation feature. Or disable external_install_allowed in Limoka settings to get rid of this message.")
         self._userbot_bot_username = (await self.inline.bot.get_me()).username
