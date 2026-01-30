@@ -303,7 +303,7 @@ class Limoka(loader.Module):
         )
         self.name = self.strings["name"]
         self._invalid_banners = set()
-        self._service_bot_id = 8581621390
+        self._bot_username = "limoka_bbot"
         self._base_url = self.config["limokaurl"]
         
         # Search session states
@@ -406,7 +406,7 @@ class Limoka(loader.Module):
             self.modules = self._filter_newbies(self.modules)
         except Exception:
             pass
-        self._bot_username = (await self.client.get_entity(self._service_bot_id)).username
+        self._service_bot_id = (await self.client.get_entity(self._bot_username)).id
         await self._update_index()
         if self.config["external_install_allowed"]:
             try:
