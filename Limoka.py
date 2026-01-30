@@ -398,7 +398,7 @@ class Limoka(loader.Module):
             self._base_url, "repositories.json"
         )).get("repositories", [])
         self.repositories = {
-            repo["path"]: repo
+            repo["url"]: repo
             for repo in raw
         }
         # Apply newbie filter if enabled
@@ -433,7 +433,7 @@ class Limoka(loader.Module):
     async def _update_index(self):
         writer = self.ix.writer()
         modules_to_index = self._filter_newbies(self.modules)
-        for module_path, module_data in modules_to_index.items():
+        for module_path, module_data in modules_to_index["modules"].items():
             writer.add_document(
                 title=module_data["name"],
                 path=module_path,
@@ -529,7 +529,7 @@ class Limoka(loader.Module):
         repo_key = "/".join(module_path.split("/")[:2]) if "/" in module_path else module_path
         tags_list = []
         for x in self.repositories:
-            if x == repo_key:
+            if x.replace("https://github.com/") == repo_key:
                 tags_list = self.repositories.get(x, {}).get("tags", [])
                 break
         tags_text = ", ".join(self.strings["tags"].get(tag, tag) for tag in tags_list)
