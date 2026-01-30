@@ -209,16 +209,14 @@ jobs:
 
   notify_diffs:
     runs-on: ubuntu-latest
-    if: |
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: parse
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: ${{ env.GIT_DEPTH }}
-      - name: Configure Git for github-actions[bot]
+          fetch-depth: 0
+      - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
@@ -226,15 +224,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: pip install aiohttp
       - name: Send module diffs to channel
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }}
         run: |
-          git fetch origin main
-          python3 update_diffs.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }} --base_commit HEAD~1
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          if [[ "$LAST_COMMIT_MESSAGE" == Merge* ]]; then
+            python3 update_diffs.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }} --base_commit HEAD~1
+          fi
+
 
   backup:
     runs-on: ubuntu-latest
