@@ -106,7 +106,7 @@ class DeviceInfo(loader.Module):
         self.config = loader.ModuleConfig(
             loader.ConfigValue(
                 "api_base_url",
-                "https://mobilespecs.fiksofficial.fun",
+                "https://gmsarena.vercel.app/",
                 lambda: "API Url",
                 validator=loader.validators.String()
             ),
