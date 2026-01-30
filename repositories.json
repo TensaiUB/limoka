@@ -234,6 +234,11 @@
             "url": "https://github.com/yummy1gay/limoka",
             "tags": [],
             "blacklist": []
+        },
+        {
+            "url": "https://github.com/radiocycle/Modules",
+            "tags": ["newbie"],
+            "blacklist": []
         }
     ]
 }
