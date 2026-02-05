@@ -238,7 +238,7 @@
         {
             "url": "https://github.com/radiocycle/Modules",
             "tags": ["newbie"],
-            "blacklist": []
+            "blacklist": ["SpotifyMod.py"]
         }
     ]
 }
