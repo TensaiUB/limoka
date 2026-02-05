@@ -53,6 +53,7 @@ async def send_document(session, file_path, caption=None):
         data = aiohttp.FormData()
         data.add_field('chat_id', arguments.chat_id)
         data.add_field('document', f, filename=os.path.basename(file_path))
+        data.add_field('parse_mode', 'HTML')
         if caption:
             data.add_field('caption', caption)
             data.add_field('parse_mode', 'Markdown')
@@ -133,8 +134,9 @@ async def main():
 
                 diff_url = f"https://github.com/MuRuLOSE/limoka/compare/{old_hash}...{new_hash}.diff"
                 message = (
-                    f"🪼 Module {module_name} changes approved\n\n"
-                    f"[File URL]({github_url}) | [Diff URL]({diff_url})\n\n"
+                    f"🪼 <b>Module <code>{module_name}</code> changes approved</b>\n\n"
+                    f"<b><a href=\"{github_url}\">File URL</a></b> | "
+                    f"<b><a href=\"{diff_url}\">Diff URL</a></b>"
                 )
                 
                 # Get diff
