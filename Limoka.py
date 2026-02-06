@@ -3,10 +3,12 @@
 
 
 from collections import Counter, defaultdict
+import shutil
 from whoosh.index import create_in, open_dir
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.qparser import QueryParser, OrGroup
 from whoosh.query import FuzzyTerm, Wildcard
+from whoosh.writing import LockError
 import aiohttp
 import random
 import logging
@@ -31,7 +33,7 @@ from .. import utils, loader
 from ..types import InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 4, 1)
+__version__ = (1, 4, 2)
 
 WEIGHTS = {
     "inline.token_obtainment": 15,
@@ -42,6 +44,8 @@ WEIGHTS = {
 }
 
 DEFAULT_WEIGHT = 1
+
+BASE_DIR = os.getcwd()
 
 
 def _get_lang_value(data: Dict[str, Any], lang: str) -> str:
@@ -185,6 +189,13 @@ class Limoka(loader.Module):
             "nonlongermaintained": "No Longer Maintained Repository",
             "newbie": "Newbie",
         },
+        "indexing_in_progress": (
+            "⚠️ Database is busy, "
+            "try again later. "
+            "If issue persists, try "
+            "removing limoka_index in the userbot's root folder. "
+            "If error persists again, report to developers"
+        ),
     }
     strings_ru = {
         "name": "Limoka",
@@ -291,6 +302,13 @@ class Limoka(loader.Module):
             "nonlongermaintained": "Неподдерживаемый репозиторий",
             "newbie": "Новичок",
         },
+        "indexing_in_progress": (
+            "⚠️ База данных занята, "
+            "попробуйте снова через несколько секунд. "
+            "Если ошибка сохраняется, попробуйте "
+            "удалить limoka_index в корневой папке юзербота. "
+            "Если ошибка сохраняется снова, сообщите разработчикам"
+        ),
         "_cls_doc": "Модули теперь в одном месте с простым и удобным поиском!",
     }
 
@@ -323,13 +341,13 @@ class Limoka(loader.Module):
 
         # Search session states
         self.SEARCH_STATES = {
-            "no_banner": "no_banner",  # 404 - Нет баннера
-            "global_search": "global_search",  # Глобальный поиск
-            "not_found": "not_found",  # Не найдено (модуль)
-            "filter_select": "filter_select",  # Выбор категорий (фильтров)
+            "no_banner": "no_banner",  # 404 - No banner
+            "global_search": "global_search",  # Global search
+            "not_found": "not_found",  # Not found (module)
+            "filter_select": "filter_select",  # Select categories (filters)
         }
 
-        # State banners - placeholders for now
+        # State banners
         self.state_banners = {
             "no_banner": "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/refs/heads/main/Limoka%20-%20No%20banner.png",
             "global_search": "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/main/Limoka%20-%20Global%20Search.png",
@@ -419,7 +437,10 @@ class Limoka(loader.Module):
         except Exception:
             pass
         self._service_bot_id = (await self.client.get_entity(self._bot_username)).id
-        await self._update_index()
+
+        loop = asyncio.get_running_loop()
+        self.ix_task = loop.run_in_executor(None, lambda: asyncio.run(self._update_index()))
+        
         if self.config["external_install_allowed"]:
             try:
                 message = await self.client.get_messages(self._bot_username, limit=1)
@@ -454,33 +475,47 @@ class Limoka(loader.Module):
         await self._update_index()
 
     async def _update_index(self):
-        writer = self.ix.writer()
-        modules_to_index = self._filter_newbies(self.modules)
-        for module_path, module_data in modules_to_index.items():
-            writer.add_document(
-                title=module_data["name"],
-                path=module_path,
-                content=module_data["name"]
-                + " "
-                + (
-                    module_data.get("description")
-                    or ""
+        try:
+            writer = self.ix.writer()
+            modules_to_index = self._filter_newbies(self.modules)
+            for module_path, module_data in modules_to_index.items():
+                writer.add_document(
+                    title=module_data["name"],
+                    path=module_path,
+                    content=module_data["name"]
                     + " "
                     + (
-                        (module_data.get("meta").get("developer") or "")
-                        if module_data.get("meta")
-                        else ""
+                        module_data.get("description")
+                        or ""
+                        + " "
+                        + (
+                            (module_data.get("meta").get("developer") or "")
+                            if module_data.get("meta")
+                            else ""
+                        )
+                    ),
+                )
+                for func in module_data.get("commands", []):
+                    for command, description in func.items():
+                        writer.add_document(
+                            title=module_data["name"],
+                            path=module_path,
+                            content=f"{command} {description}",
+                        )
+            writer.commit()
+        except LockError:
+            folder = os.path.join(BASE_DIR, "limoka_search")
+
+            if os.path.commonpath([folder, BASE_DIR]) == BASE_DIR and os.path.exists(folder):
+                shutil.rmtree(folder)
+                await self._update_index()
+            else:
+                logger.error(
+                    (
+                        f"Skipping unsafe rmtree for {folder}. Please, report this to developer. ",
+                        f"Debug info: folder={folder}, base_dir={BASE_DIR}, common_path={os.path.commonpath([folder, BASE_DIR])}, exists={os.path.exists(folder)}",
                     )
-                ),
-            )
-            for func in module_data.get("commands", []):
-                for command, description in func.items():
-                    writer.add_document(
-                        title=module_data["name"],
-                        path=module_path,
-                        content=f"{command} {description}",
-                    )
-        writer.commit()
+                )
 
     async def _validate_url(self, url: str) -> Optional[str]:
         if not url or url in self._invalid_banners:
@@ -509,7 +544,6 @@ class Limoka(loader.Module):
         for key in keys:
             parts = key.split(".")
 
-            # проходим все префиксы
             for i in range(1, len(parts)):
                 prefix = ".".join(parts[:i])
                 suffix = ".".join(parts[i:])
@@ -1329,6 +1363,11 @@ class Limoka(loader.Module):
     async def limokacmd(self, message: Message):
         """[query / nothing] - Search modules"""
         args = utils.get_args_raw(message)
+        lock_path = os.path.join(BASE_DIR, "limoka_search", "index.lock")
+
+        if os.path.exists(lock_path):
+            await utils.answer(message, self.strings["indexing_in_progress"])
+            return
         if not args:
             markup = [
                 [
