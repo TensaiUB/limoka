@@ -34,7 +34,7 @@ def is_loader_tds(deco: ast.AST) -> bool:
         isinstance(deco, ast.Attribute)
         and isinstance(deco.value, ast.Name)
         and deco.value.id == "loader"
-        and deco.attr == "tds"
+        and deco.attr in {"tds", "translatable_docstring"}
     )
 
 def extract_string_value(node: ast.AST) -> Optional[str]:
