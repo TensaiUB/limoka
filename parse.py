@@ -10,8 +10,10 @@ logger = logging.getLogger(__name__)
 def safe_unparse(node: ast.AST) -> str:
     try:
         return ast.unparse(node)
-    except AttributeError:
-        return getattr(node, 'id', str(type(node).__name__))
+    except Exception:
+        if hasattr(node, "id"):
+            return str(node.id)
+        return str(node)
 
 def load_blacklist(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -27,17 +29,38 @@ def load_blacklist(file_path):
 
     return blacklisted_modules
 
+def is_loader_tds(deco: ast.AST) -> bool:
+    return (
+        isinstance(deco, ast.Attribute)
+        and isinstance(deco.value, ast.Name)
+        and deco.value.id == "loader"
+        and deco.attr == "tds"
+    )
+
 def extract_string_value(node: ast.AST) -> Optional[str]:
     try:
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
             return node.value
+
         if isinstance(node, ast.Str):
             return node.s
+
+        if isinstance(node, ast.JoinedStr):
+            parts = []
+            for v in node.values:
+                if isinstance(v, ast.Constant) and isinstance(v.value, str):
+                    parts.append(v.value)
+                elif isinstance(v, ast.FormattedValue):
+                    parts.append("{" + safe_unparse(v.value) + "}")
+            return "".join(parts)
+
         if isinstance(node, ast.Name):
             return node.id
+
         if isinstance(node, ast.Attribute):
             return f"{safe_unparse(node.value)}.{node.attr}"
-        return str(node)
+
+        return None
     except Exception:
         return None
 
@@ -111,7 +134,7 @@ def get_module_info(module_path: str) -> Optional[Dict[str, Any]]:
 
         is_module_class = (
             "Mod" in node.name or
-            any(isinstance(d, ast.Attribute) and safe_unparse(d).startswith("loader.tds") for d in node.decorator_list) or
+            any(is_loader_tds(d) for d in node.decorator_list) or
             any(isinstance(d, ast.Name) and d.id == "loader" for d in node.decorator_list)
         )
 
