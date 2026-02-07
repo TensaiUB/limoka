@@ -38601,7 +38601,7 @@
           "sgamerps": "- Start the game «Rock, Paper, Scissors» | (RU) - Начать игру «Камень, ножницы, бумага» | (UZ) - «Tosh, qog'oz, qaychi» o'yinining boshlanishi | (DE) - Beginn des Spiels «Stein, Papier, Schere» | (ES) - El comienzo del juego «Piedra, papel o tijera»"
         },
         {
-          "cleargames": "- Complete all running games. | (RU) <ast.JoinedStr object at 0x7fd34fbb6400> | (UZ) - Barcha faol o'yinlarni tugatish. | (DE) - Alle aktiven Spiele beenden. | (ES) - Completar todos los juegos en curso."
+          "cleargames": "- Complete all running games. | (RU) - Завершить все активные игры. | (UZ) - Barcha faol o'yinlarni tugatish. | (DE) - Alle aktiven Spiele beenden. | (ES) - Completar todos los juegos en curso."
         }
       ],
       "new_commands": [
@@ -38627,7 +38627,7 @@
           "original_name": "cleargames",
           "description": {
             "default": "- Complete all running games.",
-            "ru": "<ast.JoinedStr object at 0x7fd34fbb6400>",
+            "ru": "- Завершить все активные игры.",
             "uz": "- Barcha faol o'yinlarni tugatish.",
             "de": "- Alle aktiven Spiele beenden.",
             "es": "- Completar todos los juegos en curso."
@@ -81809,6 +81809,6 @@
   },
   "meta": {
     "total_modules": 1017,
-    "generated_at": "2026-02-07T01:23:38.497674"
+    "generated_at": "2026-02-07T07:41:02.777186"
   }
 }
