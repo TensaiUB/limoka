@@ -11314,6 +11314,52 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "ZetGoHack/nullmod/Gradientor.py": {
+      "name": "Gradientor",
+      "description": "",
+      "cls_doc": {
+        "default": "A module to create your profile picture with a background from your profile",
+        "ru": "Модуль для создания вашей аватарки на фоне из вашего профиля"
+      },
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@ZetGo"
+      },
+      "commands": [
+        {
+          "makepp": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient | (RU) [фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "makepp",
+          "original_name": "makepp",
+          "description": {
+            "default": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient",
+            "ru": "[фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Gradientor",
+        "_cls_doc": "A module to create your profile picture with a background from your profile",
+        "gradient_creating": "<tg-emoji emoji-id=5886667040432853038>🔁</tg-emoji> Creating gradient...",
+        "gradient_created": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Gradient created!",
+        "gradient_creating_ru": "<tg-emoji emoji-id=5886667040432853038>🔁</tg-emoji> Создание градиента...",
+        "gradient_created_ru": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Градиент создан!"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "shadowhikka/sh.modules/RandomMemes.py": {
       "name": "RandomMemesMod",
       "description": "RandomMemes",
@@ -81808,7 +81854,7 @@
     }
   },
   "meta": {
-    "total_modules": 1017,
-    "generated_at": "2026-02-07T07:41:02.777186"
+    "total_modules": 1018,
+    "generated_at": "2026-02-07T07:57:13.157784"
   }
 }
