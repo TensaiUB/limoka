@@ -11324,11 +11324,11 @@
       "meta": {
         "pic": null,
         "banner": null,
-        "developer": "@ZetGo"
+        "developer": "@nullmod"
       },
       "commands": [
         {
-          "makepp": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient | (RU) [фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент"
+          "makepp": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient\n\n--light - use light theme | (RU) [фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент\n--light - использовать светлую тему"
         }
       ],
       "new_commands": [
@@ -11336,8 +11336,8 @@
           "name": "makepp",
           "original_name": "makepp",
           "description": {
-            "default": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient",
-            "ru": "[фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент"
+            "default": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient\n\n--light - use light theme",
+            "ru": "[фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент\n--light - использовать светлую тему"
           },
           "cmd_names": {},
           "aliases": [],
@@ -81855,6 +81855,6 @@
   },
   "meta": {
     "total_modules": 1018,
-    "generated_at": "2026-02-07T07:57:13.157784"
+    "generated_at": "2026-02-08T01:59:16.074956"
   }
 }
