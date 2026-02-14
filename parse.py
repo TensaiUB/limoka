@@ -2,7 +2,8 @@ import ast
 import json
 import os
 import logging
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
+from urllib.parse import urlparse
 
 logging.basicConfig(level=logging.WARNING, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -15,6 +16,7 @@ def safe_unparse(node: ast.AST) -> str:
             return str(node.id)
         return str(node)
 
+
 def load_blacklist(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -22,12 +24,19 @@ def load_blacklist(file_path):
         blacklisted_modules = {}
 
         for i in repositories:
-            path = i.get("path", "")
+            url = i.get("url", "")
             blacklist = i.get("blacklist", [])
-            if path and blacklist:
-                blacklisted_modules[path] = blacklist
+
+            if url and blacklist:
+                parsed = urlparse(url)
+                parts = parsed.path.strip("/").split("/")
+
+                if len(parts) >= 2:
+                    repo_key = f"{parts[-2]}/{parts[-1]}"
+                    blacklisted_modules[repo_key] = blacklist
 
     return blacklisted_modules
+
 
 def is_loader_tds(deco: ast.AST) -> bool:
     return (
@@ -150,7 +159,6 @@ def get_module_info(module_path: str) -> Optional[Dict[str, Any]]:
             "new_commands": [],
             "inline_handlers": [],
             "strings": {},
-            "has_on_load": False,
             "has_on_load": False,
             "has_on_unload": False,
             "class_cmd_names": {},
@@ -348,8 +356,17 @@ def main():
     for root, dirs, files in os.walk(base_dir):
         dirs[:] = [d for d in dirs if d not in ("venv", ".venv", "env", ".env", ".git")]
 
+        rel_root = os.path.relpath(root, base_dir).replace("\\", "/")
+        parts = rel_root.split("/")
+
+        repo_key = f"{parts[0]}/{parts[1]}" if len(parts) >= 2 else None
+
         for file in files:
-            if file.endswith(".py") and not file.startswith("_") and file not in blacklisted_modules.get(os.path.relpath(root, base_dir), []):
+            if (
+                file.endswith(".py")
+                and not file.startswith("_")
+                and file not in blacklisted_modules.get(repo_key, [])
+            ):
                 path = os.path.join(root, file)
                 try:
                     data = get_module_info(path)
