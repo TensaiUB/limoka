@@ -85,10 +85,9 @@ def get_file_diff(file_path, base_commit):
 def is_module_file(file_path):
     """Check if file is a Python module in a modules directory"""
     # Check if it's a .py file and in a modules-like directory
-    return file_path.endswith('.py') and any(
-        part in file_path.lower() for part in [
-            'modules', 'mods', 'ftg', 'hikka'
-        ]
+    dir_depth = len(Path(file_path).parts)
+    return file_path.endswith('.py') and (
+        dir_depth := len(Path(file_path).parts) >= 2
     )
 
 def extract_module_name(file_path):
@@ -135,6 +134,7 @@ async def main():
                 diff_url = f"https://github.com/MuRuLOSE/limoka/compare/{old_hash}...{new_hash}.diff"
                 message = (
                     f"🪼 <b>Module <code>{module_name}</code> changes approved</b>\n\n"
+                    # f"🪼 <b>Module <code>{module_name}</code> by <code>ueban123</code> changes approved</b>\n\n"
                     f"<b><a href=\"{github_url}\">File URL</a></b> | "
                     f"<b><a href=\"{diff_url}\">Diff URL</a></b>"
                 )
