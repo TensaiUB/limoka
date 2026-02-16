@@ -37068,7 +37068,10 @@
       },
       "commands": [
         {
-          "makepp": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient\n\n--light - use light theme | (RU) [фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент\n--light - использовать светлую тему"
+          "makepp": "[photo/reply] - create a profile picture with a gradient from profile color\n--update-cache - update profile cache if you just changed profile background\n--linear - use linear gradient\n--light - use light theme\n--ios - create a profile picture for iOS clients | (RU) [фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент\n--light - использовать светлую тему\n--ios - создать аватарку для iOS-клиентов"
+        },
+        {
+          "nftbg": "[gift link/slug] - create a profile picture with a gradient from nft gift background | (RU) [gift link/slug] - создать аватарку с градиентом из фона nft-подарка"
         }
       ],
       "new_commands": [
@@ -37076,8 +37079,22 @@
           "name": "makepp",
           "original_name": "makepp",
           "description": {
-            "default": "[photo/reply] - create a profile picture with a gradient from profile color\n\n--update-cache - update profile cache if you just changed profile background\n\n--linear - use linear gradient\n\n--light - use light theme",
-            "ru": "[фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент\n--light - использовать светлую тему"
+            "default": "[photo/reply] - create a profile picture with a gradient from profile color\n--update-cache - update profile cache if you just changed profile background\n--linear - use linear gradient\n--light - use light theme\n--ios - create a profile picture for iOS clients",
+            "ru": "[фотография/reply] - создать аватарку с градиентом из цвета профиля\n--update-cache - обновить кеш профиля, если вы только что сменили фон профиля\n--linear - использовать линейный градиент\n--light - использовать светлую тему\n--ios - создать аватарку для iOS-клиентов"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "nftbg",
+          "original_name": "nftbg",
+          "description": {
+            "default": "[gift link/slug] - create a profile picture with a gradient from nft gift background",
+            "ru": "[gift link/slug] - создать аватарку с градиентом из фона nft-подарка"
           },
           "cmd_names": {},
           "aliases": [],
@@ -37093,8 +37110,14 @@
         "_cls_doc": "A module to create your profile picture with a background from your profile",
         "gradient_creating": "<tg-emoji emoji-id=5886667040432853038>🔁</tg-emoji> Creating gradient...",
         "gradient_created": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Gradient created!",
+        "nft_done": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Gradient created from <a href=\"https://t.me/nft/{}\">gift</a> background!",
+        "noargs": "<tg-emoji emoji-id=5778527486270770928>❌</tg-emoji> No arguments provided!",
+        "nft_error": "<tg-emoji emoji-id=5778527486270770928>❌</tg-emoji> Failed to get gift info.Make sure the link/slug is correct",
         "gradient_creating_ru": "<tg-emoji emoji-id=5886667040432853038>🔁</tg-emoji> Создание градиента...",
-        "gradient_created_ru": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Градиент создан!"
+        "gradient_created_ru": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Градиент создан!",
+        "nft_done_ru": "<tg-emoji emoji-id=5818804345247894731>✅</tg-emoji> Градиент создан из фона <a href=\"https://t.me/nft/{}\">подарка</a>!",
+        "noargs_ru": "<tg-emoji emoji-id=5778527486270770928>❌</tg-emoji> Не указаны аргументы!",
+        "nft_error_ru": "<tg-emoji emoji-id=5778527486270770928>❌</tg-emoji> Не удалось получить информацию о подарке.Убедитесь, что ссылка/slug правильные"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -81995,6 +82018,6 @@
   },
   "meta": {
     "total_modules": 1019,
-    "generated_at": "2026-02-14T06:58:26.889406"
+    "generated_at": "2026-02-16T01:27:55.913286"
   }
 }
