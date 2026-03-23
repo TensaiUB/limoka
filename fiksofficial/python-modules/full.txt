@@ -24,3 +24,4 @@ deviceinfo
 mpi
 aigenuser
 github
+stream
