@@ -52266,13 +52266,7 @@
         "_doc_text_ru": "Текст, который будет написан рядом с файлом",
         "_doc_username_ru": "Ваш username с last.fm",
         "nick_error_ru": "<emoji document_id=5465665476971471368>❌</emoji> <b>Укажите ваш никнейм с last.fm</b>",
-        "uploading_ru": "<emoji document_id=5841359499146825803>🕔</emoji> <i>Загрузка баннера...</i>",
-        "name_jp": "LastFm",
-        "no_track_jp": "<emoji document_id=5465665476971471368>❌</emoji> <b>現在再生中のトラックはありません</b>",
-        "_doc_text_jp": "ファイルの横に表示されるテキスト",
-        "_doc_username_jp": "Last.fmのユーザー名",
-        "nick_error_jp": "<emoji document_id=5465665476971471368>❌</emoji> <b>Last.fmのニックネームを入力してください</b>",
-        "uploading_jp": "<emoji document_id=5841359499146825803>🕔</emoji> <i>バナーをアップロード中...</i>"
+        "uploading_ru": "<emoji document_id=5841359499146825803>🕔</emoji> <i>Загрузка баннера...</i>"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -62643,6 +62637,148 @@
         "org_line_ru": "• <a href=\"{url}\">{login}</a> — {desc}\n",
         "contrib_header_ru": "<b>График контрибуций (последний год)</b> <a href=\"https://github.com/{username}\">{username}</a>\n",
         "contrib_footer_ru": "\n⬛ = 0, 🟩 = 1+ контрибуций"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "fiksofficial/python-modules/stream.py": {
+      "name": "StreamMod",
+      "description": "📡 RTMP media streaming",
+      "cls_doc": {
+        "ru": "📡 RTMP стриминг медиафайлов"
+      },
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": null
+      },
+      "commands": [
+        {
+          "stream": "[reply to media] — start stream or add to queue | (RU) [ответ на медиа] – запустить трансляцию"
+        },
+        {
+          "streamctl": "– open stream control panel | (RU) – панель управления трансляцией"
+        },
+        {
+          "streamstop": "– stop stream and clear queue | (RU) – остановить трансляцию и очистить очередь"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "stream",
+          "original_name": "stream",
+          "description": {
+            "default": "[reply to media] — start stream or add to queue",
+            "ru": "[ответ на медиа] – запустить трансляцию"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "streamctl",
+          "original_name": "streamctl",
+          "description": {
+            "default": "– open stream control panel",
+            "ru": "– панель управления трансляцией"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "streamstop",
+          "original_name": "streamstop",
+          "description": {
+            "default": "– stop stream and clear queue",
+            "ru": "– остановить трансляцию и очистить очередь"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Stream",
+        "status_active": "▶️ <b>Stream is live</b>\n\n{icon} <code>{file}</code>\n⏱ Time: <b>{elapsed}</b>\n🔢 PID: <code>{pid}</code>\n📡 <code>{rtmp}</code>\n🎥 <b>{vbr}</b> | <b>{fps}fps</b> | <b>{preset}</b>\n🔊 <b>{abr}</b>\n📋 Queue: <b>{queue}</b>",
+        "status_idle": "⏸ <b>Stream is not active</b>",
+        "status_queue": "\n📋 Queue: <b>{n}</b>",
+        "stopped": "⏹ <b>Stream stopped.</b>",
+        "no_rtmp": "❌ <b>RTMP not configured!</b>\nTap a button to set it up.",
+        "downloading": "⏳ Downloading…",
+        "dl_failed": "❌ Failed to download file.",
+        "queued": "📋 Added to queue ({n})\n{icon} <code>{file}</code>",
+        "not_running": "Not running",
+        "queue_empty": "Queue is empty",
+        "queue_header": "📋 Queue:\n",
+        "settings_title": "⚙️ <b>Stream settings</b>",
+        "btn_stop": "⏹ Stop",
+        "btn_queue": "📋 Queue",
+        "btn_refresh": "🔄 Refresh",
+        "btn_settings": "⚙️ Settings",
+        "btn_status": "📊 Status",
+        "btn_back": "🔙 Back",
+        "btn_preset": "🎞 Preset: {v}",
+        "btn_tune": "🎭 Tune: {v}",
+        "btn_vbr": "🎥 Video: {v}",
+        "btn_abr": "🔊 Audio: {v}",
+        "btn_fps": "📐 FPS: {v}",
+        "btn_res": "🖥 Res: {v}",
+        "btn_threads": "🧵 Threads: {v}",
+        "btn_rtmps": "📡 RTMP URL",
+        "btn_key": "🔑 Stream key",
+        "btn_set_rtmps": "📡 Set RTMP URL",
+        "btn_set_key": "🔑 Set stream key",
+        "ph_vbr": "Video bitrate, e.g. 2000k",
+        "ph_abr": "Audio bitrate, e.g. 128k",
+        "ph_threads": "Thread count (0 = auto)",
+        "ph_rtmps": "rtmp://a.rtmp.youtube.com/live2",
+        "ph_key": "Stream key...",
+        "status_active_ru": "▶️ <b>Трансляция идёт</b>\n\n{icon} <code>{file}</code>\n⏱ Время: <b>{elapsed}</b>\n🔢 PID: <code>{pid}</code>\n📡 <code>{rtmp}</code>\n🎥 <b>{vbr}</b> | <b>{fps}fps</b> | <b>{preset}</b>\n🔊 <b>{abr}</b>\n📋 В очереди: <b>{queue}</b>",
+        "status_idle_ru": "⏸ <b>Трансляция не активна</b>",
+        "status_queue_ru": "\n📋 В очереди: <b>{n}</b>",
+        "stopped_ru": "⏹ <b>Трансляция остановлена.</b>",
+        "no_rtmp_ru": "❌ <b>RTMP не настроен!</b>\nНажми кнопку чтобы задать прямо сейчас.",
+        "downloading_ru": "⏳ Скачиваю…",
+        "dl_failed_ru": "❌ Не удалось скачать файл.",
+        "queued_ru": "📋 Добавлено в очередь ({n} шт.)\n{icon} <code>{file}</code>",
+        "not_running_ru": "Не запущено",
+        "queue_empty_ru": "Очередь пуста",
+        "queue_header_ru": "📋 Очередь:\n",
+        "settings_title_ru": "⚙️ <b>Настройки трансляции</b>",
+        "btn_stop_ru": "⏹ Стоп",
+        "btn_queue_ru": "📋 Очередь",
+        "btn_refresh_ru": "🔄 Обновить",
+        "btn_settings_ru": "⚙️ Настройки",
+        "btn_status_ru": "📊 Статус",
+        "btn_back_ru": "🔙 Назад",
+        "btn_preset_ru": "🎞 Пресет: {v}",
+        "btn_tune_ru": "🎭 Tune: {v}",
+        "btn_vbr_ru": "🎥 Видео: {v}",
+        "btn_abr_ru": "🔊 Аудио: {v}",
+        "btn_fps_ru": "📐 FPS: {v}",
+        "btn_res_ru": "🖥 Разр: {v}",
+        "btn_threads_ru": "🧵 Треды: {v}",
+        "btn_rtmps_ru": "📡 RTMP URL",
+        "btn_key_ru": "🔑 Ключ",
+        "btn_set_rtmps_ru": "📡 Задать RTMP URL",
+        "btn_set_key_ru": "🔑 Задать ключ",
+        "ph_vbr_ru": "Битрейт видео, напр. 2000k",
+        "ph_abr_ru": "Битрейт аудио, напр. 128k",
+        "ph_threads_ru": "Потоков (0 = авто)",
+        "ph_rtmps_ru": "rtmp://a.rtmp.youtube.com/live2",
+        "ph_key_ru": "Ключ трансляции..."
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -82294,7 +82430,7 @@
     }
   },
   "meta": {
-    "total_modules": 1021,
-    "generated_at": "2026-03-11T01:22:17.528364"
+    "total_modules": 1022,
+    "generated_at": "2026-03-23T01:31:16.986395"
   }
 }
