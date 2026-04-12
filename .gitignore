@@ -176,3 +176,7 @@ cython_debug/
 # Limoka specific ignores
 *.pem
 assets/bot/whitelist.json
+
+# Configurations for VS Code
+.vscode/
+pyrightconfig.json
