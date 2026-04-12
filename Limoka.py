@@ -100,7 +100,7 @@ class Limoka(loader.Module):
             "by query: <b>{query}</b>\n\n"
             "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {description}\n"
             "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Developer:</b> {username}\n\n"
-            "<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n</blockquote>"
+            "<blockquote><b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}</blockquote>\n\n"
         ),
         "found_body": ("{commands}"),
         "found_footer": (
@@ -146,7 +146,7 @@ class Limoka(loader.Module):
         "clear_filters": "🗑 Clear Filters",
         "back_to_results": "🔙 Back to Results",
         "empty_history": "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b></blockquote>",
-        "enter_query": "<blockquote>🔍 Enter new search query:</blockquote>",
+        "enter_query": "🔍 Enter new search query:",
         "global_search": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules</blockquote>",
         "change_query": "🔍 Change query",
         "no_modules": "<blockquote>No modules available.</blockquote>",
@@ -261,7 +261,7 @@ class Limoka(loader.Module):
         "clear_filters": "🗑 Очистить фильтры",
         "back_to_results": "🔙 Вернуться к результатам",
         "empty_history": "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b></blockquote>",
-        "enter_query": "<blockquote>🔍 Введите новый поисковый запрос:</blockquote>",
+        "enter_query": "🔍 Введите новый поисковый запрос:",
         "global_search": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей</blockquote>",
         "change_query": "🔍 Изменить запрос",
         "no_modules": "<blockquote>Модули недоступны.</blockquote>",
@@ -650,7 +650,19 @@ class Limoka(loader.Module):
                 tags_list = self.repositories.get(x, {}).get("tags", [])
                 break
         tags_text = ", ".join(self.strings["tags"].get(tag, tag) for tag in tags_list)
-        header = self.strings["found_header"].format(
+        
+        header_template = self.strings["found_header"]
+        if not tags_text:
+            header_template = header_template.replace(
+                "<blockquote><b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}</blockquote>\n\n",
+                ""
+            )
+            header_template = header_template.replace(
+                "<blockquote><b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}</blockquote>\n\n",
+                ""
+            )
+        
+        header = header_template.format(
             query=html.escape(query),
             name=name,
             description=description,
@@ -760,7 +772,7 @@ class Limoka(loader.Module):
                         ),
                     },
                     {
-                        "text": f"{self.strings["body_page"]} {page_body + 1}/{len(body_pages)}",
+                        "text": f"{self.strings['body_page']} {page_body + 1}/{len(body_pages)}",
                         "callback": self._inline_void,
                     },
                     {
