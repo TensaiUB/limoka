@@ -2,336 +2,34 @@
   "modules": {
     "LimokaLegacy.py": {
       "name": "LimokaLegacy",
-      "description": "Modules are now in one place with easy searching!\nFor Hikka and FTG Userbots. This module has outdated functionality and is kept for legacy reasons only.\nRead https://t.me/limokanews/133 for more information.",
+      "description": "",
       "cls_doc": {},
       "meta": {
         "pic": null,
         "banner": null,
         "developer": "@limokanews"
       },
-      "commands": [
-        {
-          "limoka": "[query / nothing] - Search modules | (RU) [запрос / ничего] — Поиск модулей"
-        },
-        {
-          "lshistory": "[clear] - Show or clear search history | (RU) [clear] — Показать или очистить историю поиска"
-        }
-      ],
-      "new_commands": [
-        {
-          "name": "limoka",
-          "original_name": "limokacmd",
-          "description": {
-            "default": "[query / nothing] - Search modules",
-            "ru": "[запрос / ничего] — Поиск модулей"
-          },
-          "cmd_names": {},
-          "aliases": [],
-          "usage": null,
-          "inline": false,
-          "is_inline_handler": false,
-          "decorators": []
-        },
-        {
-          "name": "lshistory",
-          "original_name": "lshistorycmd",
-          "description": {
-            "default": "[clear] - Show or clear search history",
-            "ru": "[clear] — Показать или очистить историю поиска"
-          },
-          "cmd_names": {},
-          "aliases": [],
-          "usage": null,
-          "inline": false,
-          "is_inline_handler": false,
-          "decorators": []
-        }
-      ],
+      "commands": [],
+      "new_commands": [],
       "inline_handlers": [],
-      "strings": {
-        "name": "Limoka Legacy",
-        "wait": "Just wait\n<emoji document_id=5404630946563515782>🔍</emoji> A search is underway among {count} modules for the query: <code>{query}</code>\n<i>{fact}</i>",
-        "found_header": "<emoji document_id=5413334818047940135>🔍</emoji> Found module <b>{name}</b> by query: <b>{query}</b>\n\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {description}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Developer:</b> {username}\n\n<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n",
-        "found_body": "{commands}",
-        "found_footer": "",
-        "caption_short": "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {safe_desc}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Dev:</b> {dev_username}",
-        "command_template": "{emoji} <code>{prefix}{command}</code> — {description}\n",
-        "inline_handler_template": "{inline_bot} {command} — {description}\n",
-        "emojis": {
-          "1": "<emoji document_id=5416037945909987712>1️⃣</emoji>",
-          "2": "<emoji document_id=5413855071731470617>2️⃣</emoji>",
-          "3": "<emoji document_id=5416068826724850291>3️⃣</emoji>",
-          "4": "<emoji document_id=5415843998071803071>4️⃣</emoji>",
-          "5": "<emoji document_id=5415684843763686989>5️⃣</emoji>",
-          "6": "<emoji document_id=5415975458430796879>6️⃣</emoji>",
-          "7": "<emoji document_id=5415769763857060166>7️⃣</emoji>",
-          "8": "<emoji document_id=5416006506749383505>8️⃣</emoji>",
-          "9": "<emoji document_id=5415963015910544694>9️⃣</emoji>"
-        },
-        "404": "<emoji document_id=5210952531676504517>❌</emoji> <b>Not found by query: <i>{query}</i></b>",
-        "noargs": "<emoji document_id=5210952531676504517>❌</emoji> <b>No args</b>",
-        "?": "<emoji document_id=5951895176908640647>🔎</emoji> Request too short / not found",
-        "no_info": "No information",
-        "facts": [
-          "<emoji document_id=5472193350520021357>🛡</emoji> The limoka catalog is carefully moderated!",
-          "<emoji document_id=5940434198413184876>🚀</emoji> Limoka performance allows you to search for modules quickly!"
-        ],
-        "history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history:</b>\n{history}",
-        "empty_history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b>",
-        "enter_query": "🔍 Enter new search query:",
-        "global_search": "<emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules",
-        "change_query": "🔍 Change query",
-        "back": "🔙 Back",
-        "global_button": "🌍 Results",
-        "first_page": "This is the first page!",
-        "last_page": "This is the last page!",
-        "display_error": "Error displaying module. Please try again.",
-        "error_occurred": "An error occurred. Please try again.",
-        "start_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nEnter your query to search for modules:",
-        "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b>",
-        "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history",
-        "close": "❌ Close",
-        "indexing_in_progress": "⚠️ Database is busy, try again later. If issue persists, try removing limoka_index in the userbot's root folder. If error persists again, report to developers",
-        "install_btn": "🛠 Install",
-        "source_btn": "📦 Source",
-        "installed": "✅ Installed successfully!",
-        "install_failed": "❌ Installation failed!",
-        "tags": {
-          "newbie": "Newbie",
-          "herokutrusted": "Heroku Trusted",
-          "hikkatrusted": "Hikka Trusted",
-          "nonactive": "Non-active repository",
-          "nonlongermaintained": "Abandoned repository"
-        },
-        "name_ru": "Limoka",
-        "wait_ru": "Подождите\n<emoji document_id=5404630946563515782>🔍</emoji> Идёт поиск среди {count} модулей по запросу: <code>{query}</code>\n<i>{fact}</i>",
-        "found_header_ru": "<emoji document_id=5413334818047940135>🔍</emoji> Найден модуль <b>{name}</b> по запросу: <b>{query}</b>\n\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {description}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {username}\n\n<b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}\n\n",
-        "found_body_ru": "{commands}",
-        "found_footer_ru": "",
-        "caption_short_ru": "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {safe_desc}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {dev_username}",
-        "command_template_ru": "{emoji} <code>{prefix}{command}</code> — {description}\n",
-        "inline_handler_template_ru": "{inline_bot} {command} — {description}\n",
-        "404_ru": "<emoji document_id=5210952531676504517>❌</emoji> <b>Не найдено по запросу: <i>{query}</i></b>",
-        "noargs_ru": "<emoji document_id=5210952531676504517>❌</emoji> <b>Нет аргументов</b>",
-        "?_ru": "<emoji document_id=5951895176908640647>🔎</emoji> Запрос слишком короткий / не найден",
-        "no_info_ru": "Нет информации",
-        "history_ru": "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска:</b>\n{history}",
-        "empty_history_ru": "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b>",
-        "enter_query_ru": "🔍 Введите новый поисковый запрос:",
-        "global_search_ru": "<emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей",
-        "change_query_ru": "🔍 Изменить запрос",
-        "back_ru": "🔙 Назад",
-        "global_button_ru": "🌍 Результаты",
-        "first_page_ru": "Это первая страница!",
-        "last_page_ru": "Это последняя страница!",
-        "display_error_ru": "Ошибка отображения модуля. Пожалуйста, попробуйте еще раз.",
-        "error_occurred_ru": "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
-        "start_search_form_ru": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите ваш запрос для поиска модулей:",
-        "history_cleared_ru": "<emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b>",
-        "invalid_history_arg_ru": "<emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю",
-        "close_ru": "❌ Закрыть",
-        "indexing_in_progress_ru": "⚠️ База данных занята, попробуйте снова через несколько секунд. Если ошибка сохраняется, попробуйте удалить limoka_index в корневой папке юзербота. Если ошибка сохраняется снова, сообщите разработчикам",
-        "install_btn_ru": "🛠 Установить",
-        "source_btn_ru": "📦 Исходный код",
-        "installed_ru": "✅ Установлено успешно!",
-        "install_failed_ru": "❌ Установка не удалась!"
-      },
+      "strings": {},
       "has_on_load": false,
       "has_on_unload": false,
       "class_cmd_names": {}
     },
     "Limoka.py": {
       "name": "Limoka",
-      "description": "Modules are now in one place with easy searching!",
-      "cls_doc": {
-        "ru": "Модули теперь в одном месте с простым и удобным поиском!"
-      },
+      "description": "",
+      "cls_doc": {},
       "meta": {
         "pic": null,
         "banner": null,
         "developer": "@limokanews"
       },
-      "commands": [
-        {
-          "limoka": "[query / nothing] - Search modules | (RU) [запрос / ничего] — Поиск модулей"
-        },
-        {
-          "lshistory": "[clear] - Show or clear search history | (RU) [clear] — Показать или очистить историю поиска"
-        }
-      ],
-      "new_commands": [
-        {
-          "name": "limoka",
-          "original_name": "limokacmd",
-          "description": {
-            "default": "[query / nothing] - Search modules",
-            "ru": "[запрос / ничего] — Поиск модулей"
-          },
-          "cmd_names": {},
-          "aliases": [],
-          "usage": null,
-          "inline": false,
-          "is_inline_handler": false,
-          "decorators": []
-        },
-        {
-          "name": "lshistory",
-          "original_name": "lshistorycmd",
-          "description": {
-            "default": "[clear] - Show or clear search history",
-            "ru": "[clear] — Показать или очистить историю поиска"
-          },
-          "cmd_names": {},
-          "aliases": [],
-          "usage": null,
-          "inline": false,
-          "is_inline_handler": false,
-          "decorators": []
-        }
-      ],
+      "commands": [],
+      "new_commands": [],
       "inline_handlers": [],
-      "strings": {
-        "name": "Limoka",
-        "wait": "Just wait\n<emoji document_id=5404630946563515782>🔍</emoji> A search is underway among {count} modules for the query: <code>{query}</code>\n<i>{fact}</i>",
-        "found_header": "<emoji document_id=5413334818047940135>🔍</emoji> Found module <b>{name}</b> by query: <b>{query}</b>\n\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {description}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Developer:</b> {username}\n\n<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n",
-        "found_body": "{commands}",
-        "found_footer": "\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code>",
-        "caption_short": "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {safe_desc}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Dev:</b> {dev_username}\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code>",
-        "command_template": "{emoji} <code>{prefix}{command}</code> — {description}\n",
-        "inline_handler_template": "{inline_bot} {command} — {description}\n",
-        "emojis": {
-          "1": "<emoji document_id=5416037945909987712>1️⃣</emoji>",
-          "2": "<emoji document_id=5413855071731470617>2️⃣</emoji>",
-          "3": "<emoji document_id=5416068826724850291>3️⃣</emoji>",
-          "4": "<emoji document_id=5415843998071803071>4️⃣</emoji>",
-          "5": "<emoji document_id=5415684843763686989>5️⃣</emoji>",
-          "6": "<emoji document_id=5415975458430796879>6️⃣</emoji>",
-          "7": "<emoji document_id=5415769763857060166>7️⃣</emoji>",
-          "8": "<emoji document_id=5416006506749383505>8️⃣</emoji>",
-          "9": "<emoji document_id=5415963015910544694>9️⃣</emoji>"
-        },
-        "404": "<emoji document_id=5210952531676504517>❌</emoji> <b>Not found by query: <i>{query}</i></b>",
-        "noargs": "<emoji document_id=5210952531676504517>❌</emoji> <b>No args</b>",
-        "?": "<emoji document_id=5951895176908640647>🔎</emoji> Request too short / not found",
-        "no_info": "No information",
-        "facts": [
-          "<emoji document_id=5472193350520021357>🛡</emoji> The limoka catalog is carefully moderated!",
-          "<emoji document_id=5940434198413184876>🚀</emoji> Limoka performance allows you to search for modules quickly!"
-        ],
-        "inline404": "Not found",
-        "inline?": "Request too short / not found",
-        "inlinenoargs": "Please, enter query",
-        "history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history:</b>\n{history}",
-        "filter_menu": "Choose filters",
-        "filter_cat": "📑 Filter by Category",
-        "apply_filters": "✅ Apply Filters",
-        "clear_filters": "🗑 Clear Filters",
-        "back_to_results": "🔙 Back to Results",
-        "empty_history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b>",
-        "enter_query": "🔍 Enter new search query:",
-        "global_search": "<emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules",
-        "change_query": "🔍 Change query",
-        "no_modules": "No modules available.",
-        "filter_title": "🏷 Filters",
-        "category_title": "📂 Categories",
-        "selected_categories": "✅ Selected categories: {categories}",
-        "no_categories": "No categories found in the module database",
-        "select_category": "Select categories for query: <code>{query}</code>\n(You can select multiple)",
-        "back": "🔙 Back",
-        "category": "📁 {category}",
-        "no_category": "No category",
-        "global_button": "🌍 Results",
-        "filtered_button": "🏷️ Filtered search",
-        "inline_search": "🔍 Search in Limoka",
-        "inline_no_results": "❌ No modules found",
-        "inline_error": "❌ Search error occurred",
-        "inline_short_query": "❌ Query too short (min 2 chars)",
-        "inline_switch_pm": "💬 Open in chat",
-        "inline_switch_pm_text": "🔍 Results for: {query}",
-        "inline_start_message": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nType module name or keyword",
-        "first_page": "This is the first page!",
-        "last_page": "This is the last page!",
-        "display_error": "Error displaying module. Please try again.",
-        "error_occurred": "An error occurred. Please try again.",
-        "start_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nEnter your query to search for modules:",
-        "global_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Global Search</b>\nEnter your query to search ALL modules without filters:",
-        "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b>",
-        "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history",
-        "close": "❌ Close",
-        "watcher_no_tag": "❌ Invalid message format. No #limoka tag found.",
-        "watcher_invalid_format": "❌ Invalid format. Expected: #limoka:path:signature",
-        "watcher_signature_invalid": "❌ Signature invalid! Installation aborted.",
-        "watcher_loader_missing": "❌ Loader module not found.",
-        "watcher_module_not_found": "❌ Module not found in Limoka database: <code>{path}</code>",
-        "watcher_critical": "❌ Critical error: {error}",
-        "tags": {
-          "herokutrusted": "Heroku Trusted",
-          "hikkatrusted": "Hikka Trusted",
-          "nonactive": "Non-Active Repository",
-          "nonlongermaintained": "No Longer Maintained Repository",
-          "newbie": "Newbie"
-        },
-        "indexing_in_progress": "⚠️ Database is busy, try again later. If issue persists, try removing limoka_index in the userbot's root folder. If error persists again, report to developers",
-        "name_ru": "Limoka",
-        "wait_ru": "Подождите\n<emoji document_id=5404630946563515782>🔍</emoji> Идёт поиск среди {count} модулей по запросу: <code>{query}</code>\n<i>{fact}</i>",
-        "found_header_ru": "<emoji document_id=5413334818047940135>🔍</emoji> Найден модуль <b>{name}</b> по запросу: <b>{query}</b>\n\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {description}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {username}\n\n<b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}\n\n",
-        "found_body_ru": "{commands}",
-        "found_footer_ru": "\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code>",
-        "caption_short_ru": "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {safe_desc}\n<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {dev_username}\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code>",
-        "command_template_ru": "{emoji} <code>{prefix}{command}</code> — {description}\n",
-        "inline_handler_template_ru": "{inline_bot} {command} — {description}\n",
-        "404_ru": "<emoji document_id=5210952531676504517>❌</emoji> <b>Не найдено по запросу: <i>{query}</i></b>",
-        "noargs_ru": "<emoji document_id=5210952531676504517>❌</emoji> <b>Нет аргументов</b>",
-        "?_ru": "<emoji document_id=5951895176908640647>🔎</emoji> Запрос слишком короткий / не найден",
-        "no_info_ru": "Нет информации",
-        "inline404_ru": "Не найдено",
-        "inline?_ru": "Запрос слишком короткий / не найден",
-        "inlinenoargs_ru": "Введите запрос",
-        "history_ru": "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска:</b>\n{history}",
-        "filter_menu_ru": "Выберите фильтры",
-        "filter_cat_ru": "📑 Фильтр по категориям",
-        "apply_filters_ru": "✅ Применить фильтры",
-        "clear_filters_ru": "🗑 Очистить фильтры",
-        "back_to_results_ru": "🔙 Вернуться к результатам",
-        "empty_history_ru": "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b>",
-        "enter_query_ru": "🔍 Введите новый поисковый запрос:",
-        "global_search_ru": "<emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей",
-        "change_query_ru": "🔍 Изменить запрос",
-        "no_modules_ru": "Модули недоступны.",
-        "filter_title_ru": "🏷 Фильтры",
-        "category_title_ru": "📂 Категории",
-        "selected_categories_ru": "✅ Выбранные категории: {categories}",
-        "no_categories_ru": "Категории не найдены в базе модулей",
-        "select_category_ru": "Выберите категории для запроса: <code>{query}</code>\n(Можно выбрать несколько)",
-        "back_ru": "🔙 Назад",
-        "category_ru": "📁 {category}",
-        "no_category_ru": "Без категории",
-        "global_button_ru": "🌍 Результаты",
-        "filtered_button_ru": "🏷️ Поиск с фильтрами",
-        "inline_search_ru": "🔍 Поиск в Limoka",
-        "inline_no_results_ru": "❌ Модули не найдены",
-        "inline_error_ru": "❌ Ошибка поиска",
-        "inline_short_query_ru": "❌ Запрос слишком короткий (мин. 2 символа)",
-        "inline_switch_pm_ru": "💬 Открыть в чате",
-        "inline_switch_pm_text_ru": "🔍 Результаты для: {query}",
-        "inline_start_message_ru": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите название модуля или ключевое слово",
-        "first_page_ru": "Это первая страница!",
-        "last_page_ru": "Это последняя страница!",
-        "display_error_ru": "Ошибка отображения модуля. Пожалуйста, попробуйте еще раз.",
-        "error_occurred_ru": "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
-        "start_search_form_ru": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите ваш запрос для поиска модулей:",
-        "global_search_form_ru": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Глобальный Поиск</b>\nВведите запрос для поиска ВСЕХ модулей без фильтров:",
-        "history_cleared_ru": "<emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b>",
-        "invalid_history_arg_ru": "<emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю",
-        "close_ru": "❌ Закрыть",
-        "watcher_no_tag_ru": "❌ Неверный формат сообщения. Тег #limoka не найден.",
-        "watcher_invalid_format_ru": "❌ Неверный формат. Ожидается: #limoka:path:signature",
-        "watcher_signature_invalid_ru": "❌ Неверная подпись! Установка отменена.",
-        "watcher_loader_missing_ru": "❌ Модуль загрузчика не найден.",
-        "watcher_module_not_found_ru": "❌ Модуль не найден в базе Limoka: <code>{path}</code>",
-        "watcher_critical_ru": "❌ Критическая ошибка: {error}",
-        "indexing_in_progress_ru": "⚠️ База данных занята, попробуйте снова через несколько секунд. Если ошибка сохраняется, попробуйте удалить limoka_index в корневой папке юзербота. Если ошибка сохраняется снова, сообщите разработчикам"
-      },
+      "strings": {},
       "has_on_load": false,
       "has_on_unload": false,
       "class_cmd_names": {}
@@ -3915,31 +3613,6 @@
         "name_ru": "Рандомайзер",
         "too_few_values_ru": "Укажи хотя бы два значения через запятую.",
         "result_ru": "Случайный выбор: {result}"
-      },
-      "has_on_load": false,
-      "has_on_unload": false,
-      "class_cmd_names": {}
-    },
-    "fiksofficial/python-modules/PyInstall.py": {
-      "name": "PyInstallMod",
-      "description": "Provides PyModule modules installation trough buttons",
-      "cls_doc": {
-        "default": "Provides PyModule modules installation trough buttons",
-        "ru": "Позволяет устанавливать модули от PyModule через кнопки"
-      },
-      "meta": {
-        "pic": null,
-        "banner": null,
-        "developer": "@pymodule"
-      },
-      "commands": [],
-      "new_commands": [],
-      "inline_handlers": [],
-      "strings": {
-        "name": "PyInstall",
-        "_cls_doc": "Provides PyModule modules installation trough buttons",
-        "module_downloaded": "Module downloaded!",
-        "module_downloaded_ru": "Модуль загружен!"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -8637,6 +8310,342 @@
       "has_on_unload": true,
       "class_cmd_names": {}
     },
+    "Fixyres/FModules/BSR.py": {
+      "name": "BSR",
+      "description": "Module for finding nearby game rooms in BrawlStars.",
+      "cls_doc": {
+        "ru": "Модуль для поиска ближайших игровых комнат в BrawlStars.",
+        "ua": "Модуль для пошуку найближчих ігрових кімнат у BrawlStars.",
+        "kz": "BrawlStars ойынында жақын маңдағы ойын бөлмелерін табуға арналған модуль.",
+        "uz": "BrawlStars'da eng yaqin o'yin xonalarini topish uchun modul.",
+        "fr": "Module pour trouver des salles de jeu à proximité dans BrawlStars.",
+        "de": "Modul zum Finden von nahegelegenen Spielräumen in BrawlStars.",
+        "jp": "BrawlStarsで近くのゲームルームを検索するためのモジュール。"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/BSR/banner.png",
+        "developer": "@FModules",
+        "fhsdesc": "brawlstars, game, funny"
+      },
+      "commands": [
+        {
+          "bsr": "(room code/link) (previous) (next) - find rooms. | (RU) (код комнаты/ссылка) (предыдущие) (следующие) - найти комнаты. | (UA) (код кімнати/посилання) (попередні) (наступні) - знайти кімнати. | (KZ) (бөлме коды/сілтеме) (алдыңғы) (келесі) - бөлмелерді табу. | (UZ) (xona kodi/havolasi) (oldingi) (keyingi) - xonalarni topish. | (FR) (code/lien) (précédents) (suivants) - trouver des salles. | (DE) (Raumcode/Link) (vorherige) (nächste) - Räume finden. | (JP) (コード/リンク) (前) (次) - ルームを検索します。"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "bsr",
+          "original_name": "bsr",
+          "description": {
+            "default": "(room code/link) (previous) (next) - find rooms.",
+            "ru": "(код комнаты/ссылка) (предыдущие) (следующие) - найти комнаты.",
+            "ua": "(код кімнати/посилання) (попередні) (наступні) - знайти кімнати.",
+            "kz": "(бөлме коды/сілтеме) (алдыңғы) (келесі) - бөлмелерді табу.",
+            "uz": "(xona kodi/havolasi) (oldingi) (keyingi) - xonalarni topish.",
+            "fr": "(code/lien) (précédents) (suivants) - trouver des salles.",
+            "de": "(Raumcode/Link) (vorherige) (nächste) - Räume finden.",
+            "jp": "(コード/リンク) (前) (次) - ルームを検索します。"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "BSR",
+        "invalid_args": "<b>Usage:</b> <code>{prefix}bsr (room code/link) (previous) (next)</code>",
+        "invalid_code": "<b>Invalid room code!</b>",
+        "at_least_one": "<b>At least one argument (previous or next) must be greater than 0!</b>",
+        "prev_block": "<b>Previous:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block": "<b>Next:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target": "Target Room",
+        "invalid_args_ru": "<b>Использование:</b> <code>{prefix}bsr (код комнаты/ссылка) (предыдущие) (следующие)</code>",
+        "invalid_code_ru": "<b>Неверный код комнаты!</b>",
+        "at_least_one_ru": "<b>Хотя бы один аргумент (предыдущие или следующие) должен быть больше 0!</b>",
+        "prev_block_ru": "<b>Предыдущие:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_ru": "<b>Следующие:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_ru": "Целевая комната",
+        "invalid_args_ua": "<b>Використання:</b> <code>{prefix}bsr (код кімнати/посилання) (попередні) (наступні)</code>",
+        "invalid_code_ua": "<b>Невірний код кімнати!</b>",
+        "at_least_one_ua": "<b>Хоча б один аргумент (попередні або наступні) повинен бути більшим за 0!</b>",
+        "prev_block_ua": "<b>Попередні:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_ua": "<b>Наступні:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_ua": "Цільова кімната",
+        "invalid_args_kz": "<b>Қолдану:</b> <code>{prefix}bsr (бөлме коды/сілтеме) (алдыңғы) (келесі)</code>",
+        "invalid_code_kz": "<b>Қате бөлме коды!</b>",
+        "at_least_one_kz": "<b>Кем дегенде бір аргумент (алдыңғы немесе келесі) 0-ден үлкен болуы керек!</b>",
+        "prev_block_kz": "<b>Алдыңғы:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_kz": "<b>Келесі:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_kz": "Мақсатты бөлме",
+        "invalid_args_uz": "<b>Qo'llanilishi:</b> <code>{prefix}bsr (xona kodi/havolasi) (oldingi) (keyingi)</code>",
+        "invalid_code_uz": "<b>Noto'g'ri xona kodi!</b>",
+        "at_least_one_uz": "<b>Kamida bitta argument (oldingi yoki keyingi) 0 dan katta bo'lishi kerak!</b>",
+        "prev_block_uz": "<b>Oldingi:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_uz": "<b>Keyingi:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_uz": "Maqsadli xona",
+        "invalid_args_fr": "<b>Utilisation:</b> <code>{prefix}bsr (code/lien) (précédents) (suivants)</code>",
+        "invalid_code_fr": "<b>Code de salle invalide!</b>",
+        "at_least_one_fr": "<b>Au moins un argument doit être supérieur à 0 !</b>",
+        "prev_block_fr": "<b>Précédents:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_fr": "<b>Suivants:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_fr": "Salle cible",
+        "invalid_args_de": "<b>Verwendung:</b> <code>{prefix}bsr (Raumcode/Link) (vorherige) (nächste)</code>",
+        "invalid_code_de": "<b>Ungültiger Raumcode!</b>",
+        "at_least_one_de": "<b>Mindestens ein argument muss größer als 0 sein!</b>",
+        "prev_block_de": "<b>Vorherige:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_de": "<b>Nächste:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_de": "Zielraum",
+        "invalid_args_jp": "<b>使用法:</b> <code>{prefix}bsr (コード/リンク) (前) (次)</code>",
+        "invalid_code_jp": "<b>無効なルームコード！</b>",
+        "at_least_one_jp": "<b>少なくとも1つの引数は0より大きくなければなりません！</b>",
+        "prev_block_jp": "<b>前:</b>\n<blockquote expandable>{prev_list}</blockquote>",
+        "next_block_jp": "<b>次:</b>\n<blockquote expandable>{next_list}</blockquote>",
+        "btn_target_jp": "ターゲットルーム"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Fixyres/FModules/SCD.py": {
+      "name": "SCD",
+      "description": "Module for downloading songs from SoundCloud.",
+      "cls_doc": {
+        "default": "Module for downloading songs from SoundCloud.",
+        "ru": "Модуль для скачивания песен с SoundCloud.",
+        "ua": "Модуль для завантаження пісень із SoundCloud.",
+        "de": "Modul zum Herunterladen von Liedern von SoundCloud.",
+        "uz": "SoundCloud-dan qo'shiqlarni yuklab olish uchun modul.",
+        "kz": "SoundCloud-тан әндерді жүктеп алуға арналған модуль.",
+        "fr": "Module pour télécharger des chansons depuis SoundCloud.",
+        "jp": "SoundCloudから曲をダウンロードするためのモジュール。"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/SCD/banner.png",
+        "developer": "@FModules"
+      },
+      "commands": [
+        {
+          "scd": "(link) - download a song from SoundCloud. | (RU) (ссылка) - скачать песню с SoundCloud. | (UA) (посилання) - завантажити пісню з SoundCloud. | (DE) (Link) - laden Sie ein Lied von SoundCloud herunter. | (UZ) (havola) - SoundCloud-dan qo'shiq yuklab olish. | (KZ) (сілтеме) - SoundCloud-тан әнді жүктеп алу. | (FR) (lien) - télécharger une chanson depuis SoundCloud. | (JP) (リンク) - SoundCloudから曲をダウンロードします。"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "scd",
+          "original_name": "scd",
+          "description": {
+            "default": "(link) - download a song from SoundCloud.",
+            "ru": "(ссылка) - скачать песню с SoundCloud.",
+            "ua": "(посилання) - завантажити пісню з SoundCloud.",
+            "de": "(Link) - laden Sie ein Lied von SoundCloud herunter.",
+            "uz": "(havola) - SoundCloud-dan qo'shiq yuklab olish.",
+            "kz": "(сілтеме) - SoundCloud-тан әнді жүктеп алу.",
+            "fr": "(lien) - télécharger une chanson depuis SoundCloud.",
+            "jp": "(リンク) - SoundCloudから曲をダウンロードします。"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "SCD",
+        "_cls_doc": "Module for downloading songs from SoundCloud.",
+        "no_args": "✘ <b>You didn't provide a link to the song, example of using the command: <code>{prefix}sc (link)</code></b>",
+        "downloading": "↓ <b>Downloading...</b>",
+        "not_found": "✘ <b>Song not found.</b>",
+        "no_args_ru": "✘ <b>Вы не указали ссылку на песню, пример использования команды: <code>{prefix}sc (ссылка)</code></b>",
+        "downloading_ru": "↓ <b>Скачивание...</b>",
+        "not_found_ru": "✘ <b>Песня не найдена.</b>",
+        "no_args_ua": "✘ <b>Ви не вказали посилання на пісню, приклад використання команди: <code>{prefix}sc (посилання)</code></b>",
+        "downloading_ua": "↓ <b>Завантаження...</b>",
+        "not_found_ua": "✘ <b>Пісню не знайдено.</b>",
+        "no_args_de": "✘ <b>Sie haben keinen Link zum Lied angegeben, Anwendungsbeispiel des Befehls: <code>{prefix}sc (Link)</code></b>",
+        "downloading_de": "↓ <b>Wird heruntergeladen...</b>",
+        "not_found_de": "✘ <b>Lied nicht gefunden.</b>",
+        "no_args_uz": "✘ <b>Siz qo'shiq havolasini kiritmadingiz, buyruqdan foydalanish misoli: <code>{prefix}sc (havola)</code></b>",
+        "downloading_uz": "↓ <b>Yuklab olinmoqda...</b>",
+        "not_found_uz": "✘ <b>Qo'shiq topilmadi.</b>",
+        "no_args_kz": "✘ <b>Сіз әнге сілтеме көрсетпедіңіз, бұйрықты пайдалану мысалы: <code>{prefix}sc (сілтеме)</code></b>",
+        "downloading_kz": "↓ <b>Жүктелуде...</b>",
+        "not_found_kz": "✘ <b>Ән табылмады.</b>",
+        "no_args_fr": "✘ <b>Vous n'avez pas fourni de lien vers la chanson, exemple d'utilisation de la commande: <code>{prefix}sc (lien)</code></b>",
+        "downloading_fr": "↓ <b>Téléchargement...</b>",
+        "not_found_fr": "✘ <b>Chanson non trouvée.</b>",
+        "no_args_jp": "✘ <b>曲へのリンクが指定されていません。コマンドの使用例: <code>{prefix}sc (リンク)</code></b>",
+        "downloading_jp": "↓ <b>ダウンロード中...</b>",
+        "not_found_jp": "✘ <b>曲が見つかりません。</b>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Fixyres/FModules/akinator.py": {
+      "name": "Akinator",
+      "description": "Akinator will guess any character you have in mind, you just need to answer a couple of questions.",
+      "cls_doc": {
+        "ru": "Акинатор угадает любого вами загаданного персонажа.",
+        "ua": "Акінатор вгадає будь-якого персонажа.",
+        "de": "Akinator errät jeden Charakter, den du dir vorstellst.",
+        "fr": "Akinator devinera n'importe quel personnage.",
+        "jp": "アキネーターはあなたが考えているキャラクターを当てます。",
+        "uz": "Akinator siz o'ylagan har qanday qahramonni topadi.",
+        "kz": "Акинатор сіз ойлаған кез келген кейіпкерді табады."
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/akinator/banner.png",
+        "developer": "@FModules",
+        "fhsdesc": "game, funny, guess, question game"
+      },
+      "commands": [
+        {
+          "akinator": "- start the game. | (RU) - начать игру. | (UA) - почати гру. | (DE) - Spiel starten. | (FR) - commencer le jeu. | (JP) - ゲームを開始します。 | (UZ) - o'yinni boshlash. | (KZ) - ойынды бастау."
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "akinator",
+          "original_name": "akinator",
+          "description": {
+            "default": "- start the game.",
+            "ru": "- начать игру.",
+            "ua": "- почати гру.",
+            "de": "- Spiel starten.",
+            "fr": "- commencer le jeu.",
+            "jp": "- ゲームを開始します。",
+            "uz": "- o'yinni boshlash.",
+            "kz": "- ойынды бастау."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Akinator",
+        "lang": "en",
+        "child_mode": "Child mode. If enabled, it will be easier to guess 18+ heroes.",
+        "start": "Start",
+        "text": "<b>Guess any character you have in mind, and click on the Start button.</b>",
+        "yes": "Yes",
+        "no": "No",
+        "idk": "I don't know",
+        "probably": "Probably",
+        "probably_not": "Probably not",
+        "this_is": "<b>This is <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc": "<b>This is <code>{name}</code></b>",
+        "not_right": "Not right",
+        "failed": "<b>Failed to guess the character.</b>",
+        "lang_ru": "ru",
+        "child_mode_ru": "Детский режим. Сложнее отгадать 18+ героев.",
+        "start_ru": "Начать",
+        "text_ru": "<b>Задумайте персонажа, и нажмите начать.</b>",
+        "yes_ru": "Да",
+        "no_ru": "Нет",
+        "idk_ru": "Не знаю",
+        "probably_ru": "Возможно",
+        "probably_not_ru": "Скорее нет",
+        "this_is_ru": "<b>Это <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_ru": "<b>Это <code>{name}</code></b>",
+        "not_right_ru": "Это не он",
+        "failed_ru": "<b>Не удалось угадать персонажа.</b>",
+        "lang_ua": "uk",
+        "child_mode_ua": "Дитячий режим. Складніше відгадати 18+ героїв.",
+        "start_ua": "Почати",
+        "text_ua": "<b>Загадайте персонажа, і натисніть почати.</b>",
+        "yes_ua": "Так",
+        "no_ua": "Ні",
+        "idk_ua": "Не знаю",
+        "probably_ua": "Можливо",
+        "probably_not_ua": "Швидше ні",
+        "this_is_ua": "<b>Це <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_ua": "<b>Це <code>{name}</code></b>",
+        "not_right_ua": "Це не він",
+        "failed_ua": "<b>Не вдалося вгадати персонажа.</b>",
+        "lang_de": "de",
+        "child_mode_de": "Kindermodus. Wenn aktiviert, wird es schwieriger sein, 18+ Helden zu erraten.",
+        "start_de": "Start",
+        "text_de": "<b>Denk dir einen Charakter aus und klicke auf Start.</b>",
+        "yes_de": "Ja",
+        "no_de": "Nein",
+        "idk_de": "Ich weiß nicht",
+        "probably_de": "Wahrscheinlich",
+        "probably_not_de": "Wahrscheinlich nicht",
+        "this_is_de": "<b>Das ist <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_de": "<b>Das ist <code>{name}</code></b>",
+        "not_right_de": "Das ist er nicht",
+        "failed_de": "<b>Charakter konnte nicht erraten werden.</b>",
+        "lang_fr": "fr",
+        "child_mode_fr": "Mode enfant. Héros 18+ plus difficiles à deviner.",
+        "start_fr": "Commencer",
+        "text_fr": "<b>Pensez à un personnage et cliquez sur Commencer.</b>",
+        "yes_fr": "Oui",
+        "no_fr": "Non",
+        "idk_fr": "Je ne sais pas",
+        "probably_fr": "Probablement",
+        "probably_not_fr": "Probablement pas",
+        "this_is_fr": "<b>C'est <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_fr": "<b>C'est <code>{name}</code></b>",
+        "not_right_fr": "Ce n'est pas lui",
+        "failed_fr": "<b>Impossible de deviner.</b>",
+        "lang_jp": "ja",
+        "child_mode_jp": "子供モード。有効にすると、18歳以上のキャラクターを推測するのが難しくなります。",
+        "start_jp": "開始",
+        "text_jp": "<b>キャラクターを思い浮かべて開始。</b>",
+        "yes_jp": "はい",
+        "no_jp": "いいえ",
+        "idk_jp": "わかりません",
+        "probably_jp": "おそらく",
+        "probably_not_jp": "おそらく違う",
+        "this_is_jp": "<b>これは <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_jp": "<b>これは <code>{name}</code></b>",
+        "not_right_jp": "違います",
+        "failed_jp": "<b>推測できませんでした。</b>",
+        "lang_uz": "uz",
+        "child_mode_uz": "Bolalar rejimi. Yoqilgan bo'lsa, 18+ qahramonlarni topish qiyinroq bo'ladi.",
+        "start_uz": "Boshlash",
+        "text_uz": "<b>Qahramonni o'ylang va Boshlash tugmasini bosing.</b>",
+        "yes_uz": "Ha",
+        "no_uz": "Yo'q",
+        "idk_uz": "Bilmayman",
+        "probably_uz": "Ehtimol",
+        "probably_not_uz": "Ehtimol yo'q",
+        "this_is_uz": "<b>Bu <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_uz": "<b>Bu <code>{name}</code></b>",
+        "not_right_uz": "Bu u emas",
+        "failed_uz": "<b>Qahramonni topib bo'lmadi.</b>",
+        "lang_kz": "kk",
+        "child_mode_kz": "Балалар режимі. Қосылған болса, 18+ кейіпкерлерді табу қиынырақ болады.",
+        "start_kz": "Бастау",
+        "text_kz": "<b>Кейіпкерді ойлаңыз және Бастау түймесін басыңыз.</b>",
+        "yes_kz": "Иә",
+        "no_kz": "Жоқ",
+        "idk_kz": "Білмеймін",
+        "probably_kz": "Мүмкін",
+        "probably_not_kz": "Мүмкін емес",
+        "this_is_kz": "<b>Бұл <code>{name}</code>\n<code>{description}</code></b>",
+        "this_is_no_desc_kz": "<b>Бұл <code>{name}</code></b>",
+        "not_right_kz": "Бұл ол емес",
+        "failed_kz": "<b>Кейіпкерді таба алмадық.</b>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "ZetGoHack/nullmod/Gradientor.py": {
       "name": "Gradientor",
       "description": "",
@@ -11781,6 +11790,329 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "SenkoGuardian/SenModules/Gemini.py": {
+      "name": "Gemini",
+      "description": "Модуль для работы с Google Gemini AI. (Поддержка видео/фото/аудио",
+      "cls_doc": {},
+      "meta": {
+        "pic": "https://raw.githubusercontent.com/SenkoGuardian/SenkoGuardian.github.io/main/OfficialSenkoGuardianBanner.png",
+        "banner": "https://raw.githubusercontent.com/SenkoGuardian/SenkoGuardian.github.io/main/OfficialSenkoGuardianBanner.png",
+        "developer": "@SenkoGuardianModules"
+      },
+      "commands": [
+        {
+          "g": "[текст или reply] — спросить у Gemini. Может анализировать ссылки."
+        },
+        {
+          "gimg": "<промпт> [реплай на фото] — Генерация/Редактирование изображений через Gemini."
+        },
+        {
+          "gskey": "[-h] — Сканировать ключи. -h: показать статус из кеша без проверки."
+        },
+        {
+          "gch": "<[id чата]> <кол-во> <вопрос> - Проанализировать историю чата."
+        },
+        {
+          "gprompt": "<текст/-c/ответ на файл> — Установить промпт."
+        },
+        {
+          "gauto": "<on/off/[id]> — Вкл/выкл авто-ответ в чате."
+        },
+        {
+          "gautochats": "— Показать чаты с активным режимом авто-ответа."
+        },
+        {
+          "gclear": "[auto] — очистить память в чате. auto для памяти gauto."
+        },
+        {
+          "gpresets": "<save/load/del/list> — Управление пресетами (профилями)."
+        },
+        {
+          "gmemdel": "[N] — удалить последние N пар сообщений из памяти."
+        },
+        {
+          "gmemchats": "— Показать список чатов с активной памятью (имя и ID)."
+        },
+        {
+          "gmemexport": "[<id/@юз чата>] [auto] [-s] — \n[из id/@юза чата] экспорт. -s в избранное."
+        },
+        {
+          "gmemimport": "[auto] — импорт истории из файла (ответом). auto для gauto."
+        },
+        {
+          "gmemfind": "[слово] — Поиск в памяти текущего чата по ключевому слову или фразе."
+        },
+        {
+          "gmemoff": "— Отключить память в этом чате"
+        },
+        {
+          "gmemon": "— Включить память в этом чате"
+        },
+        {
+          "gmemshow": "[auto] — Показать память чата (до 20 последних запросов). auto для gauto."
+        },
+        {
+          "gmodel": "[model] [-s] — Узнать/сменить модель. -s — список. Авто-проверка совместимости."
+        },
+        {
+          "gres": "[auto] — Очистить ВСЮ память. auto для всей памяти gauto."
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "g",
+          "original_name": "g",
+          "description": {
+            "default": "[текст или reply] — спросить у Gemini. Может анализировать ссылки."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gimg",
+          "original_name": "gimg",
+          "description": {
+            "default": "<промпт> [реплай на фото] — Генерация/Редактирование изображений через Gemini."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gskey",
+          "original_name": "gskey",
+          "description": {
+            "default": "[-h] — Сканировать ключи. -h: показать статус из кеша без проверки."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gch",
+          "original_name": "gch",
+          "description": {
+            "default": "<[id чата]> <кол-во> <вопрос> - Проанализировать историю чата."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gprompt",
+          "original_name": "gprompt",
+          "description": {
+            "default": "<текст/-c/ответ на файл> — Установить промпт."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gauto",
+          "original_name": "gauto",
+          "description": {
+            "default": "<on/off/[id]> — Вкл/выкл авто-ответ в чате."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gautochats",
+          "original_name": "gautochats",
+          "description": {
+            "default": "— Показать чаты с активным режимом авто-ответа."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gclear",
+          "original_name": "gclear",
+          "description": {
+            "default": "[auto] — очистить память в чате. auto для памяти gauto."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gpresets",
+          "original_name": "gpresets",
+          "description": {
+            "default": "<save/load/del/list> — Управление пресетами (профилями)."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemdel",
+          "original_name": "gmemdel",
+          "description": {
+            "default": "[N] — удалить последние N пар сообщений из памяти."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemchats",
+          "original_name": "gmemchats",
+          "description": {
+            "default": "— Показать список чатов с активной памятью (имя и ID)."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemexport",
+          "original_name": "gmemexport",
+          "description": {
+            "default": "[<id/@юз чата>] [auto] [-s] — \n[из id/@юза чата] экспорт. -s в избранное."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemimport",
+          "original_name": "gmemimport",
+          "description": {
+            "default": "[auto] — импорт истории из файла (ответом). auto для gauto."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemfind",
+          "original_name": "gmemfind",
+          "description": {
+            "default": "[слово] — Поиск в памяти текущего чата по ключевому слову или фразе."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemoff",
+          "original_name": "gmemoff",
+          "description": {
+            "default": "— Отключить память в этом чате"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemon",
+          "original_name": "gmemon",
+          "description": {
+            "default": "— Включить память в этом чате"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmemshow",
+          "original_name": "gmemshow",
+          "description": {
+            "default": "[auto] — Показать память чата (до 20 последних запросов). auto для gauto."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gmodel",
+          "original_name": "gmodel",
+          "description": {
+            "default": "[model] [-s] — Узнать/сменить модель. -s — список. Авто-проверка совместимости."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "gres",
+          "original_name": "gres",
+          "description": {
+            "default": "[auto] — Очистить ВСЮ память. auto для всей памяти gauto."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {},
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "SenkoGuardian/SenModules/NekoEditorMod.py": {
       "name": "NekoEditorMod",
       "description": "Neko-редактор сообщений | Владелецы: @SstAngelStar × @ilovesenko ",
@@ -11962,6 +12294,693 @@
       },
       "has_on_load": false,
       "has_on_unload": true,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/timezone.py": {
+      "name": "TimeZoneMod",
+      "description": "Prints current time in selected timezone (UTC+n and tzdata formats supported).",
+      "cls_doc": {
+        "default": "Prints current time in selected timezone (UTC+n and tzdata formats supported)",
+        "ru": "Выводит текущее время в выбранном часовом поясе (поддерживаются форматы UTC+n и tzdata)"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/timezone.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "utc": "(RU) Выводит время по UTC+n | Использование: .utc 4 | (EN) Prints UTC+n time | Usage: .utc 4"
+        },
+        {
+          "tzdata": "(RU) Выводит время по часовому поясу tzdata | Использование: .tzdata Europe/Moscow | (EN) Prints time by tzdata timezone | Usage: .tzdata Europe/Moscow"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "utc",
+          "original_name": "utccmd",
+          "description": {
+            "default": "",
+            "ru": "Выводит время по UTC+n | Использование: .utc 4",
+            "en": "Prints UTC+n time | Usage: .utc 4"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "tzdata",
+          "original_name": "tzdatacmd",
+          "description": {
+            "default": "",
+            "ru": "Выводит время по часовому поясу tzdata | Использование: .tzdata Europe/Moscow",
+            "en": "Prints time by tzdata timezone | Usage: .tzdata Europe/Moscow"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "TimeZone",
+        "invalid_args": "<emoji document_id=5854929766146118183>❌</emoji> There is no arguments or they are invalid",
+        "_cls_doc": "Prints current time in selected timezone (UTC+n and tzdata formats supported)",
+        "time_utc": "<emoji document_id=5276412364458059956>🕓</emoji> Current time by UTC+{}: {}",
+        "time_tzdata": "<emoji document_id=5276412364458059956>🕓</emoji> Current time in {}: {}",
+        "invalid_args_ru": "<emoji document_id=5854929766146118183>❌</emoji> Нет аргументов или они неверны",
+        "tzdata_error_ru": "<emoji document_id=5854929766146118183>❌</emoji> Произошла ошибка при получении времени по tzdata: {}\n\nУбедитесь, что часовой пояс указан верно",
+        "time_utc_ru": "<emoji document_id=5276412364458059956>🕓</emoji> Текущее время по UTC+{}: {}",
+        "time_tzdata_ru": "<emoji document_id=5276412364458059956>🕓</emoji> Текущее время в {}: {}"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/IrisSimpleMod.py": {
+      "name": "IrisSimpleMod",
+      "description": "Module for basic interaction with Iris bot.",
+      "cls_doc": {
+        "ru": "Модуль для базового взаимодействия с Ирисом!"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/IrisSimpleMod.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "bag": "Check bag. | (RU) Проверить мешок | (EN) Check bag"
+        },
+        {
+          "farm": "Farm iris-coins. | (RU) Зафармить ирис-коины | (EN) Farm iris-coins"
+        },
+        {
+          "irisstats": "Display user stats. | (RU) Вывести анкету | (EN) Display user stats"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "bag",
+          "original_name": "bag",
+          "description": {
+            "default": "Check bag.",
+            "ru": "Проверить мешок",
+            "en": "Check bag"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "farm",
+          "original_name": "farm",
+          "description": {
+            "default": "Farm iris-coins.",
+            "ru": "Зафармить ирис-коины",
+            "en": "Farm iris-coins"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "irisstats",
+          "original_name": "irisstats",
+          "description": {
+            "default": "Display user stats.",
+            "ru": "Вывести анкету",
+            "en": "Display user stats"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "IrisSimpleMod",
+        "checking_bag": "<emoji document_id=5188311512791393083>🌎</emoji> Checking bag...",
+        "bag_result": "<emoji document_id=5854762571659218443>✅</emoji> Your bag: <code>{}</code>",
+        "farming": "<emoji document_id=5188311512791393083>🌎</emoji> Farming iris-coins...",
+        "farm_result": "<emoji document_id=5854762571659218443>✅</emoji> Farm result: <code>{}</code>",
+        "getting_stats": "<emoji document_id=5188311512791393083>🌎</emoji> Getting user stats...",
+        "stats_result": "<emoji document_id=5854762571659218443>✅</emoji> User stats: <code>{}</code>",
+        "bot_stats": "<emoji document_id=5188311512791393083>🌎</emoji> Getting bot stats...",
+        "bot_stats_result": "<emoji document_id=5854762571659218443>✅</emoji> Bot stats: <code>{}</code>",
+        "error_no_response": "<emoji document_id=5854929766146118183>❌</emoji> No response from bot. Please try again.",
+        "error_timeout": "<emoji document_id=5854929766146118183>❌</emoji> Request timeout. Please try again.",
+        "error_general": "<emoji document_id=5854929766146118183>❌</emoji> An error occurred: {error}",
+        "checking_bag_ru": "<emoji document_id=5188311512791393083>🌎</emoji> Проверка мешка...",
+        "bag_result_ru": "<emoji document_id=5854762571659218443>✅</emoji> Ваш мешок: <code>{}</code>",
+        "farming_ru": "<emoji document_id=5188311512791393083>🌎</emoji> Фарм ирис-коинов...",
+        "farm_result_ru": "<emoji document_id=5854762571659218443>✅</emoji> Результат фарма: <code>{}</code>",
+        "getting_stats_ru": "<emoji document_id=5188311512791393083>🌎</emoji> Получение статистики пользователя...",
+        "stats_result_ru": "<emoji document_id=5854762571659218443>✅</emoji> Статистика пользователя: <code>{}</code>",
+        "bot_stats_ru": "<emoji document_id=5188311512791393083>🌎</emoji> Получение статистики ботов...",
+        "bot_stats_result_ru": "<emoji document_id=5854762571659218443>✅</emoji> Статистика ботов: <code>{}</code>",
+        "error_no_response_ru": "<emoji document_id=5854929766146118183>❌</emoji> Нет ответа от бота. Попробуйте еще раз.",
+        "error_timeout_ru": "<emoji document_id=5854929766146118183>❌</emoji> Таймаут запроса. Попробуйте еще раз.",
+        "error_general_ru": "<emoji document_id=5854929766146118183>❌</emoji> Произошла ошибка: {error}"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/FolderAutoRead.py": {
+      "name": "FolderAutoReadMod",
+      "description": "Automatically reads chats in selected folders.",
+      "cls_doc": {
+        "default": "Automatically reads chats in selected folders every 60 seconds!",
+        "ru": "Автоматически читает чаты в выбранных папках каждые 60 секунд!"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/FolderAutoRead.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "addfolder": "Adds folder to the tracking list by it's name. Usage: .addfolder FolderName | (R) Добавляет папки в список отслеживания по их названию. Использование: .addfolder НазваниеПапки | (RU) Добавляет папки в список отслеживания по их названию. Использование: .addfolder НазваниеПапки"
+        },
+        {
+          "delfolder": "Deletes folder from the tracking list | (R) Удаляет папку из списка для отслежнивания | (RU) Удаляет папку из списка для отслежнивания"
+        },
+        {
+          "listfolders": "Prints list of tracked folders | (R) Выводит список отслеживаемых папок | (RU) Выводит список отслеживаемых папок"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "addfolder",
+          "original_name": "addfolder",
+          "description": {
+            "default": "Adds folder to the tracking list by it's name. Usage: .addfolder FolderName",
+            "r": "Добавляет папки в список отслеживания по их названию. Использование: .addfolder НазваниеПапки",
+            "ru": "Добавляет папки в список отслеживания по их названию. Использование: .addfolder НазваниеПапки"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "delfolder",
+          "original_name": "delfolder",
+          "description": {
+            "default": "Deletes folder from the tracking list",
+            "r": "Удаляет папку из списка для отслежнивания",
+            "ru": "Удаляет папку из списка для отслежнивания"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "listfolders",
+          "original_name": "listfolders",
+          "description": {
+            "default": "Prints list of tracked folders",
+            "r": "Выводит список отслеживаемых папок",
+            "ru": "Выводит список отслеживаемых папок"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "FolderAutoRead",
+        "not_exists_or_already_added": "<emoji document_id=5278578973595427038>🚫</emoji> <b>This folder does not exists or it is already added for tracking!</b>",
+        "_cls_doc": "Automatically reads chats in selected folders every 60 seconds!",
+        "_cmd_doc_addfolder": "Adds folder to the tracking list by it's name. Usage: .addfolder FolderName",
+        "_cmd_doc_listfolders": "Prints list of tracked folders",
+        "_cmd_doc_delfolder": "Deletes folder from the tracking list",
+        "wrong_args": "<emoji document_id=5278578973595427038>🚫</emoji> <b>Wrong arguments!</b> Usage: .addfolder/delfolder FolderName\n\n<i>Tip: If you trying to delete the folder from the tracking list, double-check that it really still tracking using .listfolders</i>",
+        "listfolders": "<emoji document_id=5278227821364275264>📁</emoji> <b>List of tracked folders:</b>\n",
+        "delfolder": "<emoji document_id=5276384644739129761>🗑</emoji> <b>Folder is successfully deleted from the tracking list!</b>",
+        "addfolder": "<emoji document_id=5278227821364275264>📁</emoji> <b>Folder is successfully added to the tracking list!</b>",
+        "not_exists_or_already_added_ru": "<emoji document_id=5278578973595427038>🚫</emoji> <b>Такой папки не существует, или она уже добавлена для отслеживания!</b>",
+        "_cmd_doc_ru_addfolder": "Добавляет папки в список отслеживания по их названию. Использование: .addfolder НазваниеПапки",
+        "_cmd_doc_addfolder_ru": "Добавляет папки в список отслеживания по их названию. Использование: .addfolder НазваниеПапки",
+        "_cmd_doc_ru_listfolders": "Выводит список отслеживаемых папок",
+        "_cmd_doc_listfolders_ru": "Выводит список отслеживаемых папок",
+        "_cmd_doc_ru_delfolder": "Удаляет папку из списка для отслежнивания",
+        "_cmd_doc_delfolder_ru": "Удаляет папку из списка для отслежнивания",
+        "wrong_args_ru": "<emoji document_id=5278578973595427038>🚫</emoji> <b>Неверные аргументы!</b> Использование: .addfolder/delfolder НазваниеПапки\n\n<i>Совет: Если вы пытаетесь удалить папку из списка отслеживания, проверьте, что она вообще отслеживается, используя .listfolders</i>",
+        "listfolders_ru": "<emoji document_id=5278227821364275264>📁</emoji> <b>Список отслеживаемых папок:</b>\n",
+        "delfolder_ru": "<emoji document_id=5276384644739129761>🗑</emoji> <b>Папка успешно удалена из листа отслеживания!</b>",
+        "addfolder_ru": "<emoji document_id=5278227821364275264>📁</emoji> <b>Папка успешно добавлена в лист отслеживания!</b>"
+      },
+      "has_on_load": false,
+      "has_on_unload": true,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/face.py": {
+      "name": "FaceMod",
+      "description": "Gives you a random kaomoji.",
+      "cls_doc": {
+        "ru": "Выдает случайное каомодзи (японские эмодзи)"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/face.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "rface": "(RU) Случайное каомодзи | (EN) Random kaomoji"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "rface",
+          "original_name": "rfacecmd",
+          "description": {
+            "default": "",
+            "ru": "Случайное каомодзи",
+            "en": "Random kaomoji"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Face",
+        "loading": "<emoji document_id=5348399448017871250>🔍</emoji> I'm looking for you kaomoji",
+        "random_face": "<emoji document_id=5208878706717636743>🗿</emoji> Here is your random one kaomoji\n<code>{}</code>",
+        "error": "An error has occurred!",
+        "loading_ru": "<emoji document_id=5348399448017871250>🔍</emoji> Ищу вам kaomoji",
+        "random_face_ru": "<emoji document_id=5208878706717636743>🗿</emoji> Вот ваш рандомный kaomoji\n<code>{}</code>",
+        "error_ru": "Произошла ошибка!"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/AniLiberty.py": {
+      "name": "AniLibertyMod",
+      "description": "Ищет и возвращает случайное аниме из базы Aniliberty.",
+      "cls_doc": {
+        "ru": "Ищет и отправляет случайное аниме из базы AniLiberty"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/AniLiberty.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "arandom": "(RU) Возвращает случайный релиз из базы | (EN) Returns a random release from the database"
+        },
+        {
+          "asearchinlinehandler": ""
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "arandom",
+          "original_name": "arandom",
+          "description": {
+            "default": "",
+            "ru": "Возвращает случайный релиз из базы",
+            "en": "Returns a random release from the database"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "asearchinlinehandler",
+          "original_name": "asearch_inline_handler",
+          "description": {
+            "default": ""
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": true,
+          "is_inline_handler": true,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [
+        {
+          "name": "asearchinlinehandler",
+          "description": {
+            "default": ""
+          },
+          "decorators": []
+        }
+      ],
+      "strings": {
+        "name": "AniLiberty",
+        "announce": "<b>The announcement</b>:",
+        "ongoing": "<b>Ongoing</b>:",
+        "type": "<b>Type</b>:",
+        "genres": "<b>Genres</b>:",
+        "favorite": "<b>Favourites &lt;3</b>:",
+        "announce_ru": "<b>Анонс</b>:",
+        "ongoing_ru": "<b>Онгоинг</b>:",
+        "type_ru": "<b>Тип</b>:",
+        "genres_ru": "<b>Жанры</b>:",
+        "favorite_ru": "<b>Избранное &lt;3</b>:"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/WindowsKeys.py": {
+      "name": "WindowsKeysMod",
+      "description": "Windows KMS activation keys.",
+      "cls_doc": {
+        "ru": "KMS ключи активации Windows"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/WindowsKeys.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "winkey": "(RU) Меню ключей Windows | (EN) Windows keys menu"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "winkey",
+          "original_name": "winkey",
+          "description": {
+            "default": "",
+            "ru": "Меню ключей Windows",
+            "en": "Windows keys menu"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "WindowsKeys",
+        "winkey": "<tg-emoji emoji-id=5776375003280838798>✅</tg-emoji> Key: <code>{}</code>\n\n<tg-emoji emoji-id=5879813604068298387>❗️</tg-emoji> For KMS activation only",
+        "error": "<tg-emoji emoji-id=5778527486270770928>❌</tg-emoji> Failed to get key",
+        "select": "<tg-emoji emoji-id=6005570495603282482>🔑</tg-emoji> Select version:",
+        "close": "❌ Close",
+        "back": "← Back",
+        "loading": "<tg-emoji emoji-id=5787344001862471785>✍️</tg-emoji> Loading...",
+        "winkey_ru": "<tg-emoji emoji-id=5776375003280838798>✅</tg-emoji> Ключ: <code>{}</code>\n\n<tg-emoji emoji-id=5879813604068298387>❗️</tg-emoji> Только для KMS активации",
+        "error_ru": "<tg-emoji emoji-id=5778527486270770928>❌</tg-emoji> Ошибка получения",
+        "select_ru": "<tg-emoji emoji-id=6005570495603282482>🔑</tg-emoji> Выберите версию:",
+        "close_ru": "❌ Закрыть",
+        "back_ru": "← Назад",
+        "loading_ru": "<tg-emoji emoji-id=5787344001862471785>✍️</tg-emoji> Загрузка..."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/ytdl.py": {
+      "name": "YTDLMod",
+      "description": "Downloads and sends audio/video from YouTube.",
+      "cls_doc": {
+        "default": "Downloads and sends audio/video from YouTube",
+        "ru": "Скачивает и отправляет аудио/видео с Ютуба"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/ytdl.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "ytdlv": "(EN) Download video | (RU) Скачать видео"
+        },
+        {
+          "ytdla": "(EN) Download audio | (RU) Скачать аудио"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "ytdlv",
+          "original_name": "ytdlvcmd",
+          "description": {
+            "default": "",
+            "en": "Download video",
+            "ru": "Скачать видео"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "ytdla",
+          "original_name": "ytdlacmd",
+          "description": {
+            "default": "",
+            "en": "Download audio",
+            "ru": "Скачать аудио"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "YTDL",
+        "_cls_doc": "Downloads and sends audio/video from YouTube",
+        "invalid_args": "<emoji document_id=5854929766146118183>❌</emoji> There is no arguments or they are invalid",
+        "downloading": "<emoji document_id=5215484787325676090>🕐</emoji> Downloading...",
+        "done": "<emoji document_id=5854762571659218443>✅</emoji> Done!",
+        "cookie_desc": "Cookie account (helps downloading video with strict age rating restricrions)",
+        "deno_err": "<tg-emoji emoji-id=5879813604068298387>❗️</tg-emoji> <b>Error!</b> The <a href=\"http://deno.land/\">Deno</a> JavaScript engine was not install automatically.\nThis is a required dependency for <a href=\"https://github.com/yt-dlp/yt-dlp\">yt-dlp</a> (a library for downloading video/audio) to work correctly.\n\n<b>To continue, you need to install the engine manually, or resolve any issues preventing automatic installation and restart the userbot.</b>",
+        "err": "<tg-emoji emoji-id=5879813604068298387>❗️</tg-emoji> <b>Error!</b>\n\nAdditional info: {}",
+        "invalid_args_ru": "<emoji document_id=5854929766146118183>❌</emoji> Нет аргументов или они неверны",
+        "downloading_ru": "<emoji document_id=5215484787325676090>🕐</emoji> Скачиваю...",
+        "done_ru": "<emoji document_id=5854762571659218443>✅</emoji> Готово!",
+        "cookie_desc_ru": "Куки аккаунта (помогает скачивать видео с жесткими возрастными ограничениями)",
+        "deno_err_ru": "<tg-emoji emoji-id=5879813604068298387>❗️</tg-emoji> <b>Ошибка!</b> JS-движок <a href=\"http://deno.land/\">Deno</a> не установился автоматически.\nЭто необходимая зависимость для корректной работы <a href=\"https://github.com/yt-dlp/yt-dlp\">yt-dlp</a> (библиотека для скачивания видео/аудио).\n\n<b>Для продолжения вам необходимо установить движок вручную, или устранить препятствия для автоматической установки и перезагрузить юзербота.</b>",
+        "err_ru": "<tg-emoji emoji-id=5879813604068298387>❗️</tg-emoji> <b>Ошибка!</b>\n\nДоп.информация: {}"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/TempChat.py": {
+      "name": "TempChatMod",
+      "description": "Creates a temporary private chat with a message forwarding restriction and adds the specified user to it.",
+      "cls_doc": {
+        "ru": "Создает временный приватный чат с запретом на пересылку и добавляет туда выбранного человека"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/TempChat.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "tmpchat": "Create temporary chat. Usage: .tmpchat [@user/reply] [time] | (RU) Создает временный чат. Использование: .tmpchat [@user/reply] [time]"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "tmpchat",
+          "original_name": "tmpchat",
+          "description": {
+            "default": "Create temporary chat. Usage: .tmpchat [@user/reply] [time]",
+            "ru": "Создает временный чат. Использование: .tmpchat [@user/reply] [time]"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "TempChat",
+        "selfchat": "You can't create a chat with yourself.",
+        "wrongargs": "<emoji document_id=5980953710157632545>❌</emoji> <b>Wrong arguments. Use </b><code>.tmpchat [@user/reply] [time]</code><b>",
+        "alreadychatting": "<emoji document_id=5980953710157632545>❌</emoji> <b>You already have an active conversation with this person.</b>",
+        "invalidtime": "<emoji document_id=5980953710157632545>❌</emoji> <b>Invalid time format. Use combinations like 1h30m.</b>",
+        "invitemsg": "<emoji document_id=5818967120213445821>🛡</emoji> You've been invited to a temporary private chat!\n\n<emoji document_id=5451646226975955576>⌛️</emoji> Auto-deletes in ",
+        "joinlink": "🔗 Join link: ",
+        "chatcreated": "<emoji document_id=5980930633298350051>✅</emoji> The temporary chat has been successfully created!",
+        "selfchat_ru": "Ты не можешь создать чат сам с собой.",
+        "wrongargs_ru": "<emoji document_id=5980953710157632545>❌</emoji> <b>Неверные аргументы. Используй </b><code>.tmpchat [@user/reply] [время]</code>",
+        "alreadychatting_ru": "<emoji document_id=5980953710157632545>❌</emoji> <b>У вас уже есть открытая переписка с этим человеком.</b>",
+        "invalidtime_ru": "<emoji document_id=5980953710157632545>❌</emoji> <b>Неверный формат времени. Убедитесь, что вы вводите время в формате 1h, 2h30m.</b>",
+        "invitemsg_ru": "<emoji document_id=5818967120213445821>🛡</emoji> Вы были приглашены во временный приватный чат!\n\n<emoji document_id=5451646226975955576>⌛️</emoji> Авто-удаление через ",
+        "joinlink_ru": "🔗 Ссылка: ",
+        "chatcreated_ru": "<emoji document_id=5980930633298350051>✅</emoji> Временный чат успешно создан!"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/shortener.py": {
+      "name": "ShortenerMod",
+      "description": "Module for using bit.ly API.",
+      "cls_doc": {
+        "default": "Module for using bit.ly API",
+        "ru": "Модуль для использования API bit.ly"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/Shortener.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "shorten": "Shorten URL using bit.ly API. | (RU) Сократить ссылку через bit.ly (ссылка с https://) | (EN) Shorten the link via bit.ly (url with https://)"
+        },
+        {
+          "statcl": "Get click statistics for shortened URL. | (RU) Посмотреть статистику ссылки через bit.ly (ссылка без https:// | Доступно только на платных аккаунтах) | (EN) View link statistics via bit.ly (link without https:// | Works only on paid accounts)"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "shorten",
+          "original_name": "shortencmd",
+          "description": {
+            "default": "Shorten URL using bit.ly API.",
+            "ru": "Сократить ссылку через bit.ly (ссылка с https://)",
+            "en": "Shorten the link via bit.ly (url with https://)"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "statcl",
+          "original_name": "statclcmd",
+          "description": {
+            "default": "Get click statistics for shortened URL.",
+            "ru": "Посмотреть статистику ссылки через bit.ly (ссылка без https:// | Доступно только на платных аккаунтах)",
+            "en": "View link statistics via bit.ly (link without https:// | Works only on paid accounts)"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Shortener",
+        "no_api": "<emoji document_id=5854929766146118183>❌</emoji> You have not specified an API token from the site <a href='https://app.bitly.com/settings/api/'>bit.ly</a>",
+        "statclcmd": "<emoji document_id=5787384838411522455>📊</emoji> <b>Statistics on clicks for this link:</b> {c}",
+        "shortencmd": "<emoji document_id=5854762571659218443>✅</emoji> <b>Your shortened link is ready:</b> <code>{c}</code>",
+        "no_args": "<emoji document_id=5854929766146118183>❌</emoji> Please provide a URL to shorten.",
+        "invalid_url": "<emoji document_id=5854929766146118183>❌</emoji> Invalid URL format.",
+        "api_error": "<emoji document_id=5854929766146118183>❌</emoji> API error: {error}",
+        "_cls_doc": "Module for using bit.ly API",
+        "no_api_ru": "<emoji document_id=5854929766146118183>❌</emoji> Вы не указали api токен с сайта <a href='https://app.bitly.com/settings/api/'>bit.ly</a>",
+        "statclcmd_ru": "<emoji document_id=5787384838411522455>📊</emoji> <b>Статистика о переходе по этой ссылке:</b> {c}",
+        "shortencmd_ru": "<emoji document_id=5854762571659218443>✅</emoji> <b>Ваша сокращённая ссылка готова:</b> <code>{c}</code>",
+        "no_args_ru": "<emoji document_id=5854929766146118183>❌</emoji> Пожалуйста, укажите URL для сокращения.",
+        "invalid_url_ru": "<emoji document_id=5854929766146118183>❌</emoji> Неверный формат URL.",
+        "api_error_ru": "<emoji document_id=5854929766146118183>❌</emoji> Ошибка API: {error}"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "archquise/q.mods/CodeShare.py": {
+      "name": "CodeShareMod",
+      "description": "Uploads your code at the kmi.aeza.net (Pastebin and GitHub Gist alternative).",
+      "cls_doc": {
+        "default": "Uploads your code at the kmi.aeza.net (Pastebin and GitHub Gist alternative)",
+        "ru": "Загружает ваш код на kmi.aeza.net (альтернатива Pastebin и GitHub Gist)"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/archquise/qmods_meta/main/CodeShare.png",
+        "developer": "@quise_m"
+      },
+      "commands": [
+        {
+          "codeshare": "(RU) Загрузка кода на сайт | (EN) Upload code to the site"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "codeshare",
+          "original_name": "codesharecmd",
+          "description": {
+            "default": "",
+            "ru": "Загрузка кода на сайт",
+            "en": "Upload code to the site"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "CodeShare",
+        "invalid_args": "<emoji document_id=5854929766146118183>❌</emoji> There is no arguments or reply with a file, or they are invalid",
+        "_cls_doc": "Uploads your code at the kmi.aeza.net (Pastebin and GitHub Gist alternative)",
+        "link_ready": "<emoji document_id=5854762571659218443>✅</emoji> <b>Code uploaded! Link:</b> <code>{}</code>",
+        "invalid_args_ru": "<emoji document_id=5854929766146118183>❌</emoji> Нет аргументов или реплая с файлом, или они неверны",
+        "link_ready_ru": "<emoji document_id=5854762571659218443>✅</emoji> <b>Код загружен! Ссылка:</b> <code>{}</code>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
       "class_cmd_names": {}
     },
     "archquise/H.Modules/numbersapi.py": {
@@ -17148,6 +18167,149 @@
       },
       "has_on_load": false,
       "has_on_unload": true,
+      "class_cmd_names": {}
+    },
+    "archquise/H.Modules/coddrago/DelMessTools.py": {
+      "name": "DelMessTools",
+      "description": "Module to manage and delete your messages in the current chat",
+      "cls_doc": {},
+      "meta": {
+        "pic": "https://envs.sh/HJx.webp",
+        "banner": "https://raw.githubusercontent.com/coddrago/modules/refs/heads/main/banner.png",
+        "developer": "@codrago_m"
+      },
+      "commands": [
+        {
+          "purge": "(RU) [reply] [-img] [-voice] [-file] [-all] - удалить все ваши сообщения в текущем чате или только до сообщения, на которое ответили\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется | (EN) [reply] [-img] [-voice] [-file] [-all] - delete all your messages in current chat or only ones up to the message you replied to\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored"
+        },
+        {
+          "purgekeyword": "(RU) <ключевое слово> [-img] [-voice] [-file] [-all] - удалить все ваши сообщения с указанным ключевым словом в текущем чате\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется | (EN) <keyword> [-img] [-voice] [-file] [-all] - delete all your messages containing the specified keyword in the current chat\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored"
+        },
+        {
+          "purgetime": "(RU) <начальное время> <конечное время> [-img] [-voice] [-file] [-all] - удалить все ваши сообщения в указанном временном диапазоне в текущем чате\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется\n        Формат времени: YYYY-MM-DD HH:MM:SS | (EN) <start_time> <end_time> [-img] [-voice] [-file] [-all] - delete all your messages within the specified time range in the current chat\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored\n        Time format: YYYY-MM-DD HH:MM:SS"
+        },
+        {
+          "purgelength": "(RU) <длина> [-img] [-voice] [-file] [-all] - удалить все ваши сообщения указанной длины в текущем чате\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется | (EN) <length> [-img] [-voice] [-file] [-all] - delete all your messages with the specified length in the current chat\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored"
+        },
+        {
+          "nopurge": "(RU) Прервать процесс удаления\nИспользуйте в чате, где вы ранее начали удаление | (EN) Interrupt the deletion process\nUse in the chat where you've previously started deletion"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "purge",
+          "original_name": "purge",
+          "description": {
+            "default": "",
+            "ru": "[reply] [-img] [-voice] [-file] [-all] - удалить все ваши сообщения в текущем чате или только до сообщения, на которое ответили\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется",
+            "en": "[reply] [-img] [-voice] [-file] [-all] - delete all your messages in current chat or only ones up to the message you replied to\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "purgekeyword",
+          "original_name": "purgekeyword",
+          "description": {
+            "default": "",
+            "ru": "<ключевое слово> [-img] [-voice] [-file] [-all] - удалить все ваши сообщения с указанным ключевым словом в текущем чате\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется",
+            "en": "<keyword> [-img] [-voice] [-file] [-all] - delete all your messages containing the specified keyword in the current chat\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "purgetime",
+          "original_name": "purgetime",
+          "description": {
+            "default": "",
+            "ru": "<начальное время> <конечное время> [-img] [-voice] [-file] [-all] - удалить все ваши сообщения в указанном временном диапазоне в текущем чате\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется\n        Формат времени: YYYY-MM-DD HH:MM:SS",
+            "en": "<start_time> <end_time> [-img] [-voice] [-file] [-all] - delete all your messages within the specified time range in the current chat\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored\n        Time format: YYYY-MM-DD HH:MM:SS"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "purgelength",
+          "original_name": "purgelength",
+          "description": {
+            "default": "",
+            "ru": "<длина> [-img] [-voice] [-file] [-all] - удалить все ваши сообщения указанной длины в текущем чате\n        -all - удалять сообщения в каждой теме, если это форум, иначе флаг игнорируется",
+            "en": "<length> [-img] [-voice] [-file] [-all] - delete all your messages with the specified length in the current chat\n        -all - to delete messages in each topic if this is a forum otherwise the flag'll just be ignored"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "nopurge",
+          "original_name": "nopurge",
+          "description": {
+            "default": "",
+            "ru": "Прервать процесс удаления\nИспользуйте в чате, где вы ранее начали удаление",
+            "en": "Interrupt the deletion process\nUse in the chat where you've previously started deletion"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "DelMessTools",
+        "purge_complete": "All your messages have been deleted.",
+        "purge_reply_complete": "Messages up to the replied message have been deleted.",
+        "purge_keyword_complete": "Messages containing the keyword have been deleted.",
+        "purge_time_complete": "Messages within the specified time range have been deleted.",
+        "purge_media_complete": "All your media messages have been deleted.",
+        "purge_length_complete": "Messages with the specified length have been deleted.",
+        "purge_type_complete": "Messages of the specified type have been deleted.",
+        "enabled": "It's not operational now anyway.",
+        "disabled": "Operation status changed to disabled.",
+        "interrupted": "The deletion was interrupted because you changed your mind.",
+        "none": "You didn't even intend to delete anything here, but anyway it's disabled now.",
+        "no_args": "Please specify arguments for the command.",
+        "no_keyword": "Please specify a keyword to delete messages.",
+        "no_length": "Please specify a valid length.",
+        "invalid_time": "Invalid time format. Please use the format: YYYY-MM-DD HH:MM:SS",
+        "invalid_length": "Please specify a valid number for length.",
+        "purge_complete_ru": "Все ваши сообщения были удалены.",
+        "purge_reply_complete_ru": "Сообщения до указанного ответа были удалены.",
+        "purge_keyword_complete_ru": "Сообщения, содержащие ключевое слово, были удалены.",
+        "purge_time_complete_ru": "Сообщения в указанном временном диапазоне были удалены.",
+        "purge_media_complete_ru": "Все ваши медиа-сообщения были удалены.",
+        "purge_length_complete_ru": "Сообщения указанной длины были удалены.",
+        "purge_type_complete_ru": "Сообщения указанного типа были удалены.",
+        "enabled_ru": "Оно итак сейчас не работает.",
+        "disabled_ru": "Режим работы изменен на выключено.",
+        "interrupted_ru": "Удаление было прервано т.к вы передумали.",
+        "none_ru": "Вы даже не пытались ничего здесь удалить, в любом случае сейчас оно выключено.",
+        "no_args_ru": "Пожалуйста, укажите аргументы для команды.",
+        "no_keyword_ru": "Пожалуйста, укажите ключевое слово для удаления сообщений.",
+        "no_length_ru": "Пожалуйста, укажите корректную длину.",
+        "invalid_time_ru": "Неверный формат времени. Используйте формат: YYYY-MM-DD HH:MM:SS",
+        "invalid_length_ru": "Пожалуйста, укажите корректное число для длины."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
       "class_cmd_names": {}
     },
     "archquise/H.Modules/aiogram3/hikarichat.py": {
@@ -25362,6 +26524,180 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "DziruModules/hikkamods/FunnyText.py": {
+      "name": "memetextmod",
+      "description": "Get funny text for chat",
+      "cls_doc": {},
+      "meta": {
+        "pic": "https://raw.githubusercontent.com/DziruModules/assets/master/DziruModules.jpg",
+        "banner": "https://raw.githubusercontent.com/DziruModules/assets/master/FunnyText.png",
+        "developer": "@dziru"
+      },
+      "commands": [
+        {
+          "dscina": "Scina face"
+        },
+        {
+          "dsthink": "Thinking face"
+        },
+        {
+          "dhide": "Hiding pikachu"
+        },
+        {
+          "dhidewall": "Hiding a wall"
+        },
+        {
+          "dfrog": "Shocked frog"
+        },
+        {
+          "dfroglol": "Frog dont care"
+        },
+        {
+          "dtrump": "Trump face"
+        },
+        {
+          "dwelcome": "Welcome message"
+        },
+        {
+          "dgta": "GTA person"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "dscina",
+          "original_name": "dscinacmd",
+          "description": {
+            "default": "Scina face"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dsthink",
+          "original_name": "dsthinkcmd",
+          "description": {
+            "default": "Thinking face"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dhide",
+          "original_name": "dhidecmd",
+          "description": {
+            "default": "Hiding pikachu"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dhidewall",
+          "original_name": "dhidewallcmd",
+          "description": {
+            "default": "Hiding a wall"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dfrog",
+          "original_name": "dfrogcmd",
+          "description": {
+            "default": "Shocked frog"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dfroglol",
+          "original_name": "dfroglolcmd",
+          "description": {
+            "default": "Frog dont care"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dtrump",
+          "original_name": "dtrumpcmd",
+          "description": {
+            "default": "Trump face"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dwelcome",
+          "original_name": "dwelcomecmd",
+          "description": {
+            "default": "Welcome message"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dgta",
+          "original_name": "dgtacmd",
+          "description": {
+            "default": "GTA person"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "FunnyText",
+        "dsthink": "⠀⠀⠀⠀⢀⣀⣀⣀\n⠀⠀⠀⠰⡿⠿⠛⠛⠻⠿⣷\n⠀⠀⠀⠀⠀⠀⣀⣄⡀⠀⠀⠀⠀⢀⣀⣀⣤⣄⣀⡀\n⠀⠀⠀⠀⠀⢸⣿⣿⣷⠀⠀⠀⠀⠛⠛⣿⣿⣿⡛⠿⠷\n⠀⠀⠀⠀⠀⠘⠿⠿⠋⠀⠀⠀⠀⠀⠀⣿⣿⣿⠇\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁\n \n⠀⠀⠀⠀⣿⣷⣄⠀⢶⣶⣷⣶⣶⣤⣀\n⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠀⠈⠙⠻⠗\n⠀⠀⠀⣰⣿⣿⣿⠀⠀⠀⠀⢀⣀⣠⣤⣴⣶⡄\n ⣠⣾⣿⣿⣿⣥⣶⣶⣿⣿⣿⣿⣿⠿⠿⠛⠃\n⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄\n⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁\n⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁\n  ⠛⢿⣿⣿⣿⣿⣿⣿⡿⠟\n",
+        "dhide": "`\n┻┳|―-∩``\n┳┻|     ヽ``\n┻┳|    ● |``\n┳┻|▼) _ノ``\n┻┳|￣  )``\n┳ﾐ(￣ ／``\n┻┳T￣|`\n<b>Hide</b>",
+        "dhidewall": "`\n┻┳|―-∩``\n┳┻|     ヽ``\n┻┳|    ● |``\n┳┻|▼) _ノ``\n┻┳|￣  )``\n┳ﾐ(￣ ／``\n┻┳T￣|`\n<b>Hide behind a wall</b>",
+        "dfrog": "⠄⠄⠄⠄⠄⣀⣀⣤⣶⣿⣿⣶⣶⣶⣤⣄⣠⣴⣶⣿⣶⣦⣄⠄\n⠄⣠⣴⣾⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦\n⢠⠾⣋⣭⣄⡀⠄⠙⠻⣿⣿⡿⠛⠋⠉⠉⠉⠙⠛⠿⣿⣿⣿⣿\n⡎⡟⢻⣿⣷⠄⠄⠄⠄⡼⣡⣾⣿⣿⣦⠄⠄⠄⠄⠄⠈⠛⢿⣿\n⡇⣷⣾⣿⠟⠄⠄⠄⢰⠁⣿⣇⣸⣿⣿⠄⠄⠄⠄⠄⠄⠄⣠⣼\n⣦⣭⣭⣄⣤⣤⣴⣶⣿⣧⡘⠻⠛⠛⠁⠄⠄⠄⠄⣀⣴⣿⣿⣿\n⢉⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣦⣶⣶⣶⣶⣿⣿⣿⣿⣿⣿\n⡿⠛⠛⠛⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⡇⠄⠄⢀⣀⣀⠄⠄⠄⠄⠉⠉⠛⠛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿\n⠈⣆⠄⠄⢿⣿⣿⣷⣶⣶⣤⣤⣀⣀⡀⠄⠄⠉⢻⣿⣿⣿⣿⣿\n⠄⣿⡀⠄⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠄⢠⣿⣿⣿⣿⣿\n⠄⣿⡇⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠄⢀⣼⣿⣿⣿⣿⣿\n⠄⣿⡇⠄⠠⣿⣿⣿⣿⣿⣿⣿⡿⠋⠄⠄⣠⣾⣿⣿⣿⣿⣿⣿\n⠄⣿⠁⠄⠐⠛⠛⠛⠉⠉⠉⠉⠄⠄⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿\n⠄⠻⣦⣀⣀⣀⣀⣀⣤⣤⣤⣤⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n",
+        "dfroglol": "⣿⣿⣿⡇⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⡇⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⡇⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⡇⠄⣿⣿⣿⡿⠋⣉⣉⣉⡙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⠃⠄⠹⠟⣡⣶⢟⣛⣛⡻⢿⣦⣩⣤⣬⡉⢻⣿⣿⣿⣿\n⣿⣿⣿⠄⢀⢤⣾⣿⣿⣿⡿⠿⠿⠿⢮⡃⣛⡻⢿⠈⣿⣿⣿⣿\n⣿⡟⢡⣴⣯⣿⣿⣿⠤⣤⣭⣶⣶⣶⣮⣔⡈⠛⢓⠦⠈⢻⣿⣿\n⠏⣠⣿⣿⣿⣿⣿⣿⣯⡪⢛⠿⢿⣿⣿⣿⡿⣼⣿⣿⣮⣄⠙⣿\n⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⡭⠴⣶⣶⣽⣽⣛⡿⠿⠿⠇⣿\n⣿⣿⣿⣿⣿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⣷⣝⣛⢛⢋⣥⣴⣿⣿\n⣿⣿⣿⣿⣿⢿⠱⣿⣛⠾⣭⣛⡿⢿⣿⣿⣿⣿⣿⡀⣿⣿⣿⣿\n⠑⠽⡻⢿⣮⣽⣷⣶⣯⣽⣳⠮⣽⣟⣲⠯⢭⣿⣛⡇⣿⣿⣿⣿\n⠄⠄⠈⠑⠊⠉⠟⣻⠿⣿⣿⣿⣷⣾⣭⣿⠷⠶⠂⣴⣿⣿⣿⣿\n⠄⠄⠄⠄⠄⠄⠄⠁⠙⠒⠙⠯⠍⠙⢉⣡⣶⣿⣿⣿⣿⣿⣿⣿\n⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿\n",
+        "dtrump": "⣿⣿⣿⣿⣿⣿⡿⠿⠛⠋⠉⡉⣉⡛⣛⠿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⡿⠋⠁⠄⠄⠄⠄⠄⢀⣸⣿⣿⡿⠿⡯⢙⠿⣿⣿⣿⣿\n⣿⣿⡿⠄⠄⠄⠄⠄⡀⡀⠄⢀⣀⣉⣉⣉⠁⠐⣶⣶⣿⣿⣿⣿\n⣿⣿⡇⠄⠄⠄⠄⠁⣿⣿⣀⠈⠿⢟⡛⠛⣿⠛⠛⣿⣿⣿⣿⣿\n⣿⣿⡆⠄⠄⠄⠄⠄⠈⠁⠰⣄⣴⡬⢵⣴⣿⣤⣽⣿⣿⣿⣿⣿\n⣿⣿⡇⠄⢀⢄⡀⠄⠄⠄⠄⡉⠻⣿⡿⠁⠘⠛⡿⣿⣿⣿⣿⣿\n⣿⡿⠃⠄⠄⠈⠻⠄⠄⠄⠄⢘⣧⣀⠾⠿⠶⠦⢳⣿⣿⣿⣿⣿\n⣿⣶⣤⡀⢀⡀⠄⠄⠄⠄⠄⠄⠻⢣⣶⡒⠶⢤⢾⣿⣿⣿⣿⣿\n⣿⡿⠋⠄⢘⣿⣦⡀⠄⠄⠄⠄⠄⠉⠛⠻⠻⠺⣼⣿⠟⠛⠿⣿\n⠋⠁⠄⠄⠄⢻⣿⣿⣶⣄⡀⠄⠄⠄⠄⢀⣤⣾⣿⡀⠄⠄⠄⢹\n⠄⠄⠄⠄⠄⠄⢻⣿⣿⣿⣷⡤⠄⠰⡆⠄⠄⠈⠛⢦⣀⡀⡀⠄\n⠄⠄⠄⠄⠄⠄⠈⢿⣿⠟⡋⠄⠄⠄⢣⠄⠄⠄⠄⠄⠈⠹⣿⣀\n⠄⠄⠄⠄⠄⠄⠄⠘⣷⣿⣿⣷⠄⠄⢺⣇⠄⠄⠄⠄⠄⠄⠸⣿\n⠄⠄⠄⠄⠄⠄⠄⠄⠹⣿⣿⡇⠄⠄⠸⣿⡄⠄⠈⠁⠄⠄⠄⣿\n⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⣿⡇⠄⠄⠄⢹⣧⠄⠄⠄⠄⠄⠄⠘\n",
+        "dwelcome": "───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───\n───█▒▒░░░░░░░░░▒▒█───\n────█░░█░░░░░█░░█────\n─▄▄──█░░░▀█▀░░░█──▄▄─\n█░░█─▀▄░░░░░░░▄▀─█░░█\n█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█\n█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█\n█░░║║║╠─║─║─║║║║║╠─░░█\n█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█\n█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n",
+        "dgta": "⠀⠀⠀⠀⠀⠀⠀⢀⣤⣤⡀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⠟⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠘⠻⣿⣷⣄⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⣴⣶⣿⡆⠀⠀⠉⠉⠀⠈⣶⡆⠀\n⠀⠀⠀⢠⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⢻⣷⠀\n⠀⠀⠀⣼⣿⡿⠟⠀⠀⠀⠀⠀⠀⠀⣸⣿⡄\n⠀⠀⠀⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣷\n⠀⠀⠘⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⢰⣾⣿⠏\n⠀⢠⣧⡔⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠟⠁⠀\n⠀⢸⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ <b>Ah\nShit, here we go again.</b>\n",
+        "dscina": "⣿⣿⣿⣿⠟⠋⢁⢁⢁⢁⢁⢁⢁⢁⠈⢻⢿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⡀⠭⢿⣿⣿⣿⣿\n⣿⣿⣿⡟⠄⢀⣾⣿⣿⣿⣷⣶⣿⣷⣶⣶⡆⠄⠄⠄⣿⣿⣿⣿\n⣿⣿⣿⡇⢀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠄⠄⢸⣿⣿⣿⣿\n⣿⣿⣿⣇⣼⣿⣿⠿⠶⠙⣿⡟⠡⣴⣿⣽⣿⣧⠄⢸⣿⣿⣿⣿\n⣿⣿⣿⣿⣾⣿⣿⣟⣭⣾⣿⣷⣶⣶⣴⣶⣿⣿⢄⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⡟⣩⣿⣿⣿⡏⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣹⡋⠘⠷⣦⣀⣠⡶⠁⠈⠁⠄⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣍⠃⣴⣶⡔⠒⠄⣠⢀⠄⠄⠄⡨⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣦⡘⠿⣷⣿⠿⠟⠃⠄⠄⣠⡇⠈⠻⣿⣿⣿⣿\n⣿⣿⣿⡿⠟⠋⢁⣷⣠⠄⠄⠄⠄⣀⣠⣾⡟⠄⠄⠄⠄⠉⠙⠻\n⡿⠟⠁⠄⠄⠄⢸⣿⣿⡯⢓⣴⣾⣿⣿⡟⠄⠄⠄⠄⠄⠄⠄⠄\n⠄⠄⠄⠄⠄⠄⣿⡟⣷⠄⠹⣿⣿⣿⡿⠁⠄⠄⠄⠄⠄⠄⠄⠄\n⠄⠄⠄⠄⠄⣸⣿⡷⡇⠄⣴⣾⣿⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄\n⠄⠄⠄⠄⠄⣿⣿⠃⣦⣄⣿⣿⣿⠇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄\n⠄⠄⠄⠄⢸⣿⠗⢈⡶⣷⣿⣿⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄\n"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "DziruModules/hikkamods/CryptoBalance.py": {
       "name": "CryptoBalanceMod",
       "description": "Check your balance in many Crypto Wallet Bots",
@@ -26159,6 +27495,89 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "AmoreForever/amoremods/leta.py": {
+      "name": "Leta",
+      "description": "Customizable nightmode [Leta] for your group",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/AmoreForever/assets/master/leta.jpg",
+        "developer": "@hikamorumods"
+      },
+      "commands": [
+        {
+          "lettime": "Set time - morning [HH:MM] evening [HH:MM]"
+        },
+        {
+          "letrmchat": "Remove nightmode - chat-id"
+        },
+        {
+          "letchats": "Get all chats with nightmode"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "lettime",
+          "original_name": "lettimecmd",
+          "description": {
+            "default": "Set time - morning [HH:MM] evening [HH:MM]"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "letrmchat",
+          "original_name": "letrmchatcmd",
+          "description": {
+            "default": "Remove nightmode - chat-id"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "letchats",
+          "original_name": "letchatscmd",
+          "description": {
+            "default": "Get all chats with nightmode"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Leta",
+        "info": "🐈‍⬛ Heeey! I'm <b>Leta</b>! I'm a module for nightmode in your group.\n📫 You can get acquainted with my settings using the command <code>.help Leta</code>.",
+        "wrong_format": "<emoji document_id=5258419835922030550>🕔</emoji> <b>Enter the time in the format HH:MM</b>",
+        "day": "<emoji document_id=6332496306593859160>🌅</emoji> <b>Good morning!</b>\n<b>Night mode is disabled.</b>",
+        "night": "<emoji document_id=6334806423473489632>🌚</emoji> <b>Good night!</b>\n<b>Night mode is enabled.</b>",
+        "rm": "<emoji document_id=5021905410089550576>✅</emoji> <b>Removed nightmode.</b>",
+        "rm_notfound": "<emoji document_id=5456652110143693064>🤷‍♂️</emoji> <b>Nightmode is not set.</b>",
+        "set": "<emoji document_id=5980930633298350051>✅</emoji> Time set to\n<emoji document_id=6334361735444563461>🌃</emoji>🌙</emoji> Night: <code>{}</code>\n<emoji document_id=6332496306593859160>🌅</emoji> Day: <code>{}</code>",
+        "info_ru": "🐈‍⬛ Привет! Я <b>Leta</b>! Я модуль для ночного режима в вашей группе.\n📫 Ознакомиться с моими настройками можно с помощью команды <code>.help Leta</code>.",
+        "wrong_format_ru": "<emoji document_id=5258419835922030550>🕔</emoji> <b>Введите время в формате HH:MM</b>",
+        "day_ru": "<emoji document_id=6332496306593859160>🌅</emoji> <b>Доброе утро!</b>\n<b>Ночной режим отключен.</b>",
+        "night_ru": "<emoji document_id=6334806423473489632>🌚</emoji> <b>Доброй ночи!</b>\n<b>Ночной режим включен.</b>",
+        "rm_ru": "<emoji document_id=5021905410089550576>✅</emoji> <b>Удален ночной режим.</b>",
+        "rm_notfound_ru": "<emoji document_id=5456652110143693064>🤷‍♂️</emoji> <b>Ночной режим не установлен.</b>",
+        "set_ru": "<emoji document_id=5980930633298350051>✅</emoji> Время установлено на\n<emoji document_id=6334361735444563461>🌃</emoji>🌙</emoji> Ночь: <code>{}</code>\n<emoji document_id=6332496306593859160>🌅</emoji> День: <code>{}</code>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "AmoreForever/amoremods/wakatime.py": {
       "name": "Wakatime",
       "description": "Show your Wakatime stats",
@@ -26856,6 +28275,104 @@
         "time_de": "Die Zeit",
         "up-to-date_de": "😌 Aktuelle Version",
         "update_required_de": "😕 Aktualisierung erforderlich </b><code>.update</code><b>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "AmoreForever/amoremods/figlet.py": {
+      "name": "Figlet",
+      "description": "Creates Figlet Text",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": "https://github.com/AmoreForever/assets/blob/master/Figlet.jpg?raw=true",
+        "developer": "@hikamorumods"
+      },
+      "commands": [
+        {
+          "listfig": "List of figlet styles"
+        },
+        {
+          "figlet": "Create figlet text, <style> | <args>"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "listfig",
+          "original_name": "listfig",
+          "description": {
+            "default": "List of figlet styles"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "figlet",
+          "original_name": "figlet",
+          "description": {
+            "default": "Create figlet text, <style> | <args>"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Figlet"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "AmoreForever/amoremods/activity.py": {
+      "name": "Activity",
+      "description": "Generate activity if you're bored",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/AmoreForever/assets/master/Activity.jpg",
+        "developer": "@hikamorumods"
+      },
+      "commands": [
+        {
+          "activity": "Generate activity | (RU) Сгенерировать занятие | (UZ) Harakat yaratish"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "activity",
+          "original_name": "activity",
+          "description": {
+            "default": "Generate activity",
+            "ru": "Сгенерировать занятие",
+            "uz": "Harakat yaratish"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Activity",
+        "activity": "⛩ <b>Activity:</b> <code>{}</code>",
+        "lang": "en",
+        "activity_ru": "⛩ <b>Занятие:</b> <code>{}</code>",
+        "lang_ru": "ru",
+        "activity_uz": "⛩ <b>Harakat:</b> <code>{}</code>",
+        "lang_uz": "uz"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -28052,6 +29569,43 @@
         "name_not_enabled_de": "<b>Die Uhr ist nicht auf den Spitznamen<emoji document_id=5215273032553078755>❎</emoji></b> eingestellt",
         "disabled_name_de": "<b>Nickzeit wurde erfolgreich deaktiviert <emoji document_id=5212932275376759608>✅</emoji></b>",
         "_cfg_time_de": "Benutze die Zeitzone 1, -1, -3 usw."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "AmoreForever/amoremods/fragment_checker.py": {
+      "name": "Fragment",
+      "description": "Show how much is the username in the Fragment.com",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": "https://github.com/AmoreForever/assets/blob/master/fragment_checker.jpg?raw=true",
+        "developer": "@hikamorumods"
+      },
+      "commands": [
+        {
+          "fcheck": "check username in the Fragment.com"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "fcheck",
+          "original_name": "fcheck",
+          "description": {
+            "default": "check username in the Fragment.com"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "FragmentChecker"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -31827,6 +33381,51 @@
       "inline_handlers": [],
       "strings": {
         "name": "VideoToVoice"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Den4ikSuperOstryyPer4ik/Astro-modules/YmLive.py": {
+      "name": "YmLive",
+      "description": "Модуль для демонстрации играющей песни в Яндекс.Музыке",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": null
+      },
+      "commands": [
+        {
+          "yalive": "Включение или выключение автоматического обновления названия канала | (RU) - включить/выключить YaLive"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "yalive",
+          "original_name": "yalive",
+          "description": {
+            "default": "Включение или выключение автоматического обновления названия канала",
+            "ru": "- включить/выключить YaLive"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "YandexMusicLive",
+        "_text_token": "Токен аккаунта Яндекс Музыки",
+        "_text_id": "ID канала, который будет использоваться для показа треков...",
+        "on/off": "YandexMusicLive теперь {}",
+        "channel_id_error": "В конфиге не указан ID канала. Исправь это!",
+        "_from_bot_channel_error": "Не найден ID канала в конфиге. Пожалуйста исправь это для дальнейшего использования модуля...",
+        "token_from_YmNow": "У вас установлен модуль YmNow и в его конфиге я нашел токен. Для вашего удобства токен автоматически выставлен в конфиг. Приятного использования :)",
+        "tutor": "🎉 Добро пожаловать в модуль YandexMusicLive!\nВы успешно загрузили модуль, который позволяет отображать играющую музыку из Яндекс.Музыки прямо в названии вашего канала!\n\n🌟 Чтобы модуль начал работать, выполните следующие шаги:\n1) <b>Создайте канал:</b> Cоздайте новый канал, в котором будет отображаться играющий сейчас трек, и закрепите этот канал в своем профиле.\n\n2) <b>Настройка токена Яндекс.Музыки:</b> Перейдите в <code>{}config YandexMusicLive</code> -> YandexMusicToken и вставьте ваш токен Яндекс.Музыки. <a href='{}'>(Туториал на получение токена)</a>\n\n3) <b>Настройка ID канала:</b> Перейдите в <code>{}config YandexMusicLive</code> -> channel_id и вставьте ID вашего канала. \n  Если вы не знаете, как получить ID канала - Напишите в канал сообщение с текстом <code>{}e m.chat.id</code> и вставьте в конфиг то, что вам выдаст ЮзерБот\n\n4) <b>Переустановите модуль</b> После выполнения всех настроек переустановите модуль, чтобы завершить процесс настройки."
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -41860,6 +43459,67 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "yummy1gay/limoka/yg_ocr.py": {
+      "name": "yg_ocr",
+      "description": "Модуль для распознавания текста на изображении и перевода",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@yg_modules"
+      },
+      "commands": [
+        {
+          "ocr": "распознать текст на изображении"
+        },
+        {
+          "trocr": "распознать и перевести текст на изображении"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "ocr",
+          "original_name": "ocr",
+          "description": {
+            "default": "распознать текст на изображении"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "trocr",
+          "original_name": "trocr",
+          "description": {
+            "default": "распознать и перевести текст на изображении"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "yg_ocr",
+        "a": "<emoji document_id=6008090211181923982>📝</emoji> <b>Распознанный текст:</b>\n\n<code>{}</code>",
+        "b": "<emoji document_id=5409014875517104495>📝</emoji> <b>Перевод:</b>\n\n<code>{}</code>",
+        "c": "<emoji document_id=4949467677086188821>😭</emoji> <b>Ошибка при обработке изображения. Попробуйте еще раз</b>",
+        "d": "<emoji document_id=5386367538735104399>⌛</emoji> <b>Обрабатываю изображение...</b>",
+        "e": "<emoji document_id=4947293727849710197>🤬</emoji> <b>Ответьте на сообщение изображением</b>",
+        "f": "<emoji document_id=4925063363672670983>🤷</emoji> <b>Не удалось распознать текст на изображении. Убедитесь, что изображение четкое и содержит текст</b>",
+        "g": "<emoji document_id=4925063363672670983>🤷</emoji> <b>Не удалось перевести текст</b>",
+        "h": "<emoji document_id=4949683473423008596>🍌</emoji> <b>На изображении не найден текст для распознавания</b>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "yummy1gay/limoka/yg_playlist.py": {
       "name": "yg_playlist",
       "description": "Module for creating, visualizing, and managing Telegram music playlists with customizable themes, fonts, and detailed metadata extraction!",
@@ -42380,6 +44040,59 @@
         "gemini_api_key_desc_ua": "API ключ для Gemini AI (aistudio.google.com/apikey)",
         "gemini_model_name_desc_ua": "модель для Gemini AI. приклади: gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash-exp, gemini-2.0-flash-thinking-exp-1219",
         "proxy_desc_ua": "проксі у форматі http://<user>:<pass>@<proxy>:<port>, або http://<proxy>:<port>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "yummy1gay/limoka/yg_prem.py": {
+      "name": "yg_prem",
+      "description": "Модуль для автоматического участия в розыгрышах премиум-подписок",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@yg_modules"
+      },
+      "commands": [
+        {
+          "prem": "вкл/выкл автоматическое участие в розыгрышах на премиум-подписки"
+        },
+        {
+          "folder": "вкл/выкл добавление каналов на которые подписался модуль в папку"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "prem",
+          "original_name": "premcmd",
+          "description": {
+            "default": "вкл/выкл автоматическое участие в розыгрышах на премиум-подписки"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "folder",
+          "original_name": "foldercmd",
+          "description": {
+            "default": "вкл/выкл добавление каналов на которые подписался модуль в папку"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "yg_prem"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -53236,6 +54949,129 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "coddrago/modules/DelMessTools.py": {
+      "name": "DelMessTools",
+      "description": "Module to manage and delete your messages in the current chat",
+      "cls_doc": {},
+      "meta": {
+        "pic": "https://envs.sh/HJx.webp",
+        "banner": "https://raw.githubusercontent.com/coddrago/modules/refs/heads/main/banner.png",
+        "developer": "@codrago_m"
+      },
+      "commands": [
+        {
+          "purge": "[reply] [-img] [-voice] [-file] [-all] - delete all your messages in current chat or only ones up to the message you replied to\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored"
+        },
+        {
+          "purgekeyword": "<keyword> [-img] [-voice] [-file] [-all] - delete all your messages containing the specified keyword in the current chat\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored"
+        },
+        {
+          "purgetime": "<start_time> <end_time> [-img] [-voice] [-file] [-all] - delete all your messages within the specified time range in the current chat\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored\nTime format: YYYY-MM-DD HH:MM:SS"
+        },
+        {
+          "purgelength": "<length> [-img] [-voice] [-file] [-all] - delete all your messages with the specified length in the current chat\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored"
+        },
+        {
+          "nopurge": "Interrupt the deletion process\nUse in the chat where you've previously started deletion"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "purge",
+          "original_name": "purgecmd",
+          "description": {
+            "default": "[reply] [-img] [-voice] [-file] [-all] - delete all your messages in current chat or only ones up to the message you replied to\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "purgekeyword",
+          "original_name": "purgekeywordcmd",
+          "description": {
+            "default": "<keyword> [-img] [-voice] [-file] [-all] - delete all your messages containing the specified keyword in the current chat\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "purgetime",
+          "original_name": "purgetimecmd",
+          "description": {
+            "default": "<start_time> <end_time> [-img] [-voice] [-file] [-all] - delete all your messages within the specified time range in the current chat\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored\nTime format: YYYY-MM-DD HH:MM:SS"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "purgelength",
+          "original_name": "purgelengthcmd",
+          "description": {
+            "default": "<length> [-img] [-voice] [-file] [-all] - delete all your messages with the specified length in the current chat\n-all - to delete messages in each topic if this is a forum otherwise the flag'll just be ingored"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "nopurge",
+          "original_name": "nopurgecmd",
+          "description": {
+            "default": "Interrupt the deletion process\nUse in the chat where you've previously started deletion"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "DelMessTools",
+        "purge_complete": "All your messages have been deleted.",
+        "purge_reply_complete": "Messages up to the replied message have been deleted.",
+        "purge_keyword_complete": "Messages containing the keyword have been deleted.",
+        "purge_time_complete": "Messages within the specified time range have been deleted.",
+        "purge_media_complete": "All your media messages have been deleted.",
+        "purge_length_complete": "Messages with the specified length have been deleted.",
+        "purge_type_complete": "Messages of the specified type have been deleted.",
+        "enabled": "It's not operational now anyway.",
+        "disabled": "Operation status changed to disabled.",
+        "interrupted": "The deletion was interrupted because you changed your mind.",
+        "none": "You didn't even intend to delete anything here, but anyway it's disabled now.",
+        "purge_complete_ru": "Все ваши сообщения были удалены.",
+        "purge_reply_complete_ru": "Сообщения до указанного ответа были удалены.",
+        "purge_keyword_complete_ru": "Сообщения, содержащие ключевое слово, были удалены.",
+        "purge_time_complete_ru": "Сообщения в указанном временном диапазоне были удалены.",
+        "purge_media_complete_ru": "Все ваши медиа-сообщения были удалены.",
+        "purge_length_complete_ru": "Сообщения указанной длины были удалены.",
+        "purge_type_complete_ru": "Сообщения указанного типа были удалены.",
+        "enabled_ru": "Оно итак сейчас не работает.",
+        "disabled_ru": "Режим работы изменен на выключено.",
+        "interrupted_ru": "Удаление было прервано т.к вы передумали.",
+        "none_ru": "Вы даже не пытались ничего здесь удалить, в любом случае сейчас оно выключено."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "coddrago/modules/compliments.py": {
       "name": "Compliments",
       "description": "Compliments for your partner",
@@ -53531,6 +55367,43 @@
       "inline_handlers": [],
       "strings": {
         "name": "Сланцы"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "cryptexctl/modules-mirror/premium_emoji_id.py": {
+      "name": "GetPremiumEmojiID",
+      "description": "Получение ID премиум-эмодзи",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@systemxplore"
+      },
+      "commands": [
+        {
+          "getemojiid": "Получает ID премиум-эмодзи из сообщения\nИспользование: .getemoji_id <эмодзи>"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "getemojiid",
+          "original_name": "getemoji_id",
+          "description": {
+            "default": "Получает ID премиум-эмодзи из сообщения\nИспользование: .getemoji_id <эмодзи>"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "PremiumEmojiID"
       },
       "has_on_load": false,
       "has_on_unload": false,
@@ -82429,6 +84302,243 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "Midga3/Heroku-modules/speedrun.py": {
+      "name": "speedruncom",
+      "description": "",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": null
+      },
+      "commands": [
+        {
+          "game": ""
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "game",
+          "original_name": "game",
+          "description": {
+            "default": ""
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "Speedruns",
+        "searching": "<tg-emoji emoji-id=5188217332748527444>🔍</tg-emoji>Searching...",
+        "game": "<tg-emoji emoji-id=5370869711888194012>👾</tg-emoji> Game: {}\n<tg-emoji emoji-id=5789531407231487577>🎮</tg-emoji> Number of runs: {}. \n <tg-emoji emoji-id=5409008750893734809>🏆</tg-emoji>Top runs: \n{}",
+        "not_found": "<tg-emoji emoji-id=5210952531676504517>❌</tg-emoji>Not found, sry",
+        "new_notify": "You got a new notification: {}",
+        "token": "Token of sppedrun.com"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Midga3/Heroku-modules/radiolistener.py": {
+      "name": "RadioListener",
+      "description": "Listen and check radio stations",
+      "cls_doc": {
+        "ru": "Слушайте и проверяйте радиостанции"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://meta.hostingradio.ru/files/elements/cover-images/600x600/434e51ce-b4ac-4157-a699-4954c02dabb9.jpg",
+        "developer": "@midga3_modules"
+      },
+      "commands": [
+        {
+          "radio": "search radio. | (R) поиск радио. | (RU) поиск радио."
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "radio",
+          "original_name": "radiocmd",
+          "description": {
+            "default": "search radio.",
+            "r": "поиск радио.",
+            "ru": "поиск радио."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "RadioListener",
+        "searching": "<b><tg-emoji emoji-id=5188217332748527444>🔍</tg-emoji> Searching for radio stations...</b>",
+        "not_found": "<b>❌ No online radio stations found. {}</b>",
+        "found": "<b>{}\nLISTEN HERE</b>:\n{}\n\n<code>Current track:{}</code>",
+        "searching_ru": "<b><tg-emoji emoji-id=5188217332748527444>🔍</tg-emoji> Поиск радиостанций...</b>",
+        "not_found_ru": "<b>❌ Радиостанции не найдены. {}</b>",
+        "found_ru": "<b>{}\nСЛУШАТЬ ЗДЕСЬ:</b>\n{}\n\n<code>Текущий трек: {}</code>",
+        "_cmd_doc_ru_radio": "поиск радио.",
+        "_cmd_doc_radio_ru": "поиск радио."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Midga3/Heroku-modules/ZOV.py": {
+      "name": "NiceMessagesMod",
+      "description": "Я СКАЗАЛ ГОЙДАААА",
+      "cls_doc": {
+        "default": "Я СКАЗАЛ ГОЙДАААА",
+        "ru": "Я СКАЗАЛ ГОЙДАААА"
+      },
+      "meta": {
+        "pic": null,
+        "banner": "\"🇷🇺\"",
+        "developer": "@midga3_modules & IDEA=\"@bleizix & fork by @mihailkotovski & fork fork by @nenfiz\""
+      },
+      "commands": [],
+      "new_commands": [],
+      "inline_handlers": [],
+      "strings": {
+        "name": "ZZZ ZOVV",
+        "_cls_doc": "Я СКАЗАЛ ГОЙДАААА",
+        "config_enable_doc": "ВКЛЮЧИТЬ ГОЙДУУУУ",
+        "config_effects_frequency_doc": "Частота эффектов (ZOV, ГОЙДА, 🇷🇺, 🔥, ❤️‍🔥, 🤙🏻, 💨)",
+        "config_enable_emojis_doc": "Включить смайлики 🔥❤️‍🔥🤙🏻💨",
+        "config_enable_slang_doc": "Пацанский матерный сленг (привет → здарова, пиздец → трындец)",
+        "error_message": "Ой-ой! Что-то пошло по пиздецу... Вот оригинал: {}",
+        "config_enable_doc_ru": "ВКЛЮЧИТЬ ГОЙДУУУУ",
+        "config_effects_frequency_doc_ru": "Частота эффектов (ZOV, ГОЙДА, 🇷🇺, 🔥, ❤️‍🔥, 🤙🏻, 💨)",
+        "config_enable_emojis_doc_ru": "Включить смайлики 🔥❤️‍🔥🤙🏻💨",
+        "config_enable_slang_doc_ru": "Пацанский матерный сленг (привет → здарова, пиздец → трындец)",
+        "error_message_ru": "Ой-ой! Что-то пошло по пиздецу... Вот оригинал: {}"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Midga3/Heroku-modules/BirthdayCount.py": {
+      "name": "BirthdayCount",
+      "description": "Counter to birthday\nVia @birthdaycountbot",
+      "cls_doc": {
+        "ru": "Счёт до др\nЧерез бота @birthdaycountbot"
+      },
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@midga3_modules"
+      },
+      "commands": [
+        {
+          "bcount": "check how many days left. | (R) проверьте сколько дней осталось. | (RU) проверьте сколько дней осталось."
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "bcount",
+          "original_name": "bcountcmd",
+          "description": {
+            "default": "check how many days left.",
+            "r": "проверьте сколько дней осталось.",
+            "ru": "проверьте сколько дней осталось."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "BirthdayCount",
+        "fail": "<b><emoji document_id=5465665476971471368>❌</emoji>First, register at @birthdaycountbot</b>",
+        "_cmd_doc_bcount": "check how many days left.",
+        "fail_ru": "<b><emoji document_id=5465665476971471368>❌</emoji>Сначала зарегистрируйтесь в @birthdaycountbot</b>",
+        "_cmd_doc_ru_bcount": "проверьте сколько дней осталось.",
+        "_cmd_doc_bcount_ru": "проверьте сколько дней осталось."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Midga3/Heroku-modules/fhetastatus.py": {
+      "name": "FHetaStatus",
+      "description": "NOT OFFICIAL FHeta MODULE\nCheck fheta status",
+      "cls_doc": {
+        "ru": "НЕ ОФИЦИАЛЬНЫЙ FHeta МОДУЛЬ\nПроверьте статус FHeta"
+      },
+      "meta": {
+        "pic": "https://ia801007.us.archive.org/BookReader/BookReaderImages.php?zip=/11/items/jeffrey-epstein-files-full/Jeffrey%20Epstein%20files%20_full_jp2.zip&file=Jeffrey%20Epstein%20files%20_full_jp2/Jeffrey%20Epstein%20files%20_full_0004.jp2&id=jeffrey-epstein-files-full&scale=4&rotate=0",
+        "banner": "https://ia801007.us.archive.org/BookReader/BookReaderImages.php?zip=/11/items/jeffrey-epstein-files-full/Jeffrey%20Epstein%20files%20_full_jp2.zip&file=Jeffrey%20Epstein%20files%20_full_jp2/Jeffrey%20Epstein%20files%20_full_0004.jp2&id=jeffrey-epstein-files-full&scale=4&rotate=0",
+        "developer": "@midga3_modules"
+      },
+      "commands": [
+        {
+          "fping": "check fheta status. | (R) проверить статус FHeta. | (RU) проверить статус FHeta."
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "fping",
+          "original_name": "fpingcmd",
+          "description": {
+            "default": "check fheta status.",
+            "r": "проверить статус FHeta.",
+            "ru": "проверить статус FHeta."
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "FHetaStatus",
+        "working": "<b><emoji document_id=5427009714745517609>✅</emoji>FHeta is working</b>",
+        "not_working": "<b><emoji document_id=5465665476971471368>❌</emoji>Fheta is unavailable</b>",
+        "_cmd_doc_fping": "check fheta status.",
+        "working_ru": "<b><emoji document_id=5427009714745517609>✅</emoji>FHeta работает</b>",
+        "not_working_ru": "<b><emoji document_id=5465665476971471368>❌</emoji>Fheta недоступна</b>",
+        "_cmd_doc_ru_fping": "проверить статус FHeta.",
+        "_cmd_doc_fping_ru": "проверить статус FHeta."
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Midga3/Heroku-modules/PingEmoji.py": {
+      "name": "PingEmoji",
+      "description": "",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": "https://github.com/Midga3/heroku-modules/blob/main/new_module.jpg?raw=true",
+        "developer": "@midga3_modules"
+      },
+      "commands": [],
+      "new_commands": [],
+      "inline_handlers": [],
+      "strings": {
+        "name": "PingEmoji"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "1jpshiro/hikka-modules/ChannelImitator.py": {
       "name": "ChannelImitator",
       "description": "",
@@ -82841,7 +84951,7 @@
     }
   },
   "meta": {
-    "total_modules": 1027,
-    "generated_at": "2026-04-12T13:57:28.564550"
+    "total_modules": 1057,
+    "generated_at": "2026-04-12T14:57:34.895164"
   }
 }
