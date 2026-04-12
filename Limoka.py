@@ -33,7 +33,7 @@ from .. import utils, loader
 from ..types import InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 4, 3)
+__version__ = (1, 4, 4)
 
 WEIGHTS = {
     "inline.token_obtainment": 15,
