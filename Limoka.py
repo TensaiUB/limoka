@@ -33,7 +33,7 @@ from .. import utils, loader
 from ..types import InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 4, 2)
+__version__ = (1, 4, 3)
 
 WEIGHTS = {
     "inline.token_obtainment": 15,
@@ -90,27 +90,27 @@ class Limoka(loader.Module):
     strings = {
         "name": "Limoka",
         "wait": (
-            "Just wait\n"
+            "<blockquote>Just wait\n"
             "<emoji document_id=5404630946563515782>🔍</emoji> A search is underway among {count} modules "
             "for the query: <code>{query}</code>\n"
-            "<i>{fact}</i>"
+            "<i>{fact}</i></blockquote>"
         ),
         "found_header": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> Found module <b>{name}</b> "
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Found module <b>{name}</b> "
             "by query: <b>{query}</b>\n\n"
             "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {description}\n"
             "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Developer:</b> {username}\n\n"
-            "<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n"
+            "<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n</blockquote>"
         ),
         "found_body": ("{commands}"),
         "found_footer": (
-            "\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code>"
+            "<blockquote>\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code></blockquote>"
         ),
         "caption_short": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
             "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {safe_desc}\n"
             "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Dev:</b> {dev_username}\n"
-            "<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code>"
+            "<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code></blockquote>"
         ),
         "command_template": "{emoji} <code>{prefix}{command}</code> — {description}\n",
         "inline_handler_template": "{inline_bot} {command} — {description}\n",
@@ -125,63 +125,63 @@ class Limoka(loader.Module):
             8: "<emoji document_id=5416006506749383505>8️⃣</emoji>",
             9: "<emoji document_id=5415963015910544694>9️⃣</emoji>",
         },
-        "404": "<emoji document_id=5210952531676504517>❌</emoji> <b>Not found by query: <i>{query}</i></b>",
-        "noargs": "<emoji document_id=5210952531676504517>❌</emoji> <b>No args</b>",
-        "?": "<emoji document_id=5951895176908640647>🔎</emoji> Request too short / not found",
-        "no_info": "No information",
+        "404": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Not found by query: <i>{query}</i></b></blockquote>",
+        "noargs": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>No args</b></blockquote>",
+        "?": "<blockquote><emoji document_id=5951895176908640647>🔎</emoji> Request too short / not found</blockquote>",
+        "no_info": "<blockquote>No information</blockquote>",
         "facts": [
-            "<emoji document_id=5472193350520021357>🛡</emoji> The limoka catalog is carefully moderated!",
-            "<emoji document_id=5940434198413184876>🚀</emoji> Limoka performance allows you to search for modules quickly!",
+            "<blockquote><emoji document_id=5472193350520021357>🛡</emoji> The limoka catalog is carefully moderated!</blockquote>",
+            "<blockquote><emoji document_id=5940434198413184876>🚀</emoji> Limoka performance allows you to search for modules quickly!</blockquote>",
         ],
-        "inline404": "Not found",
-        "inline?": "Request too short / not found",
-        "inlinenoargs": "Please, enter query",
+        "inline404": "<blockquote>Not found</blockquote>",
+        "inline?": "<blockquote>Request too short / not found</blockquote>",
+        "inlinenoargs": "<blockquote>Please, enter query</blockquote>",
         "history": (
-            "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history:</b>\n"
-            "{history}"
+            "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history:</b>\n"
+            "{history}</blockquote>"
         ),
         "filter_menu": "Choose filters",
         "filter_cat": "📑 Filter by Category",
         "apply_filters": "✅ Apply Filters",
         "clear_filters": "🗑 Clear Filters",
         "back_to_results": "🔙 Back to Results",
-        "empty_history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b>",
-        "enter_query": "🔍 Enter new search query:",
-        "global_search": "<emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules",
+        "empty_history": "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b></blockquote>",
+        "enter_query": "<blockquote>🔍 Enter new search query:</blockquote>",
+        "global_search": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules</blockquote>",
         "change_query": "🔍 Change query",
-        "no_modules": "No modules available.",
+        "no_modules": "<blockquote>No modules available.</blockquote>",
         "filter_title": "🏷 Filters",
         "category_title": "📂 Categories",
-        "selected_categories": "✅ Selected categories: {categories}",
-        "no_categories": "No categories found in the module database",
-        "select_category": "Select categories for query: <code>{query}</code>\n(You can select multiple)",
+        "selected_categories": "<blockquote>✅ Selected categories: {categories}</blockquote>",
+        "no_categories": "<blockquote>No categories found in the module database</blockquote>",
+        "select_category": "<blockquote>Select categories for query: <code>{query}</code>\n(You can select multiple)</blockquote>",
         "back": "🔙 Back",
         "category": "📁 {category}",
-        "no_category": "No category",
+        "no_category": "<blockquote>No category</blockquote>",
         "global_button": "🌍 Results",
         "filtered_button": "🏷️ Filtered search",
         "inline_search": "🔍 Search in Limoka",
-        "inline_no_results": "❌ No modules found",
-        "inline_error": "❌ Search error occurred",
-        "inline_short_query": "❌ Query too short (min 2 chars)",
+        "inline_no_results": "<blockquote>❌ No modules found</blockquote>",
+        "inline_error": "<blockquote>❌ Search error occurred</blockquote>",
+        "inline_short_query": "<blockquote>❌ Query too short (min 2 chars)</blockquote>",
         "inline_switch_pm": "💬 Open in chat",
         "inline_switch_pm_text": "🔍 Results for: {query}",
-        "inline_start_message": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nType module name or keyword",
-        "first_page": "This is the first page!",
-        "last_page": "This is the last page!",
-        "display_error": "Error displaying module. Please try again.",
-        "error_occurred": "An error occurred. Please try again.",
-        "start_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nEnter your query to search for modules:",
-        "global_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Global Search</b>\nEnter your query to search ALL modules without filters:",
-        "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b>",
-        "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history",
+        "inline_start_message": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nType module name or keyword</blockquote>",
+        "first_page": "<blockquote>This is the first page!</blockquote>",
+        "last_page": "<blockquote>This is the last page!</blockquote>",
+        "display_error": "<blockquote>Error displaying module. Please try again.</blockquote>",
+        "error_occurred": "<blockquote>An error occurred. Please try again.</blockquote>",
+        "start_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nEnter your query to search for modules:</blockquote>",
+        "global_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Global Search</b>\nEnter your query to search ALL modules without filters:</blockquote>",
+        "history_cleared": "<blockquote><emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b></blockquote>",
+        "invalid_history_arg": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history</blockquote>",
         "close": "❌ Close",
-        "watcher_no_tag": "❌ Invalid message format. No #limoka tag found.",
-        "watcher_invalid_format": "❌ Invalid format. Expected: #limoka:path:signature",
-        "watcher_signature_invalid": "❌ Signature invalid! Installation aborted.",
-        "watcher_loader_missing": "❌ Loader module not found.",
-        "watcher_module_not_found": "❌ Module not found in Limoka database: <code>{path}</code>",
-        "watcher_critical": "❌ Critical error: {error}",
+        "watcher_no_tag": "<blockquote>❌ Invalid message format. No #limoka tag found.</blockquote>",
+        "watcher_invalid_format": "<blockquote>❌ Invalid format. Expected: #limoka:path:signature</blockquote>",
+        "watcher_signature_invalid": "<blockquote>❌ Signature invalid! Installation aborted.</blockquote>",
+        "watcher_loader_missing": "<blockquote>❌ Loader module not found.</blockquote>",
+        "watcher_module_not_found": "<blockquote>❌ Module not found in Limoka database: <code>{path}</code></blockquote>",
+        "watcher_critical": "<blockquote>❌ Critical error: {error}</blockquote>",
         "tags": {
             "herokutrusted": "Heroku Trusted",
             "hikkatrusted": "Hikka Trusted",
@@ -190,111 +190,113 @@ class Limoka(loader.Module):
             "newbie": "Newbie",
         },
         "indexing_in_progress": (
-            "⚠️ Database is busy, "
+            "<blockquote>⚠️ Database is busy, "
             "try again later. "
             "If issue persists, try "
             "removing limoka_index in the userbot's root folder. "
-            "If error persists again, report to developers"
+            "If error persists again, report to developers</blockquote>"
         ),
+        "body_page": "Commands",
     }
     strings_ru = {
         "name": "Limoka",
         "wait": (
-            "Подождите\n"
+            "<blockquote>Подождите\n"
             "<emoji document_id=5404630946563515782>🔍</emoji> Идёт поиск среди {count} модулей по запросу: <code>{query}</code>\n"
-            "<i>{fact}</i>"
+            "<i>{fact}</i></blockquote>"
         ),
         "found_header": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> Найден модуль <b>{name}</b> "
-            "по запросу: <b>{query}</b>\n\n"
-            "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {description}\n"
-            "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {username}\n\n"
-            "<b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}\n\n"
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Найден модуль <b>{name}</b> "
+            "по запросу: <b>{query}</b></blockquote>\n\n"
+            "<blockquote><b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {description}</blockquote>\n"
+            "<blockquote><b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {username}</blockquote>\n\n"
+            "<blockquote><b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}</blockquote>\n\n"
         ),
         "found_body": ("{commands}"),
         "found_footer": (
-            "\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code>"
+            "\n<blockquote><emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code></blockquote>"
         ),
         "caption_short": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
             "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {safe_desc}\n"
             "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {dev_username}\n"
-            "<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code>"
+            "<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code></blockquote>"
         ),
-        "command_template": "{emoji} <code>{prefix}{command}</code> — {description}\n",
+        "command_template": "<blockquote>{emoji} <code>{prefix}{command}</code> — {description}</blockquote>\n",
         "inline_handler_template": "{inline_bot} {command} — {description}\n",
         "emojis": {
-            1: "<emoji document_id=5416037945909987712>1️⃣</emoji>",
-            2: "<emoji document_id=5413855071731470617>2️⃣</emoji>",
-            3: "<emoji document_id=5416068826724850291>3️⃣</emoji>",
-            4: "<emoji document_id=5415843998071803071>4️⃣</emoji>",
-            5: "<emoji document_id=5415684843763686989>5️⃣</emoji>",
-            6: "<emoji document_id=5415975458430796879>6️⃣</emoji>",
-            7: "<emoji document_id=5415769763857060166>7️⃣</emoji>",
-            8: "<emoji document_id=5416006506749383505>8️⃣</emoji>",
-            9: "<emoji document_id=5415963015910544694>9️⃣</emoji>",
+            1: "<tg-emoji emoji-id=5416037945909987712>1️⃣</tg-emoji>",
+            2: "<tg-emoji emoji-id=5413855071731470617>2️⃣</tg-emoji>",
+            3: "<tg-emoji emoji-id=5416068826724850291>3️⃣</tg-emoji>",
+            4: "<tg-emoji emoji-id=5415843998071803071>4️⃣</tg-emoji>",
+            5: "<tg-emoji emoji-id=5415684843763686989>5️⃣</tg-emoji>",
+            6: "<tg-emoji emoji-id=5415975458430796879>6️⃣</tg-emoji>",
+            7: "<tg-emoji emoji-id=5415769763857060166>7️⃣</tg-emoji>",
+            8: "<tg-emoji emoji-id=5416006506749383505>8️⃣</tg-emoji>",
+            9: "<tg-emoji emoji-id=5415963015910544694>9️⃣</tg-emoji>",
+            10: "<tg-emoji emoji-id=5415642160378696377>🔟</tg-emoji>"
         },
-        "404": "<emoji document_id=5210952531676504517>❌</emoji> <b>Не найдено по запросу: <i>{query}</i></b>",
-        "noargs": "<emoji document_id=5210952531676504517>❌</emoji> <b>Нет аргументов</b>",
-        "?": "<emoji document_id=5951895176908640647>🔎</emoji> Запрос слишком короткий / не найден",
-        "no_info": "Нет информации",
+        "404": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Не найдено по запросу: <i>{query}</i></b></blockquote>",
+        "noargs": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Нет аргументов</b></blockquote>",
+        "?": "<blockquote><emoji document_id=5951895176908640647>🔎</emoji> Запрос слишком короткий / не найден</blockquote>",
+        "no_info": "<blockquote>Нет информации</blockquote>",
         "facts": [
-            "<emoji document_id=5472193350520021357>🛡</emoji> Каталог Limoka тщательно модерируется!",
-            "<emoji document_id=5940434198413184876>🚀</emoji> Limoka позволяет искать модули с невероятной скоростью!",
+            "<blockquote><emoji document_id=5472193350520021357>🛡</emoji> Каталог Limoka тщательно модерируется!</blockquote>",
+            "<blockquote><emoji document_id=5940434198413184876>🚀</emoji> Limoka позволяет искать модули с невероятной скоростью!</blockquote>",
             (
-                "<emoji document_id=5188311512791393083>🔎</emoji> Limoka имеет лучший поиск*!\n"
-                "<i>* В сравнении с предыдущей версией Limoka</i>"
+                "<blockquote><emoji document_id=5188311512791393083>🔎</emoji> Limoka имеет лучший поиск*!\n"
+                "<i>* В сравнении с предыдущей версией Limoka</i></blockquote>"
             ),
         ],
-        "inline404": "Не найдено",
-        "inline?": "Запрос слишком короткий / не найден",
-        "inlinenoargs": "Введите запрос",
+        "inline404": "<blockquote>Не найдено</blockquote>",
+        "inline?": "<blockquote>Запрос слишком короткий / не найден</blockquote>",
+        "inlinenoargs": "<blockquote>Введите запрос</blockquote>",
         "history": (
-            "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска:</b>\n"
-            "{history}"
+            "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска:</b>\n"
+            "{history}</blockquote>"
         ),
         "filter_menu": "Выберите фильтры",
         "filter_cat": "📑 Фильтр по категориям",
         "apply_filters": "✅ Применить фильтры",
         "clear_filters": "🗑 Очистить фильтры",
         "back_to_results": "🔙 Вернуться к результатам",
-        "empty_history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b>",
-        "enter_query": "🔍 Введите новый поисковый запрос:",
-        "global_search": "<emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей",
+        "empty_history": "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b></blockquote>",
+        "enter_query": "<blockquote>🔍 Введите новый поисковый запрос:</blockquote>",
+        "global_search": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей</blockquote>",
         "change_query": "🔍 Изменить запрос",
-        "no_modules": "Модули недоступны.",
+        "no_modules": "<blockquote>Модули недоступны.</blockquote>",
         "filter_title": "🏷 Фильтры",
         "category_title": "📂 Категории",
-        "selected_categories": "✅ Выбранные категории: {categories}",
-        "no_categories": "Категории не найдены в базе модулей",
-        "select_category": "Выберите категории для запроса: <code>{query}</code>\n(Можно выбрать несколько)",
+        "selected_categories": "<blockquote>✅ Выбранные категории: {categories}</blockquote>",
+        "no_categories": "<blockquote>Категории не найдены в базе модулей</blockquote>",
+        "select_category": "<blockquote>Выберите категории для запроса: <code>{query}</code>\n(Можно выбрать несколько)</blockquote>",
         "back": "🔙 Назад",
         "category": "📁 {category}",
-        "no_category": "Без категории",
+        "no_category": "<blockquote>Без категории</blockquote>",
         "global_button": "🌍 Результаты",
         "filtered_button": "🏷️ Поиск с фильтрами",
         "inline_search": "🔍 Поиск в Limoka",
-        "inline_no_results": "❌ Модули не найдены",
-        "inline_error": "❌ Ошибка поиска",
-        "inline_short_query": "❌ Запрос слишком короткий (мин. 2 символа)",
+        "inline_no_results": "<blockquote>❌ Модули не найдены</blockquote>",
+        "inline_error": "<blockquote>❌ Ошибка поиска</blockquote>",
+        "inline_short_query": "<blockquote>❌ Запрос слишком короткий (мин. 2 символа)</blockquote>",
         "inline_switch_pm": "💬 Открыть в чате",
         "inline_switch_pm_text": "🔍 Результаты для: {query}",
-        "inline_start_message": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите название модуля или ключевое слово",
-        "first_page": "Это первая страница!",
-        "last_page": "Это последняя страница!",
-        "display_error": "Ошибка отображения модуля. Пожалуйста, попробуйте еще раз.",
-        "error_occurred": "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
-        "start_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите ваш запрос для поиска модулей:",
-        "global_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Глобальный Поиск</b>\nВведите запрос для поиска ВСЕХ модулей без фильтров:",
-        "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b>",
-        "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю",
+        "inline_start_message": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите название модуля или ключевое слово</blockquote>",
+        "first_page": "<blockquote>Это первая страница!</blockquote>",
+        "last_page": "<blockquote>Это последняя страница!</blockquote>",
+        "display_error": "<blockquote>Ошибка отображения модуля. Пожалуйста, попробуйте еще раз.</blockquote>",
+        "error_occurred": "<blockquote>Произошла ошибка. Пожалуйста, попробуйте еще раз.</blockquote>",
+        "start_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите ваш запрос для поиска модулей:</blockquote>",
+        "global_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Глобальный Поиск</b>\nВведите запрос для поиска ВСЕХ модулей без фильтров:</blockquote>",
+        "history_cleared": "<blockquote><emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b></blockquote>",
+        "invalid_history_arg": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю</blockquote>",
         "close": "❌ Закрыть",
-        "watcher_no_tag": "❌ Неверный формат сообщения. Тег #limoka не найден.",
-        "watcher_invalid_format": "❌ Неверный формат. Ожидается: #limoka:path:signature",
-        "watcher_signature_invalid": "❌ Неверная подпись! Установка отменена.",
-        "watcher_loader_missing": "❌ Модуль загрузчика не найден.",
-        "watcher_module_not_found": "❌ Модуль не найден в базе Limoka: <code>{path}</code>",
-        "watcher_critical": "❌ Критическая ошибка: {error}",
+        "watcher_no_tag": "<blockquote>❌ Неверный формат сообщения. Тег #limoka не найден.</blockquote>",
+        "watcher_invalid_format": "<blockquote>❌ Неверный формат. Ожидается: #limoka:path:signature</blockquote>",
+        "watcher_signature_invalid": "<blockquote>❌ Неверная подпись! Установка отменена.</blockquote>",
+        "watcher_loader_missing": "<blockquote>❌ Модуль загрузчика не найден.</blockquote>",
+        "watcher_module_not_found": "<blockquote>❌ Модуль не найден в базе Limoka: <code>{path}</code></blockquote>",
+        "watcher_critical": "<blockquote>❌ Критическая ошибка: {error}</blockquote>",
         "tags": {
             "herokutrusted": "Heroku Trusted",
             "hikkatrusted": "Hikka Trusted",
@@ -303,12 +305,13 @@ class Limoka(loader.Module):
             "newbie": "Новичок",
         },
         "indexing_in_progress": (
-            "⚠️ База данных занята, "
+            "<blockquote>\u26a0\ufe0f База данных занята, "
             "попробуйте снова через несколько секунд. "
             "Если ошибка сохраняется, попробуйте "
             "удалить limoka_index в корневой папке юзербота. "
-            "Если ошибка сохраняется снова, сообщите разработчикам"
+            "Если ошибка сохраняется снова, сообщите разработчикам</blockquote>"
         ),
+        "body_page": "Команды",
         "_cls_doc": "Модули теперь в одном месте с простым и удобным поиском!",
     }
 
@@ -579,7 +582,12 @@ class Limoka(loader.Module):
         for i, cmd in enumerate(module_info.get("new_commands", []), 1):
             name = cmd.get("name", "")
             desc_map = cmd.get("description", {})
-            emoji = self.strings["emojis"].get(i, "")
+            if i <= 10:
+                emoji = self.strings["emojis"].get(i, "")
+            else:
+                emoji = ""
+                for digit in str(i):
+                    emoji += self.strings["emojis"].get(int(digit), "")
             desc = _get_lang_value(desc_map, lang) or self.strings["no_info"]
             commands.append(
                 self.strings["command_template"].format(
@@ -720,7 +728,7 @@ class Limoka(loader.Module):
             ],
         ]
         markup.append(
-            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
         )
         return markup
 
@@ -752,7 +760,7 @@ class Limoka(loader.Module):
                         ),
                     },
                     {
-                        "text": f"Body {page_body + 1}/{len(body_pages)}",
+                        "text": f"{self.strings["body_page"]} {page_body + 1}/{len(body_pages)}",
                         "callback": self._inline_void,
                     },
                     {
@@ -813,7 +821,7 @@ class Limoka(loader.Module):
             ]
         )
         markup.append(
-            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
         )
         return markup
 
@@ -867,9 +875,6 @@ class Limoka(loader.Module):
             filters = session["filters"]
 
             lang = self.user_lang
-            logger.info(
-                f"Displaying module: {module_path} for query: {query} with filters: {filters} in language: {lang}"
-            )
             module_banner_raw = module_info.get("meta", {}).get("banner")
             photo = await self._validate_url(module_banner_raw)
 
@@ -973,7 +978,7 @@ class Limoka(loader.Module):
                     "args": (session, True),
                 },
             ],
-            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}],
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}],
         ]
         text = self.strings["filter_menu"].format(query=query) + f"\n{filters_text}"
         await call.edit(
@@ -1036,7 +1041,7 @@ class Limoka(loader.Module):
             ]
         )
         buttons.append(
-            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
         )
         text = self.strings["select_category"].format(query=query)
         await call.edit(text, reply_markup=buttons)
@@ -1096,7 +1101,7 @@ class Limoka(loader.Module):
                 else []
             )
             markup.append(
-                [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+                [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
             )
             await call.edit(
                 self.strings["404"].format(query=query), reply_markup=markup
@@ -1128,7 +1133,7 @@ class Limoka(loader.Module):
                 else []
             )
             markup.append(
-                [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+                [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
             )
             await call.edit(
                 self.strings["404"].format(query=query), reply_markup=markup
@@ -1218,6 +1223,7 @@ class Limoka(loader.Module):
                         {
                             "text": self.strings.get("close", "❌ Close"),
                             "action": "close",
+                            "style": "danger",
                         }
                     ],
                 ],
@@ -1262,6 +1268,7 @@ class Limoka(loader.Module):
                 {
                     "text": self.strings.get("close", "❌ Close"),
                     "action": "close",
+                    "style": "danger",
                 }
             ],
         ]
@@ -1386,7 +1393,7 @@ class Limoka(loader.Module):
                 ],
             ]
             markup.append(
-                [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+                [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
             )
             await self.inline.form(
                 text=self.strings["start_search_form"],
@@ -1450,6 +1457,7 @@ class Limoka(loader.Module):
                 {
                     "text": self.strings.get("close", "❌ Close"),
                     "action": "close",
+                    "style": "danger",
                 }
             ],
         ]
@@ -1479,6 +1487,7 @@ class Limoka(loader.Module):
                         {
                             "text": self.strings.get("close", "❌ Close"),
                             "action": "close",
+                            "style": "danger",
                         }
                     ],
                 ],
@@ -1501,6 +1510,7 @@ class Limoka(loader.Module):
                         {
                             "text": self.strings.get("close", "❌ Close"),
                             "action": "close",
+                            "style": "danger",
                         }
                     ],
                 ],
@@ -1520,6 +1530,7 @@ class Limoka(loader.Module):
                         {
                             "text": self.strings.get("close", "❌ Close"),
                             "action": "close",
+                            "style": "danger",
                         }
                     ],
                 ],
@@ -1552,7 +1563,7 @@ class Limoka(loader.Module):
             ]
         )
         buttons.append(
-            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close", "style": "danger"}]
         )
         await call.edit(text=text[:4096], reply_markup=buttons)
 
