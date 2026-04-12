@@ -1,0 +1,37 @@
+[
+    {
+        "radio_name": "Новое Радио",
+        "current_link": "https://music.mts.ru/radio_proxy_host/emg/novoeradio/fmgid/current.json",
+        "radio_link": "https://stream.newradio.ru/novoe32.aacp"
+    },
+    {
+        "radio_name": "Русское Радио",
+        "current_link": "https://music.mts.ru/radio_proxy_host/rmg/rusradio/fmgid/current.json",
+        "radio_link": "https://rusradio.hostingradio.ru/rusradio96.aacp"
+    },
+    {
+        "radio_name": "Радио Москвы",
+        "current_link": "https://music.mts.ru/radio_proxy_fmgid/stations/radiomoscow/current.json",
+        "radio_link": "https://icecast-vgtrk.cdnvideo.ru/moscowtalk128"
+    },
+    {
+        "radio_name": "Детское Радио",
+        "current_link": "https://hls-01-gpm.hostingradio.ru/detifm495/metadata.json?format=fmgid&subformat=current",
+        "radio_link": "https://gpm.hostingradio.ru/detifm32.aacp"
+    },
+    {
+        "radio_name": "Европа Плюс",
+        "current_link": "https://music.mts.ru/radio_proxy_host/emg/europaplus/fmgid/current.json",
+        "radio_link": "https://epdop.hostingradio.ru:8033/europaplus32.aacp"
+    },
+    {
+        "radio_name": "Like FM",
+        "current_link": "https://hls-01-gpm.hostingradio.ru/likefm495/metadata.json?format=fmgid&subformat=current",
+        "radio_link": "https://srv01.gpmradio.ru/stream/air/aac/64/219"
+    },
+    {
+        "radio_name": "Шансон",
+        "current_link": "https://music.mts.ru/radio_proxy_fmgid/stations/shanson/current.json",
+        "radio_link": "https://chanson.hostingradio.ru:8041/chanson256.mp3"
+    }
+]
