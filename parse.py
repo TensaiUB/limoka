@@ -46,6 +46,18 @@ def is_loader_tds(deco: ast.AST) -> bool:
         and deco.attr in {"tds", "translatable_docstring"}
     )
 
+def inherits_loader_module(node: ast.ClassDef) -> bool:
+    """Check if class inherits from loader.Module"""
+    for base in node.bases:
+        if isinstance(base, ast.Attribute):
+            if (isinstance(base.value, ast.Name) and 
+                base.value.id == "loader" and 
+                base.attr == "Module"):
+                return True
+        elif isinstance(base, ast.Name) and base.id == "Module":
+            return True
+    return False
+
 def extract_string_value(node: ast.AST) -> Optional[str]:
     try:
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
@@ -144,7 +156,8 @@ def get_module_info(module_path: str) -> Optional[Dict[str, Any]]:
         is_module_class = (
             "Mod" in node.name or
             any(is_loader_tds(d) for d in node.decorator_list) or
-            any(isinstance(d, ast.Name) and d.id == "loader" for d in node.decorator_list)
+            any(isinstance(d, ast.Name) and d.id == "loader" for d in node.decorator_list) or
+            inherits_loader_module(node)
         )
 
         if not is_module_class:
