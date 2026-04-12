@@ -213,7 +213,7 @@
         {
             "url": "https://github.com/fiksofficial/python-modules",
             "tags": ["herokutrusted"],
-            "blacklist": []
+            "blacklist": ["PyInstall.py"]
         },
         {
             "url": "https://github.com/mead0wsss/mead0wsMods",
@@ -238,6 +238,21 @@
         {
             "url": "https://github.com/radiocycle/Modules",
             "tags": ["newbie"],
+            "blacklist": []
+        },
+        {
+            "url": "https://github.com/Fixyres/FModules",
+            "tags": [],
+            "blacklist": ["FHeta.py"]
+        },
+        {
+            "url": "https://github.com/Midga3/Heroku-modules",
+            "tags": ["newbie"],
+            "blacklist": ["deletelinux.py", "bleabratanspapibobolshoyevyrychil.py"]
+        },
+        {
+            "url": "https://github.com/archquise/q.mods",
+            "tags": ["herokutrusted"],
             "blacklist": []
         }
     ]
