@@ -1,6 +1,7 @@
 # meta developer: @limokanews
 # requires: whoosh cryptography
 
+
 from collections import Counter, defaultdict
 import shutil
 from whoosh.index import create_in, open_dir
@@ -32,7 +33,7 @@ from .. import utils, loader
 from ..types import InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 0, 0)
+__version__ = (1, 4, 2)
 
 WEIGHTS = {
     "inline.token_obtainment": 15,
@@ -83,34 +84,33 @@ class LimokaAPI:
 
 
 @loader.tds
-class LimokaLegacy(loader.Module):
-    """
-    Modules are now in one place with easy searching!
-    For Hikka and FTG Userbots. This module has outdated functionality and is kept for legacy reasons only.
-    Read https://t.me/limokanews/133 for more information.
-    """
+class Limoka(loader.Module):
+    """Modules are now in one place with easy searching!"""
 
     strings = {
-        "name": "Limoka Legacy",
+        "name": "Limoka",
         "wait": (
-            "Just wait\n"
+            "<blockquote>Just wait\n"
             "<emoji document_id=5404630946563515782>🔍</emoji> A search is underway among {count} modules "
             "for the query: <code>{query}</code>\n"
-            "<i>{fact}</i>"
+            "<i>{fact}</i></blockquote>"
         ),
         "found_header": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> Found module <b>{name}</b> "
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Found module <b>{name}</b> "
             "by query: <b>{query}</b>\n\n"
             "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {description}\n"
             "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Developer:</b> {username}\n\n"
-            "<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n"
+            "<b><emoji document_id=5418376169055602355>🏷</emoji> Tags:</b> {tags}\n\n</blockquote>"
         ),
         "found_body": ("{commands}"),
-        "found_footer": "",
+        "found_footer": (
+            "<blockquote>\n<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code></blockquote>"
+        ),
         "caption_short": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
             "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Description:</b> {safe_desc}\n"
-            "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Dev:</b> {dev_username}"
+            "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Dev:</b> {dev_username}\n"
+            "<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code></blockquote>"
         ),
         "command_template": "{emoji} <code>{prefix}{command}</code> — {description}\n",
         "inline_handler_template": "{inline_bot} {command} — {description}\n",
@@ -125,73 +125,104 @@ class LimokaLegacy(loader.Module):
             8: "<emoji document_id=5416006506749383505>8️⃣</emoji>",
             9: "<emoji document_id=5415963015910544694>9️⃣</emoji>",
         },
-        "404": "<emoji document_id=5210952531676504517>❌</emoji> <b>Not found by query: <i>{query}</i></b>",
-        "noargs": "<emoji document_id=5210952531676504517>❌</emoji> <b>No args</b>",
-        "?": "<emoji document_id=5951895176908640647>🔎</emoji> Request too short / not found",
-        "no_info": "No information",
+        "404": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Not found by query: <i>{query}</i></b></blockquote>",
+        "noargs": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>No args</b></blockquote>",
+        "?": "<blockquote><emoji document_id=5951895176908640647>🔎</emoji> Request too short / not found</blockquote>",
+        "no_info": "<blockquote>No information</blockquote>",
         "facts": [
-            "<emoji document_id=5472193350520021357>🛡</emoji> The limoka catalog is carefully moderated!",
-            "<emoji document_id=5940434198413184876>🚀</emoji> Limoka performance allows you to search for modules quickly!",
+            "<blockquote><emoji document_id=5472193350520021357>🛡</emoji> The limoka catalog is carefully moderated!</blockquote>",
+            "<blockquote><emoji document_id=5940434198413184876>🚀</emoji> Limoka performance allows you to search for modules quickly!</blockquote>",
         ],
+        "inline404": "<blockquote>Not found</blockquote>",
+        "inline?": "<blockquote>Request too short / not found</blockquote>",
+        "inlinenoargs": "<blockquote>Please, enter query</blockquote>",
         "history": (
-            "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history:</b>\n"
-            "{history}"
+            "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history:</b>\n"
+            "{history}</blockquote>"
         ),
-        "empty_history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b>",
-        "enter_query": "🔍 Enter new search query:",
-        "global_search": "<emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules",
+        "filter_menu": "Choose filters",
+        "filter_cat": "📑 Filter by Category",
+        "apply_filters": "✅ Apply Filters",
+        "clear_filters": "🗑 Clear Filters",
+        "back_to_results": "🔙 Back to Results",
+        "empty_history": "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>Your search history is empty!</b></blockquote>",
+        "enter_query": "<blockquote>🔍 Enter new search query:</blockquote>",
+        "global_search": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Global search for <b>{query}</b> — found <b>{count}</b> modules</blockquote>",
         "change_query": "🔍 Change query",
+        "no_modules": "<blockquote>No modules available.</blockquote>",
+        "filter_title": "🏷 Filters",
+        "category_title": "📂 Categories",
+        "selected_categories": "<blockquote>✅ Selected categories: {categories}</blockquote>",
+        "no_categories": "<blockquote>No categories found in the module database</blockquote>",
+        "select_category": "<blockquote>Select categories for query: <code>{query}</code>\n(You can select multiple)</blockquote>",
         "back": "🔙 Back",
+        "category": "📁 {category}",
+        "no_category": "<blockquote>No category</blockquote>",
         "global_button": "🌍 Results",
-        "first_page": "This is the first page!",
-        "last_page": "This is the last page!",
-        "display_error": "Error displaying module. Please try again.",
-        "error_occurred": "An error occurred. Please try again.",
-        "start_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nEnter your query to search for modules:",
-        "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b>",
-        "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history",
+        "filtered_button": "🏷️ Filtered search",
+        "inline_search": "🔍 Search in Limoka",
+        "inline_no_results": "<blockquote>❌ No modules found</blockquote>",
+        "inline_error": "<blockquote>❌ Search error occurred</blockquote>",
+        "inline_short_query": "<blockquote>❌ Query too short (min 2 chars)</blockquote>",
+        "inline_switch_pm": "💬 Open in chat",
+        "inline_switch_pm_text": "🔍 Results for: {query}",
+        "inline_start_message": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nType module name or keyword</blockquote>",
+        "first_page": "<blockquote>This is the first page!</blockquote>",
+        "last_page": "<blockquote>This is the last page!</blockquote>",
+        "display_error": "<blockquote>Error displaying module. Please try again.</blockquote>",
+        "error_occurred": "<blockquote>An error occurred. Please try again.</blockquote>",
+        "start_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Search</b>\nEnter your query to search for modules:</blockquote>",
+        "global_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Global Search</b>\nEnter your query to search ALL modules without filters:</blockquote>",
+        "history_cleared": "<blockquote><emoji document_id=5427009710268689068>🧹</emoji> <b>Search history cleared!</b></blockquote>",
+        "invalid_history_arg": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Invalid argument for history command. Use:</b>\n<code>.lshistory</code> - show history\n<code>.lshistory clear</code> - clear history</blockquote>",
         "close": "❌ Close",
+        "watcher_no_tag": "<blockquote>❌ Invalid message format. No #limoka tag found.</blockquote>",
+        "watcher_invalid_format": "<blockquote>❌ Invalid format. Expected: #limoka:path:signature</blockquote>",
+        "watcher_signature_invalid": "<blockquote>❌ Signature invalid! Installation aborted.</blockquote>",
+        "watcher_loader_missing": "<blockquote>❌ Loader module not found.</blockquote>",
+        "watcher_module_not_found": "<blockquote>❌ Module not found in Limoka database: <code>{path}</code></blockquote>",
+        "watcher_critical": "<blockquote>❌ Critical error: {error}</blockquote>",
+        "tags": {
+            "herokutrusted": "Heroku Trusted",
+            "hikkatrusted": "Hikka Trusted",
+            "nonactive": "Non-Active Repository",
+            "nonlongermaintained": "No Longer Maintained Repository",
+            "newbie": "Newbie",
+        },
         "indexing_in_progress": (
-            "⚠️ Database is busy, "
+            "<blockquote>⚠️ Database is busy, "
             "try again later. "
             "If issue persists, try "
             "removing limoka_index in the userbot's root folder. "
-            "If error persists again, report to developers"
+            "If error persists again, report to developers</blockquote>"
         ),
-        "install_btn": "🛠 Install",
-        "source_btn": "📦 Source",
-        "installed": "✅ Installed successfully!",
-        "install_failed": "❌ Installation failed!",
-        "tags": {
-            "newbie": "Newbie",
-            "herokutrusted": "Heroku Trusted",
-            "hikkatrusted": "Hikka Trusted",
-            "nonactive": "Non-active repository",
-            "nonlongermaintained": "Abandoned repository",
-        }
+        "body_page": "Commands",
     }
     strings_ru = {
         "name": "Limoka",
         "wait": (
-            "Подождите\n"
+            "<blockquote>Подождите\n"
             "<emoji document_id=5404630946563515782>🔍</emoji> Идёт поиск среди {count} модулей по запросу: <code>{query}</code>\n"
-            "<i>{fact}</i>"
+            "<i>{fact}</i></blockquote>"
         ),
         "found_header": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> Найден модуль <b>{name}</b> "
-            "по запросу: <b>{query}</b>\n\n"
-            "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {description}\n"
-            "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {username}\n\n"
-            "<b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}\n\n"
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Найден модуль <b>{name}</b> "
+            "по запросу: <b>{query}</b></blockquote>\n\n"
+            "<blockquote><b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {description}</blockquote>\n"
+            "<blockquote><b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {username}</blockquote>\n\n"
+            "<blockquote><b><emoji document_id=5418376169055602355>🏷</emoji> Теги:</b> {tags}</blockquote>\n\n"
         ),
         "found_body": ("{commands}"),
-        "found_footer": "",
-        "caption_short": (
-            "<emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
-            "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {safe_desc}\n"
-            "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {dev_username}"
+        "found_footer": (
+            "\n<blockquote><emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {url}{module_path}</code></blockquote>"
         ),
-        "command_template": "{emoji} <code>{prefix}{command}</code> — {description}\n",
+        "caption_short": (
+            "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>{safe_name}</b>\n"
+            "<b><emoji document_id=5418376169055602355>ℹ️</emoji> Описание:</b> {safe_desc}\n"
+            "<b><emoji document_id=5418299289141004396>🧑‍💻</emoji> Разработчик:</b> {dev_username}\n"
+            "<emoji document_id=5411143117711624172>🪄</emoji> <code>{prefix}dlm {module_path}</code></blockquote>"
+        ),
+        "command_template": "<blockquote>{emoji} <code>{prefix}{command}</code> — {description}</blockquote>\n",
         "inline_handler_template": "{inline_bot} {command} — {description}\n",
         "emojis": {
             1: "<emoji document_id=5416037945909987712>1️⃣</emoji>",
@@ -203,51 +234,85 @@ class LimokaLegacy(loader.Module):
             7: "<emoji document_id=5415769763857060166>7️⃣</emoji>",
             8: "<emoji document_id=5416006506749383505>8️⃣</emoji>",
             9: "<emoji document_id=5415963015910544694>9️⃣</emoji>",
+            10: "<emoji document_id=5415642160378696377>🔟</emoji>"
         },
-        "404": "<emoji document_id=5210952531676504517>❌</emoji> <b>Не найдено по запросу: <i>{query}</i></b>",
-        "noargs": "<emoji document_id=5210952531676504517>❌</emoji> <b>Нет аргументов</b>",
-        "?": "<emoji document_id=5951895176908640647>🔎</emoji> Запрос слишком короткий / не найден",
-        "no_info": "Нет информации",
+        "404": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Не найдено по запросу: <i>{query}</i></b></blockquote>",
+        "noargs": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Нет аргументов</b></blockquote>",
+        "?": "<blockquote><emoji document_id=5951895176908640647>🔎</emoji> Запрос слишком короткий / не найден</blockquote>",
+        "no_info": "<blockquote>Нет информации</blockquote>",
         "facts": [
-            "<emoji document_id=5472193350520021357>🛡</emoji> Каталог Limoka тщательно модерируется!",
-            "<emoji document_id=5940434198413184876>🚀</emoji> Limoka позволяет искать модули с невероятной скоростью!",
+            "<blockquote><emoji document_id=5472193350520021357>🛡</emoji> Каталог Limoka тщательно модерируется!</blockquote>",
+            "<blockquote><emoji document_id=5940434198413184876>🚀</emoji> Limoka позволяет искать модули с невероятной скоростью!</blockquote>",
+            (
+                "<blockquote><emoji document_id=5188311512791393083>🔎</emoji> Limoka имеет лучший поиск*!\n"
+                "<i>* В сравнении с предыдущей версией Limoka</i></blockquote>"
+            ),
         ],
+        "inline404": "<blockquote>Не найдено</blockquote>",
+        "inline?": "<blockquote>Запрос слишком короткий / не найден</blockquote>",
+        "inlinenoargs": "<blockquote>Введите запрос</blockquote>",
         "history": (
-            "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска:</b>\n"
-            "{history}"
+            "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска:</b>\n"
+            "{history}</blockquote>"
         ),
-        "empty_history": "<emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b>",
-        "enter_query": "🔍 Введите новый поисковый запрос:",
-        "global_search": "<emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей",
+        "filter_menu": "Выберите фильтры",
+        "filter_cat": "📑 Фильтр по категориям",
+        "apply_filters": "✅ Применить фильтры",
+        "clear_filters": "🗑 Очистить фильтры",
+        "back_to_results": "🔙 Вернуться к результатам",
+        "empty_history": "<blockquote><emoji document_id=5879939498149679716>🔎</emoji> <b>История поиска пуста!</b></blockquote>",
+        "enter_query": "<blockquote>🔍 Введите новый поисковый запрос:</blockquote>",
+        "global_search": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> Глобальный поиск по <b>{query}</b> — найдено <b>{count}</b> модулей</blockquote>",
         "change_query": "🔍 Изменить запрос",
+        "no_modules": "<blockquote>Модули недоступны.</blockquote>",
+        "filter_title": "🏷 Фильтры",
+        "category_title": "📂 Категории",
+        "selected_categories": "<blockquote>✅ Выбранные категории: {categories}</blockquote>",
+        "no_categories": "<blockquote>Категории не найдены в базе модулей</blockquote>",
+        "select_category": "<blockquote>Выберите категории для запроса: <code>{query}</code>\n(Можно выбрать несколько)</blockquote>",
         "back": "🔙 Назад",
+        "category": "📁 {category}",
+        "no_category": "<blockquote>Без категории</blockquote>",
         "global_button": "🌍 Результаты",
-        "first_page": "Это первая страница!",
-        "last_page": "Это последняя страница!",
-        "display_error": "Ошибка отображения модуля. Пожалуйста, попробуйте еще раз.",
-        "error_occurred": "Произошла ошибка. Пожалуйста, попробуйте еще раз.",
-        "start_search_form": "<emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите ваш запрос для поиска модулей:",
-        "history_cleared": "<emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b>",
-        "invalid_history_arg": "<emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю",
+        "filtered_button": "🏷️ Поиск с фильтрами",
+        "inline_search": "🔍 Поиск в Limoka",
+        "inline_no_results": "<blockquote>❌ Модули не найдены</blockquote>",
+        "inline_error": "<blockquote>❌ Ошибка поиска</blockquote>",
+        "inline_short_query": "<blockquote>❌ Запрос слишком короткий (мин. 2 символа)</blockquote>",
+        "inline_switch_pm": "💬 Открыть в чате",
+        "inline_switch_pm_text": "🔍 Результаты для: {query}",
+        "inline_start_message": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите название модуля или ключевое слово</blockquote>",
+        "first_page": "<blockquote>Это первая страница!</blockquote>",
+        "last_page": "<blockquote>Это последняя страница!</blockquote>",
+        "display_error": "<blockquote>Ошибка отображения модуля. Пожалуйста, попробуйте еще раз.</blockquote>",
+        "error_occurred": "<blockquote>Произошла ошибка. Пожалуйста, попробуйте еще раз.</blockquote>",
+        "start_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Limoka Поиск</b>\nВведите ваш запрос для поиска модулей:</blockquote>",
+        "global_search_form": "<blockquote><emoji document_id=5413334818047940135>🔍</emoji> <b>Глобальный Поиск</b>\nВведите запрос для поиска ВСЕХ модулей без фильтров:</blockquote>",
+        "history_cleared": "<blockquote><emoji document_id=5427009710268689068>🧹</emoji> <b>История поиска очищена!</b></blockquote>",
+        "invalid_history_arg": "<blockquote><emoji document_id=5210952531676504517>❌</emoji> <b>Неверный аргумент для команды истории. Используйте:</b>\n<code>.lshistory</code> - показать историю\n<code>.lshistory clear</code> - очистить историю</blockquote>",
         "close": "❌ Закрыть",
-        "indexing_in_progress": (
-            "⚠️ База данных занята, "
-            "попробуйте снова через несколько секунд. "
-            "Если ошибка сохраняется, попробуйте "
-            "удалить limoka_index в корневой папке юзербота. "
-            "Если ошибка сохраняется снова, сообщите разработчикам"
-        ),
-        "install_btn": "🛠 Установить",
-        "source_btn": "📦 Исходный код",
-        "installed": "✅ Установлено успешно!",
-        "install_failed": "❌ Установка не удалась!",
+        "watcher_no_tag": "<blockquote>❌ Неверный формат сообщения. Тег #limoka не найден.</blockquote>",
+        "watcher_invalid_format": "<blockquote>❌ Неверный формат. Ожидается: #limoka:path:signature</blockquote>",
+        "watcher_signature_invalid": "<blockquote>❌ Неверная подпись! Установка отменена.</blockquote>",
+        "watcher_loader_missing": "<blockquote>❌ Модуль загрузчика не найден.</blockquote>",
+        "watcher_module_not_found": "<blockquote>❌ Модуль не найден в базе Limoka: <code>{path}</code></blockquote>",
+        "watcher_critical": "<blockquote>❌ Критическая ошибка: {error}</blockquote>",
         "tags": {
-            "newbie": "Новичок",
             "herokutrusted": "Heroku Trusted",
             "hikkatrusted": "Hikka Trusted",
             "nonactive": "Неактивный репозиторий",
-            "nonlongermaintained": "Заброшенный репозиторий",
-        }
+            "nonlongermaintained": "Неподдерживаемый репозиторий",
+            "newbie": "Новичок",
+        },
+        "indexing_in_progress": (
+            "<blockquote>\u26a0\ufe0f База данных занята, "
+            "попробуйте снова через несколько секунд. "
+            "Если ошибка сохраняется, попробуйте "
+            "удалить limoka_index в корневой папке юзербота. "
+            "Если ошибка сохраняется снова, сообщите разработчикам</blockquote>"
+        ),
+        "body_page": "Команды",
+        "_cls_doc": "Модули теперь в одном месте с простым и удобным поиском!",
     }
 
     def __init__(self):
@@ -277,13 +342,27 @@ class LimokaLegacy(loader.Module):
         self._bot_username = "limoka_bbot"
         self._base_url = self.config["limokaurl"]
 
-        BANNERS = {
-            "global_search": "https://github.com/MuRuLOSE/hikka-assets/blob/main/Limoka%20-%20Global%20Search.png?raw=true",
-            "not_found": "https://github.com/MuRuLOSE/hikka-assets/blob/main/Limoka%20-%20Not%20Found.png?raw=true",
-            "no_banner": "https://github.com/MuRuLOSE/hikka-assets/blob/main/Limoka%20-%20No%20banner.png?raw=true",
+        # Search session states
+        self.SEARCH_STATES = {
+            "no_banner": "no_banner",  # 404 - No banner
+            "global_search": "global_search",  # Global search
+            "not_found": "not_found",  # Not found (module)
+            "filter_select": "filter_select",  # Select categories (filters)
+        }
+
+        # State banners
+        self.state_banners = {
+            "no_banner": "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/refs/heads/main/Limoka%20-%20No%20banner.png",
+            "global_search": "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/main/Limoka%20-%20Global%20Search.png",
+            "not_found": "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/main/Limoka%20-%20Not%20Found.png",
+            "filter_select": "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/main/Limoka%20-%20Categories.png",
         }
 
     def _filter_newbies(self, modules: Dict[str, Any]) -> Dict[str, Any]:
+        """Filter out modules which belong to repositories tagged as 'newbie'.
+        Returns the original dict when the feature is disabled or repositories
+        metadata is not available.
+        """
         try:
             if not self.config.get("filter_newbies_modules"):
                 return modules
@@ -305,15 +384,35 @@ class LimokaLegacy(loader.Module):
 
     def _create_search_session(
         self,
+        state: str,
         query: str = "",
+        filters: Optional[Dict[str, List[str]]] = None,
         results: Optional[List[str]] = None,
         current_index: int = 0,
     ) -> Dict[str, Any]:
+        """Create a search session dictionary to track state across callbacks.
+
+        Args:
+            state: Current search state (one of SEARCH_STATES values)
+            query: Current search query
+            filters: Active category filters
+            results: Search results list
+            current_index: Index of current result being displayed
+            banner_url: Banner image URL for current state
+
+        Returns:
+            Dictionary containing the complete session state
+        """
         return {
+            "state": state,
             "query": query,
+            "filters": filters or {},
             "results": results or [],
             "current_index": current_index,
         }
+
+    def _get_banner_for_state(self, state: str) -> str:
+        return self.state_banners.get(state)
 
     async def client_ready(self, client, db):
         self.client: TelegramClient = client
@@ -335,6 +434,7 @@ class LimokaLegacy(loader.Module):
             "repositories", []
         )
         self.repositories = {repo["url"]: repo for repo in raw}
+        # Apply newbie filter if enabled
         try:
             self.modules = self._filter_newbies(self.modules)
         except Exception:
@@ -342,10 +442,8 @@ class LimokaLegacy(loader.Module):
         self._service_bot_id = (await self.client.get_entity(self._bot_username)).id
 
         loop = asyncio.get_running_loop()
-        self.ix_task = loop.run_in_executor(
-            None, lambda: asyncio.run(self._update_index())
-        )
-
+        self.ix_task = loop.run_in_executor(None, lambda: asyncio.run(self._update_index()))
+        
         if self.config["external_install_allowed"]:
             try:
                 message = await self.client.get_messages(self._bot_username, limit=1)
@@ -372,6 +470,7 @@ class LimokaLegacy(loader.Module):
     @loader.loop(interval=3600)
     async def _update_modules_loop(self):
         self.modules = await self.api.fetch_json(self._base_url, "modules.json")
+        # Re-apply newbie filter after modules refresh
         try:
             self.modules = self._filter_newbies(self.modules)
         except Exception:
@@ -410,9 +509,7 @@ class LimokaLegacy(loader.Module):
         except LockError:
             folder = os.path.join(BASE_DIR, "limoka_search")
 
-            if os.path.commonpath([folder, BASE_DIR]) == BASE_DIR and os.path.exists(
-                folder
-            ):
+            if os.path.commonpath([folder, BASE_DIR]) == BASE_DIR and os.path.exists(folder):
                 shutil.rmtree(folder)
                 await self._update_index()
             else:
@@ -443,7 +540,7 @@ class LimokaLegacy(loader.Module):
             if url:
                 self._invalid_banners.add(url)
             return None
-
+        
     def find_userbot(self, keys: Iterable[str]) -> str | None:
         scores = defaultdict(int)
 
@@ -463,77 +560,62 @@ class LimokaLegacy(loader.Module):
 
         return max(scores, key=scores.get)
 
+
     @property
     def user_lang(self) -> str:
-        def warn(msg: str):
-            logger.warning(
-                f"{msg} Defaulting language to English. "
-                "If this is unexpected, please report to the module developer."
-            )
-
-        lang = self.db.get(f"{__package__.split('.')[0]}.translations", "lang")
-        if lang:
-            return lang
-
-        logger.warning(
-            "Cannot determine language from module translations. "
-            "Trying fallback method."
-        )
 
         userbot = self.find_userbot(self.db.keys())
+
         if not userbot:
-            warn("Cannot determine userbot type.")
+            logger.warning(
+                "Cannot determine userbot type. "
+                "Probably not FTG-like Userbot? "
+                "Defaulting language to English. "
+                "If this is unexpected, please report to the module developer."
+            )
             return "en"
-
-        lang = self.db.get(f"{userbot}.translations", "lang")
-        if not lang:
-            warn("Cannot determine language from userbot translations.")
-            return "en"
-
-        return lang
-
-    def _get_description(self, desc_map: dict, lang: str) -> str:
-        desc = _get_lang_value(desc_map, lang) or self.strings["no_info"]
-        return html.escape(desc)
-
-    def _get_emoji(self, index: int) -> str:
-        emojis = self.strings["emojis"]
-
-        if index < 10:
-            return emojis.get(index, "")
-
-        return "".join(emojis.get(int(d), "") for d in str(index))
+        
+        return self.db.get(f"{userbot}.translations", "lang")
 
     def generate_commands(self, module_info, lang: str = "en"):
         commands = []
-
         for i, cmd in enumerate(module_info.get("new_commands", []), 1):
+            name = cmd.get("name", "")
+            desc_map = cmd.get("description", {})
+            if i <= 9:
+                emoji = self.strings["emojis"].get(i, "")
+            else:
+                emoji = ""
+                for digit in str(i):
+                    emoji += self.strings["emojis"].get(int(digit), "")
+            desc = _get_lang_value(desc_map, lang) or self.strings["no_info"]
             commands.append(
                 self.strings["command_template"].format(
                     prefix=self.get_prefix(),
-                    command=html.escape(cmd.get("name", "")),
-                    emoji=self._get_emoji(i),
-                    description=self._get_description(cmd.get("description", {}), lang),
+                    command=html.escape(name),
+                    emoji=emoji,
+                    description=html.escape(desc),
                 )
             )
-
-        for handler in module_info.get("inline_handlers", []):
+        for i, handler in enumerate(module_info.get("inline_handlers", []), 1):
+            name = handler.get("name", "")
+            desc_map = handler.get("description", {})
+            desc = _get_lang_value(desc_map, lang) or self.strings["no_info"]
             commands.append(
                 self.strings["inline_handler_template"].format(
                     inline_bot=self._userbot_bot_username,
-                    command=html.escape(handler.get("name", "")),
-                    description=self._get_description(
-                        handler.get("description", {}), lang
-                    ),
+                    command=html.escape(name),
+                    description=html.escape(desc),
                 )
             )
-
         return commands
 
     def _format_module_content(
         self,
         module_info: Dict[str, Any],
         query: str,
+        filters: Dict[str, List[str]],
+        include_categories: bool = True,
         module_path: Optional[str] = None,
         lang: str = "en",
     ) -> tuple:
@@ -550,6 +632,13 @@ class LimokaLegacy(loader.Module):
         )
         clean_module_path = (raw_path or "").replace("\\", "/")
         commands = self.generate_commands(module_info, lang)
+        categories_text = ""
+        if include_categories:
+            categories = filters.get("category", [])
+            if categories:
+                categories_text = "\n" + self.strings["selected_categories"].format(
+                    categories=", ".join(html.escape(c) for c in categories)
+                )
         if len(description) > 300:
             description = description[:297] + "…"
         repo_key = (
@@ -560,7 +649,6 @@ class LimokaLegacy(loader.Module):
             if x.replace("https://github.com/", "") == repo_key:
                 tags_list = self.repositories.get(x, {}).get("tags", [])
                 break
-        logger.info(tags_list)
         tags_text = ", ".join(self.strings["tags"].get(tag, tag) for tag in tags_list)
         header = self.strings["found_header"].format(
             query=html.escape(query),
@@ -588,8 +676,61 @@ class LimokaLegacy(loader.Module):
                 body_pages.append("".join(current_page))
             if not body_pages:
                 body_pages = [""]
-        footer = self.strings["found_footer"]
-        return header, body_pages, footer
+        footer = self.strings["found_footer"].format(
+            url=html.escape(self.config["limokaurl"]),
+            module_path=html.escape(clean_module_path),
+            prefix=html.escape(self.get_prefix()),
+        )
+        return header, body_pages, footer, categories_text
+
+    def _build_navigation_markup(self, session: Dict[str, Any]) -> list:
+        result = session["results"]
+        index = session["current_index"]
+        query = session["query"]
+        filters = session["filters"]
+
+        page = index + 1
+        markup = [
+            [
+                {
+                    "text": "⏪" if index > 0 else "🚫",
+                    "callback": self._previous_page if index > 0 else self._inline_void,
+                    "args": (session,) if index > 0 else (),
+                },
+                {"text": f"{page}/{len(result)}", "callback": self._inline_void},
+                {
+                    "text": "⏩" if index + 1 < len(result) else "🚫",
+                    "callback": (
+                        self._next_page
+                        if index + 1 < len(result)
+                        else self._inline_void
+                    ),
+                    "args": (session,) if index + 1 < len(result) else (),
+                },
+            ],
+            [
+                {
+                    "text": "🔍 " + self.strings["filter_menu"].split(":")[0],
+                    "callback": self._display_filter_menu,
+                    "args": (session,),
+                },
+                {
+                    "text": "🔄 " + self.strings["change_query"],
+                    "callback": self._enter_query,
+                },
+            ],
+            [
+                {
+                    "text": self.strings["global_button"],
+                    "callback": self._show_global_results,
+                    "args": (session,),
+                },
+            ],
+        ]
+        markup.append(
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+        )
+        return markup
 
     def _build_module_markup(
         self,
@@ -600,22 +741,10 @@ class LimokaLegacy(loader.Module):
     ) -> list:
         result = session["results"]
         index = session["current_index"]
+        query = session["query"]
+        filters = session["filters"]
 
-        source_url = self._get_source_url(module_path)
-
-        markup = [
-            [
-                {
-                    "text": self.strings["install_btn"],
-                    "callback": self._install_module,
-                    "args": (module_path, session),
-                },
-                {
-                    "text": self.strings["source_btn"],
-                    "url": source_url,
-                },
-            ]
-        ]
+        markup = []
         if len(body_pages) > 1:
             markup.append(
                 [
@@ -631,7 +760,7 @@ class LimokaLegacy(loader.Module):
                         ),
                     },
                     {
-                        "text": f"Body {page_body + 1}/{len(body_pages)}",
+                        "text": f"{self.strings["body_page"]} {page_body + 1}/{len(body_pages)}",
                         "callback": self._inline_void,
                     },
                     {
@@ -671,6 +800,11 @@ class LimokaLegacy(loader.Module):
         )
         markup.append(
             [
+                {
+                    "text": "🔍 " + self.strings["filter_menu"].split(":")[0],
+                    "callback": self._display_filter_menu,
+                    "args": (session,),
+                },
                 {
                     "text": "🔄 " + self.strings["change_query"],
                     "callback": self._enter_query,
@@ -738,23 +872,26 @@ class LimokaLegacy(loader.Module):
     ):
         try:
             query = session["query"]
+            filters = session["filters"]
 
             lang = self.user_lang
             module_banner_raw = module_info.get("meta", {}).get("banner")
-            photo = await self._validate_url(
-                module_banner_raw
-            ) or await self._validate_url(
-                "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/refs/heads/main/Limoka%20-%20No%20banner.png"
-            )
+            photo = await self._validate_url(module_banner_raw)
 
-            header, body_pages, footer = self._format_module_content(
+            if not photo:
+                state_banner_raw = self._get_banner_for_state("no_banner")
+                photo = await self._validate_url(state_banner_raw)
+
+            header, body_pages, footer, categories_text = self._format_module_content(
                 module_info,
                 query,
+                filters,
+                include_categories=True,
                 module_path=module_path,
                 lang=lang,
             )
             current_body = body_pages[min(page_body, len(body_pages) - 1)]
-            full_message = header + current_body + footer
+            full_message = header + current_body + footer + categories_text
 
             markup = self._build_module_markup(
                 session, body_pages, page_body, module_path
@@ -790,9 +927,12 @@ class LimokaLegacy(loader.Module):
     ):
         module_info = self.modules[module_path]
         query = session["query"]
-        header, body_pages, footer = self._format_module_content(
+        filters = session["filters"]
+        header, body_pages, footer, categories_text = self._format_module_content(
             module_info,
             query,
+            filters,
+            include_categories=True,
             module_path=module_path,
             lang=self.user_lang,
         )
@@ -801,40 +941,144 @@ class LimokaLegacy(loader.Module):
             call, module_info, module_path, session, page_body=new_page_body
         )
 
-    async def _install_module(
-        self, call: InlineCall, module_path: str, session: Dict[str, Any]
-    ):
-        module_url = self.config["limokaurl"] + module_path
-        loader_mod = self.lookup("loader")
-        if not loader_mod:
-            await call.answer(
-                self.strings.get("watcher_loader_missing", "Loader not found")
+    async def _display_filter_menu(self, call: InlineCall, session: Dict[str, Any]):
+        query = session["query"]
+        current_filters = session["filters"]
+
+        categories = current_filters.get("category", [])
+        filters_text = self.strings["selected_categories"].format(
+            categories=(
+                ", ".join(categories) if categories else self.strings["no_category"]
+            )
+        )
+        markup = [
+            [
+                {
+                    "text": self.strings["filter_cat"],
+                    "callback": self._select_category,
+                    "args": (session,),
+                },
+            ],
+            [
+                {
+                    "text": self.strings["apply_filters"],
+                    "callback": self._apply_filters,
+                    "args": (session,),
+                },
+                {
+                    "text": self.strings["clear_filters"],
+                    "callback": self._clear_filters,
+                    "args": (session,),
+                },
+            ],
+            [
+                {
+                    "text": self.strings["back_to_results"],
+                    "callback": self._show_results,
+                    "args": (session, True),
+                },
+            ],
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}],
+        ]
+        text = self.strings["filter_menu"].format(query=query) + f"\n{filters_text}"
+        await call.edit(
+            text, reply_markup=markup, photo=self._get_banner_for_state("filter_select")
+        )
+
+    async def _select_category(self, call: InlineCall, session: Dict[str, Any]):
+        query = session["query"]
+        current_filters = session["filters"]
+
+        all_categories = set()
+        for module_data in self.modules.values():
+            all_categories.update(module_data.get("category", ["No category"]))
+        categories = sorted(all_categories)
+        if not categories:
+            await call.edit(
+                self.strings["no_categories"],
+                reply_markup=[
+                    [
+                        {
+                            "text": self.strings["back"],
+                            "callback": self._display_filter_menu,
+                            "args": (session,),
+                        }
+                    ]
+                ],
             )
             return
-        status = await loader_mod.download_and_install(module_url, None)
-        if getattr(loader_mod, "fully_loaded", False):
-            loader_mod.update_modules_in_db()
-        if status:
-            await call.answer(self.strings["installed"])
-        else:
-            await call.answer(self.strings["install_failed"])
+        selected_categories = current_filters.get("category", [])
+        buttons = []
+        row = []
+        for i, cat in enumerate(categories):
+            button_text = (
+                self.strings["category"].format(category=cat)
+                if "category" in self.strings
+                else f"📁 {cat}"
+            )
+            if cat in selected_categories:
+                button_text = "✅ " + button_text
 
-    def _get_source_url(self, module_path: str) -> str:
-        repo_key = (
-            "/".join(module_path.split("/")[:2]) if "/" in module_path else module_path
+            # Create new session with updated filters
+            new_session = session.copy()
+            row.append(
+                {
+                    "text": button_text,
+                    "callback": self._toggle_category,
+                    "args": (session, cat),
+                }
+            )
+            if (i + 1) % 3 == 0 or i == len(categories) - 1:
+                buttons.append(row)
+                row = []
+        buttons.append(
+            [
+                {
+                    "text": self.strings["back"],
+                    "callback": self._display_filter_menu,
+                    "args": (session,),
+                }
+            ]
         )
-        repo_url = "https://github.com/" + repo_key
-        repo = self.repositories.get(repo_url, {})
-        branch = repo.get("branch", "main")
-        path_in_repo = (
-            "/".join(module_path.split("/")[2:])
-            if len(module_path.split("/")) > 2
-            else module_path
+        buttons.append(
+            [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
         )
-        return f"{repo_url}/blob/{branch}/{path_in_repo}"
+        text = self.strings["select_category"].format(query=query)
+        await call.edit(text, reply_markup=buttons)
 
-    async def _show_results(self, call: InlineCall, session: Dict[str, Any]):
+    async def _toggle_category(
+        self, call: InlineCall, session: Dict[str, Any], category: str
+    ):
         query = session["query"]
+        current_filters = session["filters"]
+
+        new_filters = current_filters.copy()
+        selected_categories = new_filters.get("category", [])
+        if category in selected_categories:
+            selected_categories.remove(category)
+        else:
+            selected_categories.append(category)
+        if selected_categories:
+            new_filters["category"] = selected_categories
+        else:
+            new_filters.pop("category", None)
+        new_session = session.copy()
+        new_session["filters"] = new_filters
+        await self._select_category(call, new_session)
+
+    async def _apply_filters(self, call: InlineCall, session: Dict[str, Any]):
+        await self._show_results(call, session, from_filters=True)
+
+    async def _clear_filters(self, call: InlineCall, session: Dict[str, Any]):
+        new_session = session.copy()
+        new_session["filters"] = {}
+        await self._show_results(call, new_session, from_filters=True)
+
+    async def _show_results(
+        self, call: InlineCall, session: Dict[str, Any], from_filters: bool = False
+    ):
+        query = session["query"]
+        filters = session["filters"]
 
         searcher = Search(query.lower(), self.ix)
         try:
@@ -843,22 +1087,67 @@ class LimokaLegacy(loader.Module):
             await call.edit(self.strings["?"], reply_markup=[])
             return
         if not result:
-            markup = [
-                [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
-            ]
-            photo = await self._validate_url(
-                "https://raw.githubusercontent.com/MuRuLOSE/hikka-assets/main/Limoka%20-%20Not%20Found.png"
+            markup = (
+                [
+                    [
+                        {
+                            "text": self.strings["back"],
+                            "callback": self._display_filter_menu,
+                            "args": (session,),
+                        }
+                    ]
+                ]
+                if from_filters
+                else []
             )
-            await self._safe_display(
-                call, self.strings["404"].format(query=query), markup, photo
+            markup.append(
+                [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+            )
+            await call.edit(
+                self.strings["404"].format(query=query), reply_markup=markup
             )
             return
-        module_path = result[0]
+        if filters.get("category"):
+            filtered_result = [
+                path
+                for path in result
+                if any(
+                    cat in self.modules.get(path, {}).get("category", ["No category"])
+                    for cat in filters["category"]
+                )
+            ]
+        else:
+            filtered_result = result
+        if not filtered_result:
+            markup = (
+                [
+                    [
+                        {
+                            "text": self.strings["back"],
+                            "callback": self._display_filter_menu,
+                            "args": (session,),
+                        }
+                    ]
+                ]
+                if from_filters
+                else []
+            )
+            markup.append(
+                [{"text": self.strings.get("close", "❌ Close"), "action": "close"}]
+            )
+            await call.edit(
+                self.strings["404"].format(query=query), reply_markup=markup
+            )
+            return
+        module_path = filtered_result[0]
         module_info = self.modules[module_path]
 
+        # Create session for displaying module
         display_session = self._create_search_session(
+            state=self.SEARCH_STATES["global_search"],
             query=query,
-            results=result,
+            filters=filters,
+            results=filtered_result,
             current_index=0,
         )
         await self._display_module(call, module_info, module_path, display_session, 0)
@@ -944,7 +1233,9 @@ class LimokaLegacy(loader.Module):
 
         # Create session for displaying module
         display_session = self._create_search_session(
+            state=self.SEARCH_STATES["global_search"],
             query=query,
+            filters={},
             results=result,
             current_index=0,
         )
@@ -965,7 +1256,9 @@ class LimokaLegacy(loader.Module):
                     "callback": self._show_results,
                     "args": (
                         self._create_search_session(
+                            state=self.SEARCH_STATES["global_search"],
                             query=query or "",
+                            filters={},
                         ),
                     ),
                 }
@@ -1012,7 +1305,9 @@ class LimokaLegacy(loader.Module):
             name = info.get("name", "Unknown")
 
             global_session = self._create_search_session(
+                state=self.SEARCH_STATES["global_search"],
                 query=query,
+                filters={},
                 results=result,
                 current_index=i,
             )
@@ -1102,7 +1397,7 @@ class LimokaLegacy(loader.Module):
                 text=self.strings["start_search_form"],
                 message=message,
                 reply_markup=markup,
-                # photo=self._get_banner_for_state("global_search"),
+                photo=self._get_banner_for_state("global_search"),
             )
             return
         history = self.get("history", [])
@@ -1130,7 +1425,9 @@ class LimokaLegacy(loader.Module):
 
         # Create session for displaying module
         display_session = self._create_search_session(
+            state=self.SEARCH_STATES["global_search"],
             query=args,
+            filters={},
             results=result,
             current_index=0,
         )
@@ -1167,7 +1464,9 @@ class LimokaLegacy(loader.Module):
         self, call: InlineCall, query: str, message: Message, *args, **kwargs
     ):
         global_session = self._create_search_session(
+            state=self.SEARCH_STATES["global_search"],
             query=query,
+            filters={},
             results=[],
             current_index=0,
         )  # idk what is that crap but it works lol
