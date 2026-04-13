@@ -242,12 +242,12 @@
         },
         {
             "url": "https://github.com/Fixyres/FModules",
-            "tags": [],
+            "tags": ["herokutrusted"],
             "blacklist": ["FHeta.py"]
         },
         {
             "url": "https://github.com/Midga3/Heroku-modules",
-            "tags": ["newbie"],
+            "tags": ["newbie", "herokutrusted"],
             "blacklist": ["deletelinux.py", "bleabratanspapibobolshoyevyrychil.py"]
         },
         {
