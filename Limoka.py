@@ -381,7 +381,7 @@ class Limoka(loader.Module):
         "404": "<blockquote><tg-emoji emoji-id=5210952531676504517>❌</tg-emoji> <b>Not found by query: <i>{query}</i></b></blockquote>",
         "noargs": "<blockquote><tg-emoji emoji-id=5210952531676504517>❌</tg-emoji> <b>No args</b></blockquote>",
         "?": "<blockquote><tg-emoji emoji-id=5951895176908640647>🔎</tg-emoji> Request too short / not found</blockquote>",
-        "no_info": "<blockquote>No information</blockquote>",
+        "no_info": "No information",
         "facts": [
             "<blockquote><tg-emoji emoji-id=5472193350520021357>🛡</tg-emoji> The limoka catalog is carefully moderated!</blockquote>",
             "<blockquote><tg-emoji emoji-id=5940434198413184876>🚀</tg-emoji> Limoka performance allows you to search for modules quickly!</blockquote>",
@@ -493,7 +493,7 @@ class Limoka(loader.Module):
         "404": "<blockquote><tg-emoji emoji-id=5210952531676504517>❌</tg-emoji> <b>Не найдено по запросу: <i>{query}</i></b></blockquote>",
         "noargs": "<blockquote><tg-emoji emoji-id=5210952531676504517>❌</tg-emoji> <b>Нет аргументов</b></blockquote>",
         "?": "<blockquote><tg-emoji emoji-id=5951895176908640647>🔎</tg-emoji> Запрос слишком короткий / не найден</blockquote>",
-        "no_info": "<blockquote>Нет информации</blockquote>",
+        "no_info": "Нет информации",
         "facts": [
             "<blockquote><tg-emoji emoji-id=5472193350520021357>🛡</tg-emoji> Каталог Limoka тщательно модерируется!</blockquote>",
             "<blockquote><tg-emoji emoji-id=5940434198413184876>🚀</tg-emoji> Limoka позволяет искать модули с невероятной скоростью!</blockquote>",
