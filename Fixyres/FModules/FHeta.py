@@ -100,18 +100,6 @@ class MInstaller:
             
         return "dependency", []
 
-    async def pip(self, dependencies: List[str]) -> bool:
-        virtualenv = hasattr(sys, 'real_prefix') or sys.prefix != getattr(sys, 'base_prefix', sys.prefix)
-        flags = ["--user"] if loader.USER_INSTALL and not virtualenv else []
-        
-        process = await asyncio.create_subprocess_exec(
-            sys.executable, "-m", "pip", "install", "-U", "-q",
-            "--disable-pip-version-check", "--no-warn-script-location",
-            *flags, *dependencies
-        )
-        
-        return await process.wait() == 0
-
     async def load(self, plugin: 'loader.Module', code: str, origin: str, step: int) -> Union[str, List[str]]:
         if step == 0:
             try:
@@ -121,7 +109,7 @@ class MInstaller:
                 ))
                 
                 if dependencies:
-                    if not await self.pip(dependencies):
+                    if not await plugin.install_requirements(dependencies):
                         return dependencies
                     importlib.invalidate_caches()
                     return "retry"
@@ -171,7 +159,7 @@ class MInstaller:
             alternative = {"sklearn": "scikit-learn", "pil": "Pillow", "herokutl": "Heroku-TL-New"}.get(exception.name.lower(), exception.name)
             dependencies = [alternative]
             
-            if not alternative or not await self.pip(dependencies):
+            if not alternative or not await plugin.install_requirements(dependencies):
                 return dependencies
                 
             importlib.invalidate_caches()
@@ -872,7 +860,7 @@ class FHeta(loader.Module):
             return {
                 "title": self.strings["prompt"],
                 "description": self.strings["hint"],
-                "message": f"{self.ui.emoji('error')} <b>{self.strings['prompt']}</b>",
+                "message": f"{self.ui.emoji('error')} <b>{self.strings['noquery'].format(prefix=f'<code>@{self.inline.bot_username} ')}</code></b>",
                 "thumb": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/magnifying_glass.png"
             }
             
@@ -890,7 +878,7 @@ class FHeta(loader.Module):
             return {
                 "title": self.strings["retry"],
                 "description": self.strings["hint"],
-                "message": f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=utils.escape_html(query))}</b>",
+                "message": f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=f'<code>{utils.escape_html(query)}</code>')}</b>",
                 "thumb": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/try_other_query.png"
             }
 
@@ -941,18 +929,18 @@ class FHeta(loader.Module):
         query = utils.get_args_raw(message)
         
         if not query:
-            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['noquery'].format(prefix=self.get_prefix())}</b>")
+            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['noquery'].format(prefix=f'<code>{self.get_prefix()}')}</code></b>")
             
         if len(query) > 168:
             return await utils.answer(message, f"{self.ui.emoji('warn')} <b>{self.strings['toolong']}</b>")
 
-        message = await utils.answer(message, f"{self.ui.emoji('search')} <b>{self.strings['search'].format(query=utils.escape_html(query))}</b>")
+        message = await utils.answer(message, f"{self.ui.emoji('search')} <b>{self.strings['search'].format(query=f'<code>{utils.escape_html(query)}</code>')}</b>")
         
         modules = await self.api.fetch("search", query=query, inline="false", token=self.token, user_id=self.identifier, ood=str(self.config["only_official_developers"]).lower())
         
         if not modules or not isinstance(modules, list):
-            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=utils.escape_html(query))}</b>")
-
+            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=f'<code>{utils.escape_html(query)}</code>')}</b>")
+            
         data = modules[0]
         buttons = self.ui.buttons(data.get("install", ""), data, 0, modules, query)
         form = await self.inline.form("ㅤ", message, reply_markup=buttons, silent=True)
