@@ -71,6 +71,17 @@ def get_changed_files(base_commit):
     except subprocess.CalledProcessError:
         return []
 
+def get_deleted_files(base_commit):
+    """Get list of deleted files between commits"""
+    try:
+        result = subprocess.check_output(
+            ['git', 'diff', '--diff-filter=D', '--name-only', base_commit, 'HEAD'],
+            cwd=os.getcwd()
+        ).decode().strip().split('\n')
+        return [f for f in result if f]
+    except subprocess.CalledProcessError:
+        return []
+
 def get_file_diff(file_path, base_commit):
     """Get diff for a specific file"""
     try:
@@ -96,19 +107,37 @@ def extract_module_name(file_path):
 
 async def main():
     changed_files = get_changed_files(arguments.base_commit)
+    deleted_files = get_deleted_files(arguments.base_commit)
     
-    if not changed_files:
+    all_files = changed_files + deleted_files
+    
+    if not all_files:
         print("No changes detected")
         return
     
     # Filter for module files only
     module_files = [f for f in changed_files if is_module_file(f)]
+    deleted_module_files = [f for f in deleted_files if is_module_file(f)]
     
-    if not module_files:
+    if not module_files and not deleted_module_files:
         print("No module changes detected")
         return
     
     async with aiohttp.ClientSession() as session:
+        # Handle deleted files first
+        for file_path in deleted_module_files:
+            try:
+                module_name = extract_module_name(file_path)
+                message = (
+                    f"🪼 <b>Module <code>{module_name}</code> has been deleted</b>"
+                    # f"🪼 <b>Module <code>{module_name}</code> by <code>ueban123</code> changes approved</b>\n\n"
+                )
+                result = await send_message(session, message)
+                print(f"Sent deletion notice for {module_name}: {result}")
+            except Exception as e:
+                print(f"Error processing deleted {file_path}: {e}")
+        
+        # Handle changed files
         for file_path in module_files:
             try:
                 module_name = extract_module_name(file_path)
