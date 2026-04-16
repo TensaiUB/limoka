@@ -1,6 +1,6 @@
 __version__ = (9, 3, 9)
 
-# meta developer: @FModules
+# meta developer: @NFModules
 # meta pic: https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/logo.png
 # meta banner: https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/logo.png
 # scope: hikka_min 2.0.0
@@ -333,7 +333,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Error, module tried to overwrite built-in module!",
         "dependency": "✘ Dependencies installation error! {deps}",
         "docdevs": "Use only modules from official Heroku developers when searching?",
-        "doctheme": "Theme for emojis."
+        "doctheme": "Theme for emojis.",
+        "channel": "This is the channel with all updates in FHeta!"
     }
     
     strings_ru = {
@@ -365,7 +366,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Ошибка, модуль пытался перезаписать встроенный модуль!",
         "dependency": "✘ Ошибка установки зависимостей! {deps}",
         "docdevs": "Использовать только модули от официальных разработчиков Heroku при поиске?",
-        "doctheme": "Тема для эмодзи."
+        "doctheme": "Тема для эмодзи.",
+        "channel": "Это канал со всеми обновлениями в FHeta!"
     }
     
     strings_ua = {
@@ -397,7 +399,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Помилка, модуль намагався перезаписати вбудований модуль!",
         "dependency": "✘ Помилка встановлення залежностей! {deps}",
         "docdevs": "Використовувати тільки модулі від офіційних розробників Heroku при пошуку?",
-        "doctheme": "Тема для емодзі."
+        "doctheme": "Тема для емодзі.",
+        "channel": "Це канал з усіма оновленнями в FHeta!"
     }
     
     strings_kz = {
@@ -429,7 +432,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Қате, модуль кіріктірілген модульді қайта жазуға тырысты!",
         "dependency": "✘ Тәуелділіктерді орнату қатесі! {deps}",
         "docdevs": "Іздеу кезінде тек ресми Heroku әзірлеушілерінің модульдерін пайдалану керек пе?",
-        "doctheme": "Эмодзилер үшін тақырып."
+        "doctheme": "Эмодзилер үшін тақырып.",
+        "channel": "Бұл FHeta-дағы барлық жаңартулары бар арна!"
     }
     
     strings_uz = {
@@ -461,7 +465,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Xatolik, modul o'rnatilgan modulni qayta yozishga harakat qildi!",
         "dependency": "✘ Bog'liqliklarni o'rnatish xatosi! {deps}",
         "docdevs": "Qidiruv paytida faqat rasmiy Heroku ishlab chiquvchilarining modullaridan foydalanish kerakmi?",
-        "doctheme": "Emojilar uchun mavzu."
+        "doctheme": "Emojilar uchun mavzu.",
+        "channel": "Bu FHeta-dagi barcha yangilanishlari bo'lgan kanal!"
     }
     
     strings_fr = {
@@ -493,7 +498,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Erreur, le module a tenté d'écraser le module intégré!",
         "dependency": "✘ Erreur d'installation des dépendances! {deps}",
         "docdevs": "Utiliser uniquement les modules des développeurs Heroku officiels lors de la recherche?",
-        "doctheme": "Thème pour les emojis."
+        "doctheme": "Thème pour les emojis.",
+        "channel": "Voici le canal avec toutes les mises à jour dans FHeta!"
     }
     
     strings_de = {
@@ -525,7 +531,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ Fehler, Modul hat versucht, das integrierte Modul zu überschreiben!",
         "dependency": "✘ Fehler bei der Installation von Abhängigkeiten! {deps}",
         "docdevs": "Nur Module von offiziellen Heroku-Entwicklern bei der Suche verwenden?",
-        "doctheme": "Thema für Emojis."
+        "doctheme": "Thema für Emojis.",
+        "channel": "Dies ist der Kanal mit allen Updates in FHeta!"
     }
     
     strings_jp = {
@@ -557,7 +564,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ エラー、モジュールが組み込みモジュールを上書きしようとしました!",
         "dependency": "✘ 依存関係のインストールエラー! {deps}",
         "docdevs": "検索時に公式Heroku開発者のモジュールのみを使用しますか？",
-        "doctheme": "絵文字のテーマ。"
+        "doctheme": "絵文字のテーマ。",
+        "channel": "これはFHetaのすべての更新を含むチャンネルです！"
     }
     
     THEMES = {
@@ -652,6 +660,11 @@ class FHeta(loader.Module):
         self.installer = MInstaller()
         self.ui = FHetaUI(self)
         
+        await self.request_join(
+            "NFHeta_Updates",
+            f"{self.ui.emoji('channel')} {self.strings('channel')}"
+        )
+        
         self.api.token = self.token
         
         router = None
@@ -704,13 +717,20 @@ class FHeta(loader.Module):
                     self.api.token = self.token
             except Exception:
                 pass
-    
-    @loader.loop(interval=1, autostart=True)
+                
+        asyncio.create_task(self.sync())
+        
     async def sync(self):
-        now = self.strings["lang"]
-        if now != getattr(self, "past_lang", None):
-            await self.api.send("dataset", params={"user_id": getattr(self, "identifier", 0), "lang": now})
-            self.past_lang = now
+        ll = None
+        while True:
+            try:
+                cl = self.strings["lang"]
+                if cl != ll:
+                    await self.api.send("dataset", user_id=self.identifier, lang=cl)
+                    ll = cl
+            except Exception:
+                pass
+            await asyncio.sleep(1)
 
     async def answer(self, callback: Union[CallbackQuery, ChosenInlineResult], text: Optional[str] = None, alert: bool = False) -> None:
         try:
