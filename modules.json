@@ -8325,7 +8325,7 @@
       "meta": {
         "pic": null,
         "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/BSR/banner.png",
-        "developer": "@FModules",
+        "developer": "@NFModules",
         "fhsdesc": "brawlstars, game, funny"
       },
       "commands": [
@@ -8427,7 +8427,7 @@
       "meta": {
         "pic": null,
         "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/SCD/banner.png",
-        "developer": "@FModules"
+        "developer": "@NFModules"
       },
       "commands": [
         {
@@ -8504,7 +8504,7 @@
       "meta": {
         "pic": null,
         "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/akinator/banner.png",
-        "developer": "@FModules",
+        "developer": "@NFModules",
         "fhsdesc": "game, funny, guess, question game"
       },
       "commands": [
@@ -84952,6 +84952,6 @@
   },
   "meta": {
     "total_modules": 1057,
-    "generated_at": "2026-04-15T01:53:44.103183"
+    "generated_at": "2026-04-16T02:02:10.912643"
   }
 }
