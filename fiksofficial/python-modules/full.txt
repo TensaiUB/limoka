@@ -27,3 +27,4 @@ github
 stream
 placeholders+
 PyInstall
+IwaAnimation
