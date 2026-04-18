@@ -5289,6 +5289,139 @@
       "has_on_unload": false,
       "class_cmd_names": {}
     },
+    "fiksofficial/python-modules/IwaAnimation.py": {
+      "name": "IwaAnimation",
+      "description": "Frame-by-frame text animations loaded from .anim TOML files",
+      "cls_doc": {},
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@pymodule"
+      },
+      "commands": [
+        {
+          "lanim": "- Load animation from a replied .anim file | (RU) - Загрузить анимацию из полученного .anim файла"
+        },
+        {
+          "anim": "<cmd> - Play a loaded animation | (RU) <cmd> - Воспроизвести загруженную анимацию"
+        },
+        {
+          "anims": "- List all loaded animations | (RU) - Отобразить список всех загруженных анимаций"
+        },
+        {
+          "delanim": "<cmd> - Delete an animation | (RU) <cmd> - Удалить анимацию"
+        },
+        {
+          "dumpanim": "<cmd> - Export an animation to a .anim file | (RU) <cmd> - Экспорт анимации в файл .anim"
+        }
+      ],
+      "new_commands": [
+        {
+          "name": "lanim",
+          "original_name": "lanimcmd",
+          "description": {
+            "default": "- Load animation from a replied .anim file",
+            "ru": "- Загрузить анимацию из полученного .anim файла"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "anim",
+          "original_name": "animcmd",
+          "description": {
+            "default": "<cmd> - Play a loaded animation",
+            "ru": "<cmd> - Воспроизвести загруженную анимацию"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "anims",
+          "original_name": "animscmd",
+          "description": {
+            "default": "- List all loaded animations",
+            "ru": "- Отобразить список всех загруженных анимаций"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "delanim",
+          "original_name": "delanimcmd",
+          "description": {
+            "default": "<cmd> - Delete an animation",
+            "ru": "<cmd> - Удалить анимацию"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        },
+        {
+          "name": "dumpanim",
+          "original_name": "dumpanimcmd",
+          "description": {
+            "default": "<cmd> - Export an animation to a .anim file",
+            "ru": "<cmd> - Экспорт анимации в файл .anim"
+          },
+          "cmd_names": {},
+          "aliases": [],
+          "usage": null,
+          "inline": false,
+          "is_inline_handler": false,
+          "decorators": []
+        }
+      ],
+      "inline_handlers": [],
+      "strings": {
+        "name": "IwaAnimation",
+        "err_no_reply": "<b>{e} Reply to a .anim file.</b>",
+        "err_not_anim": "<b>{e} File must have .anim extension.</b>",
+        "err_bad_format": "<b>{e} Invalid file format (missing name or cmd).</b>",
+        "err_no_frames": "<b>{e} No frames found in the file.</b>",
+        "err_not_found": "<b>{e} Animation not found.</b>",
+        "err_no_cmd": "<b>{e} Specify a command name.</b>",
+        "err_generic": "<b>{e} Error:</b>\n\n{exc}",
+        "ok_loaded": "<b>{s} Loaded: {name}\nCommand: <code>.anim {cmd}</code></b>",
+        "ok_deleted": "<b>{s} Deleted.</b>",
+        "list_header": "<blockquote><b>Animations:</b></blockquote>\n\n<blockquote expandable><b>",
+        "list_row": "• <code>{cmd}</code> — {name} ({n} frames)\n",
+        "list_footer": "</b></blockquote>",
+        "list_empty": "<b>{e} No animations.</b>",
+        "name_ru": "IwaAnimation",
+        "err_no_reply_ru": "<b>{e} Ответьте на .anim файл.</b>",
+        "err_not_anim_ru": "<b>{e} Файл должен быть формата .anim</b>",
+        "err_bad_format_ru": "<b>{e} Неверный формат файла (нет name или cmd).</b>",
+        "err_no_frames_ru": "<b>{e} В файле нет кадров.</b>",
+        "err_not_found_ru": "<b>{e} Анимация не найдена.</b>",
+        "err_no_cmd_ru": "<b>{e} Укажи команду.</b>",
+        "err_generic_ru": "<b>{e} Ошибка:</b>\n\n{exc}",
+        "ok_loaded_ru": "<b>{s} Загружено: {name}\nКоманда: <code>.anim {cmd}</code></b>",
+        "ok_deleted_ru": "<b>{s} Удалено.</b>",
+        "list_header_ru": "<blockquote><b>Анимации:</b></blockquote>\n\n<blockquote expandable><b>",
+        "list_row_ru": "• <code>{cmd}</code> — {name} ({n} кадров)\n",
+        "list_footer_ru": "</b></blockquote>",
+        "list_empty_ru": "<b>{e} Нет анимаций.</b>"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
     "fiksofficial/python-modules/tagall2.0.py": {
       "name": "TagAllMod",
       "description": "TagAll 2.0 — smart mention of chat participants: .tagall {all/admins/online/active} {text}",
@@ -8305,6 +8438,117 @@
         "_cfg_whitelist_ru": "Использовать белый список (True) или черный (False).",
         "_cmd_doc_ru_cpmlog": "Это откроет конфиг для модуля.",
         "_cmd_doc_cpmlog_ru": "Это откроет конфиг для модуля."
+      },
+      "has_on_load": false,
+      "has_on_unload": true,
+      "class_cmd_names": {}
+    },
+    "Fixyres/FModules/LFSecurity.py": {
+      "name": "FSecurity",
+      "description": "Module for automatic AI-based security checks of installed modules.",
+      "cls_doc": {
+        "ru": "Модуль для автоматической проверки устанавливаемых модулей через ИИ.",
+        "ua": "Модуль для автоматичної перевірки встановлюваних модулів через ШІ.",
+        "de": "Modul zur automatischen Prüfung installierter Module mit KI.",
+        "jp": "AIでインストールされるモジュールを自動チェックするモジュール。",
+        "tr": "Kurulan modülleri yapay zeka ile otomatik kontrol eden modül.",
+        "uz": "O'rnatilayotgan modullarni AI orqali avtomatik tekshiruvchi modul.",
+        "kz": "Орнатылатын модульдерді ЖИ арқылы автоматты тексеретін модуль."
+      },
+      "meta": {
+        "pic": null,
+        "banner": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FSecurity/banner.png",
+        "developer": "@NFModules",
+        "fhsdesc": "security, guard, antiscam, antivirus"
+      },
+      "commands": [],
+      "new_commands": [],
+      "inline_handlers": [],
+      "strings": {
+        "name": "FSecurity"
+      },
+      "has_on_load": false,
+      "has_on_unload": false,
+      "class_cmd_names": {}
+    },
+    "Fixyres/FModules/FSecurity.py": {
+      "name": "FSecurity",
+      "description": "Module for automatic AI-based security checks of installed modules.",
+      "cls_doc": {
+        "ru": "Модуль для автоматической проверки устанавливаемых модулей через ИИ.",
+        "ua": "Модуль для автоматичної перевірки встановлюваних модулів через ШІ.",
+        "de": "Modul zur automatischen Prüfung installierter Module mit KI.",
+        "jp": "AIでインストールされるモジュールを自動チェックするモジュール。",
+        "tr": "Kurulan modülleri yapay zeka ile otomatik kontrol eden modül.",
+        "uz": "O'rnatilayotgan modullarni AI orqali avtomatik tekshiruvchi modul.",
+        "kz": "Орнатылатын модульдерді ЖИ арқылы автоматты тексеретін модуль."
+      },
+      "meta": {
+        "pic": null,
+        "banner": null,
+        "developer": "@NFModules"
+      },
+      "commands": [],
+      "new_commands": [],
+      "inline_handlers": [],
+      "strings": {
+        "name": "FSecurity",
+        "lang": "English",
+        "unavailable": "AI module{} check is unavailable.",
+        "suspicious": "AI interrupted installation of a suspicious module{}, reason:",
+        "blocked": "AI blocked module installation{}, reason:",
+        "continue": "Continue installation?",
+        "strict_mode_doc": "Block loading modules by any method (lm/dlm allowed) if the AI API is unavailable or the module is suspicious. On restart, this also applies to already installed modules.",
+        "nvidia_api_key_doc": "API key from build.nvidia.com, used for AI checks. If not specified, a public key from GitHub will be used.",
+        "lang_ru": "Russian",
+        "unavailable_ru": "Проверка модуля{} через ИИ недоступна.",
+        "suspicious_ru": "ИИ прервал установку подозрительного модуля{}, причина:",
+        "blocked_ru": "ИИ заблокировал установку модуля{}, причина:",
+        "continue_ru": "Продолжить установку?",
+        "strict_mode_doc_ru": "Не позволять загружать модули любым методом (lm/dlm разрешено), если API ИИ недоступен или модуль подозрителен. При перезагрузке работает даже на уже установленные модули.",
+        "nvidia_api_key_doc_ru": "API ключ от build.nvidia.com, используется для проверки через ИИ. Если вы его не укажете, будет использоваться общий ключ с GitHub.",
+        "lang_ua": "Ukraine",
+        "unavailable_ua": "Перевірка модуля{} через ШІ недоступна.",
+        "suspicious_ua": "ШІ перервав встановлення підозрілого модуля{}, причина:",
+        "blocked_ua": "ШІ заблокував встановлення модуля{}, причина:",
+        "continue_ua": "Продовжити встановлення?",
+        "strict_mode_doc_ua": "Не дозволяти завантажувати модулі будь-яким методом (lm/dlm дозволено), якщо API ШІ недоступний або модуль підозрілий. При перезавантаженні працює навіть на вже встановлені модулі.",
+        "nvidia_api_key_doc_ua": "API ключ від build.nvidia.com, використовується для перевірки через ШІ. Якщо ви його не вкажете, буде використовуватися загальний ключ з GitHub.",
+        "lang_de": "Germany",
+        "unavailable_de": "Die KI-Modulprüfung{} ist nicht verfügbar.",
+        "suspicious_de": "Die KI hat die Installation eines verdächtigen Moduls unterbrochen{}, Grund:",
+        "blocked_de": "Die KI hat die Modulinstallation blockiert{}, Grund:",
+        "continue_de": "Installation fortsetzen?",
+        "strict_mode_doc_de": "Das Laden von Modulen mit jeder Methode blockieren (lm/dlm erlaubt), wenn die KI-API nicht verfügbar ist oder das Modul verdächtig ist. Beim Neustart gilt dies auch für bereits installierte Module.",
+        "nvidia_api_key_doc_de": "API-Schlüssel von build.nvidia.com, der für KI-Prüfungen verwendet wird. Wenn nicht angegeben, wird ein öffentlicher Schlüssel von GitHub verwendet.",
+        "lang_jp": "Japanese",
+        "unavailable_jp": "AIモジュール{}のチェックが利用できません。",
+        "suspicious_jp": "AIが疑わしいモジュールのインストールを中断しました{}、理由：",
+        "blocked_jp": "AIがモジュールのインストールをブロックしました{}、理由：",
+        "continue_jp": "インストールを続行しますか？",
+        "strict_mode_doc_jp": "AI APIが利用できない場合や疑わしいモジュールの場合、すべての方法でモジュールの読み込みをブロックします（lm/dlmは許可）。再起動時にはインストール済みモジュールにも適用されます。",
+        "nvidia_api_key_doc_jp": "build.nvidia.com のAPIキー。AIチェックに使用されます。指定しない場合は、GitHubのパブリックキーが使用されます。",
+        "lang_tr": "Turkish",
+        "unavailable_tr": "Yapay zeka modül{} kontrolü kullanılamıyor.",
+        "suspicious_tr": "Yapay zeka şüpheli bir modülün kurulumunu durdurdu{}, sebep:",
+        "blocked_tr": "Yapay zeka modül kurulumunu engelledi{}, sebep:",
+        "continue_tr": "Kuruluma devam edilsin mi?",
+        "strict_mode_doc_tr": "AI API kullanılamıyorsa veya modül şüpheliyse, tüm yöntemlerle modül yüklenmesini engelle (lm/dlm izinli). Yeniden başlatmada zaten kurulu modüller için de geçerlidir.",
+        "nvidia_api_key_doc_tr": "Yapay zeka kontrolleri için kullanılan build.nvidia.com API anahtarı. Belirtilmezse GitHub'daki genel anahtar kullanılacaktır.",
+        "lang_uz": "Uzbekistan",
+        "unavailable_uz": "AI modul{} tekshiruvi mavjud emas.",
+        "suspicious_uz": "AI shubhali modul o'rnatilishini to'xtatdi{}, sabab:",
+        "blocked_uz": "AI modul o'rnatilishini blokladi{}, sabab:",
+        "continue_uz": "O'rnatishni davom ettirasizmi?",
+        "strict_mode_doc_uz": "AI API mavjud bo'lmasa yoki modul shubhali bo'lsa, barcha usullar bilan modul yuklashni bloklash (lm/dlm ruxsat etilgan). Qayta ishga tushirishda allaqachon o'rnatilgan modullarga ham ta'sir qiladi.",
+        "nvidia_api_key_doc_uz": "build.nvidia.com API kaliti, AI orqali tekshirish uchun ishlatiladi. Agar ko'rsatmasangiz, GitHub-dan umumiy kalit ishlatiladi.",
+        "lang_kz": "Kazakhstan",
+        "unavailable_kz": "AI модуль{} тексеру қолжетімсіз.",
+        "suspicious_kz": "AI күдікті модульді орнатуды тоқтатты{}, себебі:",
+        "blocked_kz": "AI модульді орнатуды бұғаттады{}, себебі:",
+        "continue_kz": "Орнатуды жалғастырасыз ба?",
+        "strict_mode_doc_kz": "AI API қолжетімсіз болса немесе модуль күдікті болса, барлық әдістермен модуль жүктеуді бұғаттау (lm/dlm рұқсат етілген). Қайта іске қосқанда орнатылған модульдерге де қолданылады.",
+        "nvidia_api_key_doc_kz": "build.nvidia.com API кілті, ЖИ арқылы тексеру үшін қолданылады. Егер оны көрсетпесеңіз, GitHub-тан ортақ кілт пайдаланылады."
       },
       "has_on_load": false,
       "has_on_unload": true,
@@ -84951,7 +85195,7 @@
     }
   },
   "meta": {
-    "total_modules": 1057,
-    "generated_at": "2026-04-16T02:02:10.912643"
+    "total_modules": 1060,
+    "generated_at": "2026-04-18T01:49:43.246930"
   }
 }

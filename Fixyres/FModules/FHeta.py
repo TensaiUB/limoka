@@ -302,7 +302,7 @@ class FHetaUI:
 
 @loader.tds
 class FHeta(loader.Module):
-    '''Module for searching modules! Watch all FHeta news in @FHeta_Updates!'''
+    '''Module for searching modules! Watch all FHeta news in @NFHeta_Updates!'''
 
     strings = {
         "name": "FHeta",
@@ -338,7 +338,7 @@ class FHeta(loader.Module):
     }
     
     strings_ru = {
-        "_cls_doc": "Модуль для поиска модулей! Следите за всеми новостями FHeta в @FHeta_Updates!",
+        "_cls_doc": "Модуль для поиска модулей! Следите за всеми новостями FHeta в @NFHeta_Updates!",
         "lang": "ru",
         "author": "от",
         "description": "Описание",
@@ -371,7 +371,7 @@ class FHeta(loader.Module):
     }
     
     strings_ua = {
-        "_cls_doc": "Модуль для пошуку модулів! Слідкуйте за всіма новинами FHeta в @FHeta_Updates!",
+        "_cls_doc": "Модуль для пошуку модулів! Слідкуйте за всіма новинами FHeta в @NFHeta_Updates!",
         "lang": "ua",
         "author": "від",
         "description": "Опис",
@@ -404,7 +404,7 @@ class FHeta(loader.Module):
     }
     
     strings_kz = {
-        "_cls_doc": "Модульдерді іздеу модулі! FHeta барлық жаңалықтарын @FHeta_Updates арнасында қадағалаңыз!",
+        "_cls_doc": "Модульдерді іздеу модулі! FHeta барлық жаңалықтарын @NFHeta_Updates арнасында қадағалаңыз!",
         "lang": "kz",
         "author": "авторы",
         "description": "Сипаттама",
@@ -437,7 +437,7 @@ class FHeta(loader.Module):
     }
     
     strings_uz = {
-        "_cls_doc": "Modullarni qidirish moduli! FHeta barcha yangilanishlarini @FHeta_Updates kanalida kuzatib boring!",
+        "_cls_doc": "Modullarni qidirish moduli! FHeta barcha yangilanishlarini @NFHeta_Updates kanalida kuzatib boring!",
         "lang": "uz",
         "author": "muallif",
         "description": "Tavsif",
@@ -470,7 +470,7 @@ class FHeta(loader.Module):
     }
     
     strings_fr = {
-        "_cls_doc": "Module de recherche de modules! Suivez toutes les actualités FHeta sur @FHeta_Updates!",
+        "_cls_doc": "Module de recherche de modules! Suivez toutes les actualités FHeta sur @NFHeta_Updates!",
         "lang": "fr",
         "author": "par",
         "description": "Description",
@@ -503,7 +503,7 @@ class FHeta(loader.Module):
     }
     
     strings_de = {
-        "_cls_doc": "Modul zur Suche nach Modulen! Verfolgen Sie alle FHeta-Neuigkeiten auf @FHeta_Updates!",
+        "_cls_doc": "Modul zur Suche nach Modulen! Verfolgen Sie alle FHeta-Neuigkeiten auf @NFHeta_Updates!",
         "lang": "de",
         "author": "von",
         "description": "Beschreibung",
@@ -536,7 +536,7 @@ class FHeta(loader.Module):
     }
     
     strings_jp = {
-        "_cls_doc": "モジュール検索用モジュール！@FHeta_UpdatesでFHetaのすべてのニュースをフォローしてください！",
+        "_cls_doc": "モジュール検索用モジュール！@NFHeta_UpdatesでFHetaのすべてのニュースをフォローしてください！",
         "lang": "jp",
         "author": "作成者",
         "description": "説明",
@@ -577,7 +577,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5341715473882955310">⚙️</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5359785904535774578">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5454112830989025752">📦</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5197269100878907942">📋</tg-emoji>'
         },
         "winter": {
@@ -588,7 +588,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5199503707938505333">🎅</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5204046675236109418">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5197708768091061888">🎁</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5345935030143196497">🎄</tg-emoji>'
         },
         "summer": {
@@ -599,7 +599,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5442644589703866634">🏄</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5434121252874756456">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5433645645376264953">🏖️</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5472178859300363509">🏖️</tg-emoji>'
         },
         "spring": {
@@ -610,7 +610,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5449850741667668411">🦋</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5434121252874756456">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5440911110838425969">🌿</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5440748683765227563">🌺</tg-emoji>'
         },
         "autumn": {
@@ -621,7 +621,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5212963577098417551">🍂</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5363965354391388799">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5249157915041865558">🍄</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5305495722618010655">🍂</tg-emoji>'
         }
     }
