@@ -1,6 +1,6 @@
 __version__ = (9, 3, 9)
 
-# meta developer: @FModules
+# meta developer: @NFModules
 # meta pic: https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/logo.png
 # meta banner: https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/logo.png
 # scope: hikka_min 2.0.0
@@ -100,18 +100,6 @@ class MInstaller:
             
         return "dependency", []
 
-    async def pip(self, dependencies: List[str]) -> bool:
-        virtualenv = hasattr(sys, 'real_prefix') or sys.prefix != getattr(sys, 'base_prefix', sys.prefix)
-        flags = ["--user"] if loader.USER_INSTALL and not virtualenv else []
-        
-        process = await asyncio.create_subprocess_exec(
-            sys.executable, "-m", "pip", "install", "-U", "-q",
-            "--disable-pip-version-check", "--no-warn-script-location",
-            *flags, *dependencies
-        )
-        
-        return await process.wait() == 0
-
     async def load(self, plugin: 'loader.Module', code: str, origin: str, step: int) -> Union[str, List[str]]:
         if step == 0:
             try:
@@ -121,7 +109,7 @@ class MInstaller:
                 ))
                 
                 if dependencies:
-                    if not await self.pip(dependencies):
+                    if not await plugin.install_requirements(dependencies):
                         return dependencies
                     importlib.invalidate_caches()
                     return "retry"
@@ -171,7 +159,7 @@ class MInstaller:
             alternative = {"sklearn": "scikit-learn", "pil": "Pillow", "herokutl": "Heroku-TL-New"}.get(exception.name.lower(), exception.name)
             dependencies = [alternative]
             
-            if not alternative or not await self.pip(dependencies):
+            if not alternative or not await plugin.install_requirements(dependencies):
                 return dependencies
                 
             importlib.invalidate_caches()
@@ -314,7 +302,7 @@ class FHetaUI:
 
 @loader.tds
 class FHeta(loader.Module):
-    '''Module for searching modules! Watch all FHeta news in @FHeta_Updates!'''
+    '''Module for searching modules! Watch all FHeta news in @NFHeta_Updates!'''
 
     strings = {
         "name": "FHeta",
@@ -345,11 +333,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Error, module tried to overwrite built-in module!",
         "dependency": "✘ Dependencies installation error! {deps}",
         "docdevs": "Use only modules from official Heroku developers when searching?",
-        "doctheme": "Theme for emojis."
+        "doctheme": "Theme for emojis.",
+        "channel": "This is the channel with all updates in FHeta!"
     }
     
     strings_ru = {
-        "_cls_doc": "Модуль для поиска модулей! Следите за всеми новостями FHeta в @FHeta_Updates!",
+        "_cls_doc": "Модуль для поиска модулей! Следите за всеми новостями FHeta в @NFHeta_Updates!",
         "lang": "ru",
         "author": "от",
         "description": "Описание",
@@ -377,11 +366,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Ошибка, модуль пытался перезаписать встроенный модуль!",
         "dependency": "✘ Ошибка установки зависимостей! {deps}",
         "docdevs": "Использовать только модули от официальных разработчиков Heroku при поиске?",
-        "doctheme": "Тема для эмодзи."
+        "doctheme": "Тема для эмодзи.",
+        "channel": "Это канал со всеми обновлениями в FHeta!"
     }
     
     strings_ua = {
-        "_cls_doc": "Модуль для пошуку модулів! Слідкуйте за всіма новинами FHeta в @FHeta_Updates!",
+        "_cls_doc": "Модуль для пошуку модулів! Слідкуйте за всіма новинами FHeta в @NFHeta_Updates!",
         "lang": "ua",
         "author": "від",
         "description": "Опис",
@@ -409,11 +399,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Помилка, модуль намагався перезаписати вбудований модуль!",
         "dependency": "✘ Помилка встановлення залежностей! {deps}",
         "docdevs": "Використовувати тільки модулі від офіційних розробників Heroku при пошуку?",
-        "doctheme": "Тема для емодзі."
+        "doctheme": "Тема для емодзі.",
+        "channel": "Це канал з усіма оновленнями в FHeta!"
     }
     
     strings_kz = {
-        "_cls_doc": "Модульдерді іздеу модулі! FHeta барлық жаңалықтарын @FHeta_Updates арнасында қадағалаңыз!",
+        "_cls_doc": "Модульдерді іздеу модулі! FHeta барлық жаңалықтарын @NFHeta_Updates арнасында қадағалаңыз!",
         "lang": "kz",
         "author": "авторы",
         "description": "Сипаттама",
@@ -441,11 +432,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Қате, модуль кіріктірілген модульді қайта жазуға тырысты!",
         "dependency": "✘ Тәуелділіктерді орнату қатесі! {deps}",
         "docdevs": "Іздеу кезінде тек ресми Heroku әзірлеушілерінің модульдерін пайдалану керек пе?",
-        "doctheme": "Эмодзилер үшін тақырып."
+        "doctheme": "Эмодзилер үшін тақырып.",
+        "channel": "Бұл FHeta-дағы барлық жаңартулары бар арна!"
     }
     
     strings_uz = {
-        "_cls_doc": "Modullarni qidirish moduli! FHeta barcha yangilanishlarini @FHeta_Updates kanalida kuzatib boring!",
+        "_cls_doc": "Modullarni qidirish moduli! FHeta barcha yangilanishlarini @NFHeta_Updates kanalida kuzatib boring!",
         "lang": "uz",
         "author": "muallif",
         "description": "Tavsif",
@@ -473,11 +465,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Xatolik, modul o'rnatilgan modulni qayta yozishga harakat qildi!",
         "dependency": "✘ Bog'liqliklarni o'rnatish xatosi! {deps}",
         "docdevs": "Qidiruv paytida faqat rasmiy Heroku ishlab chiquvchilarining modullaridan foydalanish kerakmi?",
-        "doctheme": "Emojilar uchun mavzu."
+        "doctheme": "Emojilar uchun mavzu.",
+        "channel": "Bu FHeta-dagi barcha yangilanishlari bo'lgan kanal!"
     }
     
     strings_fr = {
-        "_cls_doc": "Module de recherche de modules! Suivez toutes les actualités FHeta sur @FHeta_Updates!",
+        "_cls_doc": "Module de recherche de modules! Suivez toutes les actualités FHeta sur @NFHeta_Updates!",
         "lang": "fr",
         "author": "par",
         "description": "Description",
@@ -505,11 +498,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Erreur, le module a tenté d'écraser le module intégré!",
         "dependency": "✘ Erreur d'installation des dépendances! {deps}",
         "docdevs": "Utiliser uniquement les modules des développeurs Heroku officiels lors de la recherche?",
-        "doctheme": "Thème pour les emojis."
+        "doctheme": "Thème pour les emojis.",
+        "channel": "Voici le canal avec toutes les mises à jour dans FHeta!"
     }
     
     strings_de = {
-        "_cls_doc": "Modul zur Suche nach Modulen! Verfolgen Sie alle FHeta-Neuigkeiten auf @FHeta_Updates!",
+        "_cls_doc": "Modul zur Suche nach Modulen! Verfolgen Sie alle FHeta-Neuigkeiten auf @NFHeta_Updates!",
         "lang": "de",
         "author": "von",
         "description": "Beschreibung",
@@ -537,11 +531,12 @@ class FHeta(loader.Module):
         "overwrite": "✘ Fehler, Modul hat versucht, das integrierte Modul zu überschreiben!",
         "dependency": "✘ Fehler bei der Installation von Abhängigkeiten! {deps}",
         "docdevs": "Nur Module von offiziellen Heroku-Entwicklern bei der Suche verwenden?",
-        "doctheme": "Thema für Emojis."
+        "doctheme": "Thema für Emojis.",
+        "channel": "Dies ist der Kanal mit allen Updates in FHeta!"
     }
     
     strings_jp = {
-        "_cls_doc": "モジュール検索用モジュール！@FHeta_UpdatesでFHetaのすべてのニュースをフォローしてください！",
+        "_cls_doc": "モジュール検索用モジュール！@NFHeta_UpdatesでFHetaのすべてのニュースをフォローしてください！",
         "lang": "jp",
         "author": "作成者",
         "description": "説明",
@@ -569,7 +564,8 @@ class FHeta(loader.Module):
         "overwrite": "✘ エラー、モジュールが組み込みモジュールを上書きしようとしました!",
         "dependency": "✘ 依存関係のインストールエラー! {deps}",
         "docdevs": "検索時に公式Heroku開発者のモジュールのみを使用しますか？",
-        "doctheme": "絵文字のテーマ。"
+        "doctheme": "絵文字のテーマ。",
+        "channel": "これはFHetaのすべての更新を含むチャンネルです！"
     }
     
     THEMES = {
@@ -581,7 +577,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5341715473882955310">⚙️</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5359785904535774578">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5454112830989025752">📦</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5197269100878907942">📋</tg-emoji>'
         },
         "winter": {
@@ -592,7 +588,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5199503707938505333">🎅</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5204046675236109418">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5197708768091061888">🎁</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5345935030143196497">🎄</tg-emoji>'
         },
         "summer": {
@@ -603,7 +599,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5442644589703866634">🏄</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5434121252874756456">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5433645645376264953">🏖️</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5472178859300363509">🏖️</tg-emoji>'
         },
         "spring": {
@@ -614,7 +610,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5449850741667668411">🦋</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5434121252874756456">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5440911110838425969">🌿</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5440748683765227563">🌺</tg-emoji>'
         },
         "autumn": {
@@ -625,7 +621,7 @@ class FHeta(loader.Module):
             "command": '<tg-emoji emoji-id="5212963577098417551">🍂</tg-emoji>',
             "placeholder": '<tg-emoji emoji-id="5363965354391388799">🗒️</tg-emoji>',
             "module": '<tg-emoji emoji-id="5249157915041865558">🍄</tg-emoji>',
-            "channel": '<tg-emoji emoji-id="5278256077954105203">📢</tg-emoji>',
+            "channel": '📢',
             "modules_list": '<tg-emoji emoji-id="5305495722618010655">🍂</tg-emoji>'
         }
     }
@@ -663,6 +659,11 @@ class FHeta(loader.Module):
         self.api = FHetaAPI()
         self.installer = MInstaller()
         self.ui = FHetaUI(self)
+        
+        await self.request_join(
+            "NFHeta_Updates",
+            f"{self.ui.emoji('channel')} {self.strings('channel')}"
+        )
         
         self.api.token = self.token
         
@@ -716,13 +717,20 @@ class FHeta(loader.Module):
                     self.api.token = self.token
             except Exception:
                 pass
-    
-    @loader.loop(interval=1, autostart=True)
+                
+        asyncio.create_task(self.sync())
+        
     async def sync(self):
-        now = self.strings["lang"]
-        if now != getattr(self, "past_lang", None):
-            await self.api.send("dataset", params={"user_id": getattr(self, "identifier", 0), "lang": now})
-            self.past_lang = now
+        ll = None
+        while True:
+            try:
+                cl = self.strings["lang"]
+                if cl != ll:
+                    await self.api.send("dataset", user_id=self.identifier, lang=cl)
+                    ll = cl
+            except Exception:
+                pass
+            await asyncio.sleep(1)
 
     async def answer(self, callback: Union[CallbackQuery, ChosenInlineResult], text: Optional[str] = None, alert: bool = False) -> None:
         try:
@@ -872,7 +880,7 @@ class FHeta(loader.Module):
             return {
                 "title": self.strings["prompt"],
                 "description": self.strings["hint"],
-                "message": f"{self.ui.emoji('error')} <b>{self.strings['prompt']}</b>",
+                "message": f"{self.ui.emoji('error')} <b>{self.strings['noquery'].format(prefix=f'<code>@{self.inline.bot_username} ')}</code></b>",
                 "thumb": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/magnifying_glass.png"
             }
             
@@ -890,7 +898,7 @@ class FHeta(loader.Module):
             return {
                 "title": self.strings["retry"],
                 "description": self.strings["hint"],
-                "message": f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=utils.escape_html(query))}</b>",
+                "message": f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=f'<code>{utils.escape_html(query)}</code>')}</b>",
                 "thumb": "https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/FHeta/try_other_query.png"
             }
 
@@ -941,18 +949,18 @@ class FHeta(loader.Module):
         query = utils.get_args_raw(message)
         
         if not query:
-            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['noquery'].format(prefix=self.get_prefix())}</b>")
+            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['noquery'].format(prefix=f'<code>{self.get_prefix()}')}</code></b>")
             
         if len(query) > 168:
             return await utils.answer(message, f"{self.ui.emoji('warn')} <b>{self.strings['toolong']}</b>")
 
-        message = await utils.answer(message, f"{self.ui.emoji('search')} <b>{self.strings['search'].format(query=utils.escape_html(query))}</b>")
+        message = await utils.answer(message, f"{self.ui.emoji('search')} <b>{self.strings['search'].format(query=f'<code>{utils.escape_html(query)}</code>')}</b>")
         
         modules = await self.api.fetch("search", query=query, inline="false", token=self.token, user_id=self.identifier, ood=str(self.config["only_official_developers"]).lower())
         
         if not modules or not isinstance(modules, list):
-            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=utils.escape_html(query))}</b>")
-
+            return await utils.answer(message, f"{self.ui.emoji('error')} <b>{self.strings['notfound'].format(query=f'<code>{utils.escape_html(query)}</code>')}</b>")
+            
         data = modules[0]
         buttons = self.ui.buttons(data.get("install", ""), data, 0, modules, query)
         form = await self.inline.form("ㅤ", message, reply_markup=buttons, silent=True)

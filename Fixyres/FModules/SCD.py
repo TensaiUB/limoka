@@ -7,7 +7,7 @@ __version__ = (1, 0, 0)
 # 🔑 http://www.apache.org/licenses/LICENSE-2.0
 
 # meta banner: https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/SCD/banner.png
-# meta developer: @FModules
+# meta developer: @NFModules
 
 # requires: curl_cffi
 

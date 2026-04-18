@@ -7,7 +7,7 @@ __version__ = (1, 1, 0)
 # 🔑 http://www.apache.org/licenses/LICENSE-2.0
 
 # meta banner: https://raw.githubusercontent.com/Fixyres/FModules/refs/heads/main/assets/akinator/banner.png
-# meta developer: @FModules
+# meta developer: @NFModules
 # meta fhsdesc: game, funny, guess, question game
 
 # requires: curl_cffi
