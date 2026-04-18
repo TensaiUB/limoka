@@ -38,7 +38,7 @@ from .. import utils, loader
 from ..types import BotInlineCall, InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 5, 0)
+__version__ = (1, 5, 1)
 
 
 def _parse_version_from_source(source: str):
@@ -1204,7 +1204,6 @@ class Limoka(loader.Module):
         try:
             loader = self.lookup("Loader")
             await loader.download_and_install(f"{self.config['limokaurl']}Limoka.py")
-            logger.info(f"Downloading and installing: {self.config['limokaurl']}Limoka.py")
             if getattr(loader, "fully_loaded", False):
                 loader.update_modules_in_db()
             return True
