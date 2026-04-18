@@ -489,6 +489,8 @@ class Limoka(loader.Module):
             "New Limoka Version {version} already available. Please update for better performance, bug fixes, and new features.\n"
             "Press the button below to update the module."
         ),
+        "no_updates_available": "No updates available. You are using the latest version of Limoka.",
+        "module_update_available": "Notification about module update has been sent, check @{bot}.",
     }
     strings_ru = {
         "name": "Limoka",
@@ -611,7 +613,7 @@ class Limoka(loader.Module):
             "Нажмите кнопку ниже, чтобы обновить модуль."
         ),
         "no_updates_available": "Нет доступных обновлений. У вас установлена последняя версия Limoka.",
-        "module_update_available": "Уведомление об обновлении модуля было отправлено, проверьте {bot}.",
+        "module_update_available": "Уведомление об обновлении модуля было отправлено, проверьте @{bot}.",
         "_cls_doc": "Модули теперь в одном месте с простым и удобным поиском!",
     }
 
@@ -680,11 +682,20 @@ class Limoka(loader.Module):
                         if response.status == 200:
                             version = _parse_version_from_source(await response.text())
                             if version is not None and version > __version__:
-                                # TODO: TODO
+                                markup = InlineKeyboardMarkup(
+                                    inline_keyboard=[
+                                        [
+                                            InlineKeyboardButton(
+                                                text=self.strings.get("install_button", "Install"),
+                                                callback_data="limoka:update_module"
+                                            )
+                                        ]
+                                    ]
+                                )
                                 await self.inline.bot.send_message(
                                     self._tg_id,
-                                    self.strings["update_available"].format(version=version),
-                                    reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton("Update Now", callback_data="limoka:update_module"))
+                                    self.strings["update_available"].format(version='.'.join(str(v) for v in version)),
+                                    reply_markup=markup
                                 )
                                 return True
                             return False
@@ -694,7 +705,13 @@ class Limoka(loader.Module):
     @loader.callback_handler()
     async def callback_handler(self, call: BotInlineCall):
         if call.data == "limoka:update_module":
-            await self._install_module_limoka(call)
+            result = await self._install_module_limoka()
+            call.as_(self.inline.bot)
+            if result:
+                await call.answer(f"✅ {self.strings['install_succeeded']}")
+            else:
+                await call.answer(f"❌ {self.strings['install_failed']}")
+
 
     def _create_search_session(
         self,
@@ -1183,18 +1200,17 @@ class Limoka(loader.Module):
         else:
             await call.answer(f"✅ {self.strings['install_succeeded']}", alert=True)
 
-    async def _install_module_limoka(self, call: InlineCall):
+    async def _install_module_limoka(self):
         try:
             loader = self.lookup("Loader")
             await loader.download_and_install(f"{self.config['limokaurl']}Limoka.py")
             logger.info(f"Downloading and installing: {self.config['limokaurl']}Limoka.py")
             if getattr(loader, "fully_loaded", False):
                 loader.update_modules_in_db()
-
-        except Exception:
-            await call.answer(f"❌ {self.strings['install_failed']}", alert=True)
-        else:
-            await call.answer(f"✅ {self.strings['install_succeeded']}", alert=True)
+            return True
+        except Exception as e:
+            logger.exception(f"Error updating Limoka module: {e}")
+            return False
 
     async def _display_filter_menu(self, call: InlineCall, session: Dict[str, Any]):
         query = session["query"]
