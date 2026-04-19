@@ -146,11 +146,6 @@
             "blacklist": []
         },
         {
-            "url": "https://github.com/archquise/H.Modules",
-            "tags": ["hikkatrusted", "nonactive"],
-            "blacklist": []
-        },
-        {
             "url": "https://github.com/GD-alt/mm-hikka-mods",
             "tags": ["hikkatrusted", "herokutrusted", "nonactive"],
             "blacklist": []
@@ -243,7 +238,7 @@
         {
             "url": "https://github.com/Fixyres/FModules",
             "tags": ["herokutrusted"],
-            "blacklist": ["FHeta.py"]
+            "blacklist": ["FHeta.py", "LFSecurity.py"]
         },
         {
             "url": "https://github.com/Midga3/Heroku-modules",
