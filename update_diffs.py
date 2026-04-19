@@ -6,6 +6,7 @@ import os
 import tempfile
 from pathlib import Path
 
+import parse
 
 parser = argparse.ArgumentParser(description="Update Diffs Script")
 parser.add_argument(
@@ -82,6 +83,26 @@ def get_deleted_files(base_commit):
     except subprocess.CalledProcessError:
         return []
 
+def get_diff_files(base_commit, diff_filter):
+    """Get list of files for a specific git diff filter"""
+    try:
+        result = subprocess.check_output(
+            ['git', 'diff', f'--diff-filter={diff_filter}', '--name-only', base_commit, 'HEAD'],
+            cwd=os.getcwd()
+        ).decode().strip().splitlines()
+        return [f for f in result if f]
+    except subprocess.CalledProcessError:
+        return []
+
+
+def get_added_files(base_commit):
+    return get_diff_files(base_commit, 'A')
+
+
+def get_modified_files(base_commit):
+    return get_diff_files(base_commit, 'M')
+
+
 def get_file_diff(file_path, base_commit):
     """Get diff for a specific file"""
     try:
@@ -92,6 +113,24 @@ def get_file_diff(file_path, base_commit):
         return diff
     except subprocess.CalledProcessError:
         return ""
+
+
+def get_module_developer(file_path):
+    """Read module metadata and return the developer handle"""
+    try:
+        module_info = parse.get_module_info(file_path)
+    except Exception:
+        return None
+
+    if not module_info:
+        return None
+
+    developer = module_info.get('meta', {}).get('developer')
+    if developer:
+        return developer.strip()
+
+    return None
+
 
 def is_module_file(file_path):
     """Check if file is a Python module in a modules directory"""
@@ -106,20 +145,22 @@ def extract_module_name(file_path):
     return Path(file_path).stem
 
 async def main():
-    changed_files = get_changed_files(arguments.base_commit)
+    added_files = get_added_files(arguments.base_commit)
+    modified_files = get_modified_files(arguments.base_commit)
     deleted_files = get_deleted_files(arguments.base_commit)
     
-    all_files = changed_files + deleted_files
+    all_files = added_files + modified_files + deleted_files
     
     if not all_files:
         print("No changes detected")
         return
     
     # Filter for module files only
-    module_files = [f for f in changed_files if is_module_file(f)]
+    new_module_files = [f for f in added_files if is_module_file(f)]
+    modified_module_files = [f for f in modified_files if is_module_file(f)]
     deleted_module_files = [f for f in deleted_files if is_module_file(f)]
     
-    if not module_files and not deleted_module_files:
+    if not new_module_files and not modified_module_files and not deleted_module_files:
         print("No module changes detected")
         return
     
@@ -128,21 +169,18 @@ async def main():
         for file_path in deleted_module_files:
             try:
                 module_name = extract_module_name(file_path)
-                message = (
-                    f"🪼 <b>Module <code>{module_name}</code> has been deleted</b>"
-                    # f"🪼 <b>Module <code>{module_name}</code> by <code>ueban123</code> changes approved</b>\n\n"
-                )
+                message = f"🪼 <b>Module <code>{module_name}</code> has been deleted</b>"
                 result = await send_message(session, message)
                 print(f"Sent deletion notice for {module_name}: {result}")
             except Exception as e:
                 print(f"Error processing deleted {file_path}: {e}")
-        
-        # Handle changed files
-        for file_path in module_files:
+
+        # Handle newly added modules
+        for file_path in new_module_files:
             try:
                 module_name = extract_module_name(file_path)
-                
-                # Create message with raw GitHub URL
+                developer = get_module_developer(file_path)
+
                 github_url = f"https://raw.githubusercontent.com/MuRuLOSE/limoka/refs/heads/main/{file_path}"
                 try:
                     new_hash = subprocess.check_output(
@@ -161,21 +199,21 @@ async def main():
                     old_hash = arguments.base_commit
 
                 diff_url = f"https://github.com/MuRuLOSE/limoka/compare/{old_hash}...{new_hash}.diff"
+                title = f"🪼 <b>New module <code>{module_name}</code> approved</b>"
+                if developer:
+                    title += f"\n<code>{developer}</code>"
+
                 message = (
-                    f"🪼 <b>Module <code>{module_name}</code> changes approved</b>\n\n"
-                    # f"🪼 <b>Module <code>{module_name}</code> by <code>ueban123</code> changes approved</b>\n\n"
+                    f"{title}\n\n"
                     f"<b><a href=\"{github_url}\">File URL</a></b> | "
                     f"<b><a href=\"{diff_url}\">Diff URL</a></b>"
                 )
-                
-                # Get diff
+
                 diff = get_file_diff(file_path, arguments.base_commit)
-                
                 if not diff:
                     print(f"Skipping {file_path} - no diff content")
                     continue
-                
-                # Create temporary file with diff using only module name
+
                 diff_filename = f"{module_name}.diff"
                 with tempfile.NamedTemporaryFile(
                     mode='w',
@@ -187,24 +225,15 @@ async def main():
                 ) as tmp_file:
                     tmp_file.write(diff)
                     tmp_file_path = tmp_file.name
-                
+
                 try:
-                    # Rename temp file to have proper name
                     final_path = os.path.join(tempfile.gettempdir(), diff_filename)
                     os.rename(tmp_file_path, final_path)
-                    
-                    # Send diff as document with full message as caption
-                    doc_result = await send_document(
-                        session,
-                        final_path,
-                        caption=message
-                    )
-                    print(f"Sent diff for {module_name}: {doc_result}")
-                    
+                    doc_result = await send_document(session, final_path, caption=message)
+                    print(f"Sent new module diff for {module_name}: {doc_result}")
                 except Exception as e:
                     print(f"Error sending {module_name}: {e}")
                 finally:
-                    # Cleanup temp files
                     if os.path.exists(tmp_file_path):
                         try:
                             os.remove(tmp_file_path)
@@ -216,9 +245,81 @@ async def main():
                             os.remove(final_path)
                         except:
                             pass
-            
             except Exception as e:
-                print(f"Error processing {file_path}: {e}")
+                print(f"Error processing new file {file_path}: {e}")
+
+        # Handle modified files
+        for file_path in modified_module_files:
+            try:
+                module_name = extract_module_name(file_path)
+                developer = get_module_developer(file_path)
+
+                github_url = f"https://raw.githubusercontent.com/MuRuLOSE/limoka/refs/heads/main/{file_path}"
+                try:
+                    new_hash = subprocess.check_output(
+                        ['git', 'rev-list', '-n', '1', 'HEAD', '--', file_path],
+                        cwd=os.getcwd()
+                    ).decode().strip()
+                except Exception:
+                    new_hash = 'HEAD'
+
+                try:
+                    old_hash = subprocess.check_output(
+                        ['git', 'rev-list', '-n', '1', arguments.base_commit, '--', file_path],
+                        cwd=os.getcwd()
+                    ).decode().strip()
+                except Exception:
+                    old_hash = arguments.base_commit
+
+                diff_url = f"https://github.com/MuRuLOSE/limoka/compare/{old_hash}...{new_hash}.diff"
+                title = f"🪼 <b>Module <code>{module_name}</code> changes approved</b>"
+                if developer:
+                    title += f"\nby <code>{developer}</code>"
+
+                message = (
+                    f"{title}\n\n"
+                    f"<b><a href=\"{github_url}\">File URL</a></b> | "
+                    f"<b><a href=\"{diff_url}\">Diff URL</a></b>"
+                )
+
+                diff = get_file_diff(file_path, arguments.base_commit)
+                if not diff:
+                    print(f"Skipping {file_path} - no diff content")
+                    continue
+
+                diff_filename = f"{module_name}.diff"
+                with tempfile.NamedTemporaryFile(
+                    mode='w',
+                    suffix='',
+                    prefix='',
+                    delete=False,
+                    encoding='utf-8',
+                    dir=tempfile.gettempdir()
+                ) as tmp_file:
+                    tmp_file.write(diff)
+                    tmp_file_path = tmp_file.name
+
+                try:
+                    final_path = os.path.join(tempfile.gettempdir(), diff_filename)
+                    os.rename(tmp_file_path, final_path)
+                    doc_result = await send_document(session, final_path, caption=message)
+                    print(f"Sent diff for {module_name}: {doc_result}")
+                except Exception as e:
+                    print(f"Error sending {module_name}: {e}")
+                finally:
+                    if os.path.exists(tmp_file_path):
+                        try:
+                            os.remove(tmp_file_path)
+                        except:
+                            pass
+                    final_path = os.path.join(tempfile.gettempdir(), diff_filename)
+                    if os.path.exists(final_path):
+                        try:
+                            os.remove(final_path)
+                        except:
+                            pass
+            except Exception as e:
+                print(f"Error processing modified {file_path}: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())
