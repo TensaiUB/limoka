@@ -38,7 +38,7 @@ from .. import utils, loader
 from ..types import BotInlineCall, InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 5, 1)
+__version__ = (1, 5, 2)
 
 
 def _parse_version_from_source(source: str):
