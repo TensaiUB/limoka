@@ -1,5 +1,5 @@
 # meta developer: @limokanews
-# requires: whoosh cryptography python-magic
+# requires: whoosh cryptography filetype
 
 
 from collections import Counter, defaultdict
@@ -24,7 +24,7 @@ from telethon.errors.rpcerrorlist import WebpageMediaEmptyError
 from telethon import TelegramClient
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon import functions
-import magic
+import filetype
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -859,7 +859,7 @@ class Limoka(loader.Module):
                     ct = response.headers.get("Content-Type", "").lower()
                     if not ct: # Some servers don't respond to HEAD requests with Content-Type, so instead we will try guess mime from content
                         data = open(response.data, "rb").read(2048)
-                        mime = magic.from_buffer(data, mime=True)
+                        mime = filetype.guess_mime(data, mime=True)
                     if not ct.startswith("image/") or not mime.startswith("image/"):
                         self._invalid_banners.add(url)
                         return None
