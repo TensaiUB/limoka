@@ -1,5 +1,5 @@
 # meta developer: @limokanews
-# requires: whoosh cryptography
+# requires: whoosh cryptography python-magic
 
 
 from collections import Counter, defaultdict
@@ -24,21 +24,20 @@ from telethon.errors.rpcerrorlist import WebpageMediaEmptyError
 from telethon import TelegramClient
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon import functions
+import magic
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 import ast
 
-try:
-    from aiogram.utils.exceptions import BadRequest
-except ImportError:
-    from aiogram.exceptions import TelegramBadRequest as BadRequest
+
+from aiogram.exceptions import TelegramBadRequest as BadRequest
 
 from .. import utils, loader
 from ..types import BotInlineCall, InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 5, 3)
+__version__ = (1, 5, 4)
 
 
 def _parse_version_from_source(source: str):
@@ -806,7 +805,7 @@ class Limoka(loader.Module):
     @loader.loop(interval=3600)
     async def _update_modules_loop(self):
         """Periodically update modules list and rebuild index."""
-        raw_modules = await self.api.fetch_json(self._base_url, "modules.json")
+        await self.api.fetch_json(self._base_url, "modules.json")
         self.modules = self.repository.apply_newbie_filter(
             self.config.get("filter_newbies_modules", False)
         )
@@ -858,11 +857,14 @@ class Limoka(loader.Module):
                         self._invalid_banners.add(url)
                         return None
                     ct = response.headers.get("Content-Type", "").lower()
-                    if not ct.startswith("image/"):
+                    if not ct: # Some servers don't respond to HEAD requests with Content-Type, so instead we will try guess mime from content
+                        data = open(response.data, "rb").read(2048)
+                        mime = magic.from_buffer(data, mime=True)
+                    if not ct.startswith("image/") or not mime.startswith("image/"):
                         self._invalid_banners.add(url)
                         return None
                     return url
-        except Exception as e:
+        except Exception:
             if url:
                 self._invalid_banners.add(url)
             return None
@@ -926,8 +928,6 @@ class Limoka(loader.Module):
     def _build_navigation_markup(self, session: Dict[str, Any]) -> list:
         result = session["results"]
         index = session["current_index"]
-        query = session["query"]
-        filters = session["filters"]
 
         page = index + 1
         markup = [
@@ -981,8 +981,6 @@ class Limoka(loader.Module):
     ) -> list:
         result = session["results"]
         index = session["current_index"]
-        query = session["query"]
-        filters = session["filters"]
 
         markup = []
         if len(body_pages) > 1:
