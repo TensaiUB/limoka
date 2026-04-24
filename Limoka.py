@@ -38,7 +38,7 @@ from .. import utils, loader
 from ..types import BotInlineCall, InlineCall
 
 logger = logging.getLogger("Limoka")
-__version__ = (1, 5, 2)
+__version__ = (1, 5, 3)
 
 
 def _parse_version_from_source(source: str):
@@ -1360,6 +1360,7 @@ class Limoka(loader.Module):
             result = searcher.search()
         except Exception:
             await call.edit(self.strings["?"], reply_markup=[])
+
             return
         if not result:
             markup = (
@@ -1737,7 +1738,7 @@ class Limoka(loader.Module):
         """— Update search index"""
         await utils.answer(message, self.strings["index_update_started"])
         try:
-            self._update_index()
+            await self._update_index()
         except Exception as e:
             logger.exception(f"Error updating index: {e}")
             await utils.answer(message, self.strings["index_update_failed"])
