@@ -5,6 +5,7 @@ import subprocess
 import os
 import tempfile
 from pathlib import Path
+import ast
 
 import parse
 
@@ -130,6 +131,21 @@ def get_module_developer(file_path):
         return developer.strip()
 
     return None
+
+def _parse_version_from_source(source: str):
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return None
+
+    for node in tree.body:
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id == "__version__":
+                    try:
+                        return ast.literal_eval(node.value)
+                    except (ValueError, SyntaxError):
+                        return None
 
 
 def is_module_file(file_path):
@@ -271,8 +287,18 @@ async def main():
                 except Exception:
                     old_hash = arguments.base_commit
 
+                version = ""
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        source = f.read()
+                        version_tuple = _parse_version_from_source(source)
+                        if version_tuple:
+                            version = '.'.join(map(str, version_tuple))
+                except Exception as e:
+                    print(f"Error parsing version from {file_path}: {e}")
+
                 diff_url = f"https://github.com/MuRuLOSE/limoka/compare/{old_hash}...{new_hash}.diff"
-                title = f"🪼 <b>Module <code>{module_name}</code> changes approved</b>"
+                title = f"🪼 <b>Module <code>{module_name}</code> <code>{version}</code> changes approved</b>"
                 if developer:
                     title += f"\nby <code>{developer}</code>"
 
