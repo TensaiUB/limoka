@@ -489,8 +489,12 @@ class Limoka(loader.Module):
             "New Limoka Version {version} already available. Please update for better performance, bug fixes, and new features.\n"
             "Press the button below to update the module."
         ),
-        "no_updates_available": "No updates available. You are using the latest version of Limoka.",
-        "module_update_available": "Notification about module update has been sent, check @{bot}.",
+        "no_updates_available": "<blockquote>❌ No updates available. You are using the latest version of Limoka.</blockquote>",
+        "module_update_available": "<blockquote>🔔 Notification about module update has been sent, check @{bot}.</blockquote>",
+        "index_update_started": "<blockquote>🔄 Limoka module index update has started. This may take a few minutes. Please wait...</blockquote>",
+        "index_update_failed": "<blockquote>❌ Failed to update Limoka module index. Please try again later. If the error persists, report to developers</blockquote>",
+        "index_update_success": "<blockquote>✅ Limoka module index updated successfully!</blockquote>",
+        "update_check_started": "<blockquote>🔍 Checking for Limoka updates...</blockquote>",
     }
     strings_ru = {
         "name": "Limoka",
@@ -612,8 +616,12 @@ class Limoka(loader.Module):
             "Новая версия Limoka {version} уже доступна. Пожалуйста, обновитесь для лучшей производительности, исправления багов и новых функций.\n"
             "Нажмите кнопку ниже, чтобы обновить модуль."
         ),
-        "no_updates_available": "Нет доступных обновлений. У вас установлена последняя версия Limoka.",
-        "module_update_available": "Уведомление об обновлении модуля было отправлено, проверьте @{bot}.",
+        "no_updates_available": "<blockquote>❌ Нет доступных обновлений. У вас установлена последняя версия Limoka.</blockquote>",
+        "module_update_available": "<blockquote>🔔 Уведомление об обновлении модуля было отправлено, проверьте @{bot}.</blockquote>",
+        "index_update_started": "<blockquote>🔄 Обновление индекса модулей Limoka началось. Это может занять несколько минут. Пожалуйста, подождите...</blockquote>",
+        "index_update_failed": "<blockquote>❌ Не удалось обновить индекс модулей Limoka. Пожалуйста, попробуйте снова позже. Если ошибка сохраняется, сообщите разработчикам</blockquote>",
+        "index_update_success": "<blockquote>✅ Индекс модулей Limoka успешно обновлен!</blockquote>",
+        "update_check_started": "<blockquote>🔍 Проверка обновлений Limoka...</blockquote>",
         "_cls_doc": "Модули теперь в одном месте с простым и удобным поиском!",
     }
 
@@ -1724,9 +1732,23 @@ class Limoka(loader.Module):
             message, module_info, module_path, display_session, 0
         )
 
-    @loader.command(ru_doc="Проверить наличие обновлений модуля")
+    @loader.command(ru_doc="— Обновить индекс ")
+    async def updateindex(self, message: Message):
+        """— Update search index"""
+        await utils.answer(message, self.strings["index_update_started"])
+        try:
+            self._update_index()
+        except Exception as e:
+            logger.exception(f"Error updating index: {e}")
+            await utils.answer(message, self.strings["index_update_failed"])
+        else:
+            await utils.answer(message, self.strings["index_update_success"])
+
+    @loader.command(ru_doc="— Проверить наличие обновлений модуля")
     async def limokaupdatecmd(self, message: Message):
-        """Check for module updates"""
+        """— Check for module updates"""
+        await utils.answer(message, self.strings["checking_for_updates"])
+
         is_update_available = await self.check_for_module_update()
         if is_update_available:
             await utils.answer(message, self.strings["module_update_available"].format(bot=self._self_bot_username))
