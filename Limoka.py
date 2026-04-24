@@ -857,13 +857,17 @@ class Limoka(loader.Module):
                         self._invalid_banners.add(url)
                         return None
                     ct = response.headers.get("Content-Type", "").lower()
+                    mime = None
+                    if ct.startswith("image/"):
+                        return url
                     if not ct: # Some servers don't respond to HEAD requests with Content-Type, so instead we will try guess mime from content
-                        data = open(response.data, "rb").read(2048)
-                        mime = filetype.guess_mime(data, mime=True)
-                    if not ct.startswith("image/") or not mime.startswith("image/"):
-                        self._invalid_banners.add(url)
-                        return None
-                    return url
+                        async with session.get(url, timeout=5) as get_response:
+                            data = await get_response.read(2048)
+                            mime = filetype.guess_mime(data, mime=True)
+                            if mime and mime.startswith("image/"):
+                                return url
+                    self._invalid_banners.add(url)
+                    return None
         except Exception:
             if url:
                 self._invalid_banners.add(url)
@@ -1712,7 +1716,8 @@ class Limoka(loader.Module):
         )
         try:
             result = SearchIndex(args.lower(), self.ix).search()
-        except Exception:
+        except Exception as e:
+            logger.exception(f"Error occurred while searching: {e}")
             return await utils.answer(message, self.strings["?"])
         if not result:
             return await utils.answer(message, self.strings["404"].format(query=args))
