@@ -3,13 +3,10 @@ name: CI Pipeline
 on:
   schedule:
     - cron: "0 0 * * *"
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-    types: [opened, synchronize, reopened, closed]
+    types: [closed]
   workflow_dispatch:
 
 env:
@@ -224,7 +221,7 @@ jobs:
     if: |
       always() &&
       needs.parse.result == 'success' &&
-      (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
       - uses: actions/checkout@v4
         with:
