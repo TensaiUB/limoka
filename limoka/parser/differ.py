@@ -48,21 +48,20 @@ class ModuleDiffer:
         old_modules: dict[str, dict],
         new_modules: dict[str, dict],
     ) -> list[DiffEntry]:
-        """Compare sha256 values, write diff files, return list of changed entries."""
+        """Compare sha256 values, write diff files, return list of changed entries.
+
+        Always writes diffs/index.json (empty list when nothing changed) so that
+        ``git add diffs/`` never fails and the Limoka module can reliably fetch it.
+        """
         self._clean()
+        os.makedirs(self.diffs_dir, exist_ok=True)
 
         changed = [
             path for path, info in new_modules.items()
             if old_modules.get(path, {}).get("sha256") != info.get("sha256")
         ]
 
-        if not changed:
-            logger.info("ModuleDiffer: no changed modules")
-            return []
-
-        os.makedirs(self.diffs_dir, exist_ok=True)
         entries: list[DiffEntry] = []
-
         for path in changed:
             entry = self._process(path, new_modules[path])
             if entry:
@@ -72,7 +71,7 @@ class ModuleDiffer:
         with open(index_path, "w", encoding="utf-8") as f:
             json.dump([asdict(e) for e in entries], f, ensure_ascii=False, indent=2)
 
-        logger.info("ModuleDiffer: %d changes → %s", len(entries), index_path)
+        logger.info("ModuleDiffer: %d changed modules → %s", len(entries), index_path)
         return entries
 
     def _clean(self) -> None:
