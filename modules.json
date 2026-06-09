@@ -6,7 +6,7 @@
       "authors": [
         "@vsecoder"
       ],
-      "version": null,
+      "version": "1.0.0",
       "requires": [
         "yt-dlp",
         "aiohttp"
@@ -14,7 +14,7 @@
       "banner": null,
       "pic": null,
       "license": "MIT",
-      "sha256": "b9a17248954ad95cc288e05bb720f7ce7c168b9a625c33fe47cdfc57e152b81f",
+      "sha256": "8b856bb5c79508ffa449054c95078b08ee63d6d59290fbcf64dfcbb719cceb57",
       "handlers": {
         "command": [
           {
@@ -198,6 +198,6 @@
   },
   "meta": {
     "total_modules": 3,
-    "generated_at": "2026-06-09T17:14:45.732491"
+    "generated_at": "2026-06-09T14:31:25.994387"
   }
 }
