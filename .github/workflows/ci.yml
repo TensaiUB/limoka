@@ -26,18 +26,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
+          token: ${{ secrets.GH_TOKEN }}
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
       - name: Create update branch
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git fetch origin
           git checkout main
           git reset --hard origin/main
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin --delete ${BRANCH_NAME} || true
           git checkout -b ${BRANCH_NAME}
           git push origin ${BRANCH_NAME} --force
@@ -51,6 +49,7 @@ jobs:
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
           ref: ${{ env.BRANCH_NAME }}
+          token: ${{ secrets.GH_TOKEN }}
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -61,18 +60,13 @@ jobs:
           python-version: "3.11"
       - run: pip install requests
       - name: Clone and update repositories
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           python3 clone_repos.py
           git add .
           git commit -m "Update repositories $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ env.BRANCH_NAME }} --force
 
-  # ── schedule / dispatch / push / merged PR ─────────────────────────────────
-  # needs: [update] with always() so parse also runs on push/PR
-  # where update is skipped
+  # ── schedule / dispatch / merged PR ───────────────────────────────────────
 
   parse:
     runs-on: ubuntu-latest
@@ -89,12 +83,13 @@ jobs:
           if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "value=${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
           else
-            echo "value=${{ github.event.pull_request.head.sha || github.sha }}" >> $GITHUB_OUTPUT
+            echo "value=main" >> $GITHUB_OUTPUT
           fi
       - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
           ref: ${{ steps.ref.outputs.value }}
+          token: ${{ secrets.GH_TOKEN }}
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -105,7 +100,6 @@ jobs:
           python-version: "3.11"
       - name: Parse modules
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           LIMOKA_GITHUB_OWNER: ${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}
           LIMOKA_GITHUB_REPO_NAME: ${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}
         run: |
@@ -114,13 +108,7 @@ jobs:
           python3 parse.py
           git add modules.json diffs/
           git commit -m "Update modules.json and diffs $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
-          if [[ -n "$GH_TOKEN" ]]; then
-            git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
-            git push origin ${{ steps.ref.outputs.value }}
-          else
-            echo "GH_TOKEN not set — skipping push (set it in repo secrets)"
-            exit 1
-          fi
+          git push origin ${{ steps.ref.outputs.value }}
 
   # ── schedule / workflow_dispatch only ─────────────────────────────────────
 
@@ -136,18 +124,16 @@ jobs:
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
           ref: ${{ env.BRANCH_NAME }}
+          token: ${{ secrets.GH_TOKEN }}
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git config core.fileMode false
       - name: Final commit
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git add . || true
           git commit -m "Final commit $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ env.BRANCH_NAME }} --force
 
   create_pr:
@@ -161,6 +147,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
+          token: ${{ secrets.GH_TOKEN }}
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -213,7 +200,7 @@ jobs:
             --base_commit HEAD~1 \
             $TOPIC_ARG
 
-  # ── main branch / workflow_dispatch ───────────────────────────────────────
+  # ── schedule / workflow_dispatch only ─────────────────────────────────────
 
   backup:
     runs-on: ubuntu-latest
