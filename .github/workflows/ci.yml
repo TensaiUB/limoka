@@ -1,9 +1,8 @@
 name: CI Pipeline
 
-# Triggers for the workflow
 on:
   schedule:
-    - cron: "0 0 * * *" # Runs daily at midnight UTC
+    - cron: "0 0 * * *"
   push:
     branches:
       - main
@@ -11,255 +10,232 @@ on:
     branches:
       - main
     types: [opened, synchronize, reopened, closed]
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+  workflow_dispatch:
 
-# Environment variables available to all jobs
 env:
   BRANCH_NAME: "update-submodules_${{ github.sha }}"
   REPO_URL: "${{ vars.LIMOKA_GIT_REMOTE || 'github.com/TensaiUB/limoka.git' }}"
   COMMIT_BASE_URL: "${{ vars.LIMOKA_COMMIT_BASE_URL || 'https://github.com/TensaiUB/limoka' }}"
   GIT_DEPTH: 0
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  # ── schedule / workflow_dispatch ───────────────────────────────────────────
+
   before:
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
-      - name: Configure Git for github-actions[bot]
+      - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git config --global --list
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install Python dependencies
-        run: pip install requests
-      - name: Sync main branch and create new branch
+      - name: Create update branch
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
         run: |
           git fetch origin
           git checkout main
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
-          echo "Synchronizing main with origin/main..."
           git reset --hard origin/main
-          echo "Deleting remote branch ${BRANCH_NAME}..."
-          git push origin --delete ${BRANCH_NAME} || echo "Branch ${BRANCH_NAME} did not exist or could not be deleted"
-          echo "Deleting local branch ${BRANCH_NAME}..."
-          git branch -D ${BRANCH_NAME} || echo "Local branch ${BRANCH_NAME} did not exist"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
+          git push origin --delete ${BRANCH_NAME} || true
           git checkout -b ${BRANCH_NAME}
-          echo "Creating new branch ${BRANCH_NAME}..."
-          git push origin ${BRANCH_NAME} --force || echo "Error creating branch"
+          git push origin ${BRANCH_NAME} --force
 
   update:
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     needs: before
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
           ref: ${{ env.BRANCH_NAME }}
-      - name: Configure Git for github-actions[bot]
+      - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git config --global --list
-      - name: Configure Git to ignore file mode changes
-        run: git config core.fileMode false
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
+          git config core.fileMode false
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install Python dependencies
-        run: pip install requests
-      - name: Debug file changes
-        run: |
-          git status
-          git diff --stat
+      - run: pip install requests
       - name: Clone and update repositories
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
         run: |
-          echo "Cloning and updating repositories..."
-          python3 clone_repos.py || echo "Error running clone_repos.py, continuing with commit and push"
+          python3 clone_repos.py
           git add .
-          git commit -m "Added and updated repositories $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for commit"
+          git commit -m "Update repositories $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ env.BRANCH_NAME }} --force
 
+  # ── schedule / dispatch / push / merged PR ─────────────────────────────────
+  # needs: [update] with always() so parse also runs on push/PR
+  # where update is skipped
+
   parse:
-    needs: update
     runs-on: ubuntu-latest
+    needs: [update]
     if: |
-      github.event_name == 'schedule' ||
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+      always() && (
+        needs.update.result == 'success' ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+        (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+      )
     steps:
-      - name: Set branch ref for parse
-        id: setref
+      - name: Resolve checkout ref
+        id: ref
         run: |
           if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "ref=${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
+            echo "value=${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
           else
-            echo "ref=main" >> $GITHUB_OUTPUT
+            echo "value=main" >> $GITHUB_OUTPUT
           fi
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
-          ref: ${{ steps.setref.outputs.ref }}
-      - name: Configure Git for github-actions[bot]
+          ref: ${{ steps.ref.outputs.value }}
+      - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git config --global --list
-      - name: Configure Git to ignore file mode changes
-        run: git config core.fileMode false
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
+          git config core.fileMode false
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Run parse scripts
+      - name: Parse modules
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          LIMOKA_GITHUB_OWNER: ${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}
+          LIMOKA_GITHUB_REPO_NAME: ${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}
         run: |
-          echo "Running parse after update..."
           git fetch origin
-          git checkout ${{ steps.setref.outputs.ref }}
-          git reset --hard origin/${{ steps.setref.outputs.ref }}
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install requests
-          export LIMOKA_GITHUB_OWNER="${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}"
-          export LIMOKA_GITHUB_REPO_NAME="${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}"
+          git reset --hard origin/${{ steps.ref.outputs.value }}
           python3 parse.py
           git add modules.json diffs/
-          git commit -m "Updated modules.json and diffs after parse $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for modules.json"
+          git commit -m "Update modules.json and diffs $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
-          git push origin ${{ steps.setref.outputs.ref }}
+          git push origin ${{ steps.ref.outputs.value }}
+
+  # ── schedule / workflow_dispatch only ─────────────────────────────────────
 
   commit:
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    needs: parse
+    needs: [parse]
+    if: |
+      always() &&
+      needs.parse.result == 'success' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
           ref: ${{ env.BRANCH_NAME }}
-      - name: Configure Git for github-actions[bot]
+      - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git config --global --list
-      - name: Configure Git to ignore file mode changes
-        run: git config core.fileMode false
-      - name: Debug file changes
-        run: |
-          git status
-          git diff --stat
+          git config core.fileMode false
       - name: Final commit
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
         run: |
-          git checkout ${{ env.BRANCH_NAME }}
-          git add . || echo "No changes"
-          git commit -m "Final commit $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for final commit"
+          git add . || true
+          git commit -m "Final commit $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ env.BRANCH_NAME }} --force
 
   create_pr:
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    needs: commit
+    needs: [commit]
+    if: |
+      always() &&
+      needs.commit.result == 'success' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
-      - name: Configure Git for github-actions[bot]
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git config --global --list
       - name: Create Pull Request
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
         run: |
-          echo "Checking branch status before PR..."
           git fetch origin
           if git ls-remote --exit-code --heads origin ${{ env.BRANCH_NAME }} >/dev/null 2>&1; then
-            echo "Branch ${{ env.BRANCH_NAME }} exists in remote repository."
-            git log origin/${{ env.BRANCH_NAME }} -1 || echo "Failed to view log for ${{ env.BRANCH_NAME }}"
-            git diff origin/main origin/${{ env.BRANCH_NAME }} || echo "No diff between main and ${{ env.BRANCH_NAME }}"
-            echo "Creating Pull Request..."
-            gh pr create --base main --head ${{ env.BRANCH_NAME }} --title "Update of repositories $(date +'%Y-%m-%d %H:%M:%S')" --body "Automated PR for repository updates" || echo "Failed to create PR"
+            gh pr create \
+              --base main \
+              --head ${{ env.BRANCH_NAME }} \
+              --title "Update repositories $(date +'%Y-%m-%d %H:%M:%S')" \
+              --body "Automated PR for repository updates" \
+              || echo "PR creation failed (may already exist)"
           else
-            echo "Branch ${{ env.BRANCH_NAME }} does not exist in remote repository, skipping PR creation."
+            echo "Branch not found, skipping PR creation"
           fi
+
+  # ── merged PR only ─────────────────────────────────────────────────────────
 
   notify_diffs:
     runs-on: ubuntu-latest
     if: |
-      (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install dependencies
-        run: pip install aiohttp
+      - run: pip install aiohttp
       - name: Send module diffs to forum topic
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }}
           TELEGRAM_TOPIC_ID: ${{ secrets.TELEGRAM_TOPIC_ID_UPDATE }}
+          LIMOKA_GITHUB_OWNER: ${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}
+          LIMOKA_GITHUB_REPO_NAME: ${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}
         run: |
-          export LIMOKA_GITHUB_OWNER="${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}"
-          export LIMOKA_GITHUB_REPO_NAME="${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}"
           TOPIC_ARG=""
           [ -n "$TELEGRAM_TOPIC_ID" ] && TOPIC_ARG="--topic_id $TELEGRAM_TOPIC_ID"
-          python3 update_diffs.py --token "$TELEGRAM_BOT_TOKEN" --chat_id "$TELEGRAM_CHAT_ID" --base_commit HEAD~1 $TOPIC_ARG
+          python3 update_diffs.py \
+            --token "$TELEGRAM_BOT_TOKEN" \
+            --chat_id "$TELEGRAM_CHAT_ID" \
+            --base_commit HEAD~1 \
+            $TOPIC_ARG
+
+  # ── main branch / workflow_dispatch ───────────────────────────────────────
 
   backup:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-    needs: parse
+    needs: [parse]
+    if: |
+      always() &&
+      needs.parse.result == 'success' &&
+      (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ env.GIT_DEPTH }}
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install Python dependencies
-        run: pip install aiohttp
-      - name: Run backup script
+      - run: pip install aiohttp
+      - name: Run backup
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LIMOKA_GITHUB_OWNER: ${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}
+          LIMOKA_GITHUB_REPO_NAME: ${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}
         run: |
-          export LIMOKA_GITHUB_OWNER="${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}"
-          export LIMOKA_GITHUB_REPO_NAME="${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}"
-          python3 backup.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID }}
+          python3 backup.py \
+            --token "$TELEGRAM_BOT_TOKEN" \
+            --chat_id "$TELEGRAM_CHAT_ID"
