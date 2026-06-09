@@ -3,7 +3,7 @@ name: CI Pipeline
 # Triggers for the workflow
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
+    - cron: "0 0 * * *" # Runs daily at midnight UTC
   push:
     branches:
       - main
@@ -13,12 +13,12 @@ on:
     types: [opened, synchronize, reopened, closed]
   workflow_dispatch: # Allows manual triggering from GitHub UI
 
-
 # Environment variables available to all jobs
 env:
   BRANCH_NAME: "update-submodules_${{ github.sha }}"
-  REPO_URL: "github.com/MuRuLOSE/limoka.git" # Repository URL
-  GIT_DEPTH: 0 # Fetch full history for Git operations
+  REPO_URL: "${{ vars.LIMOKA_GIT_REMOTE || 'github.com/TensaiUB/limoka.git' }}"
+  COMMIT_BASE_URL: "${{ vars.LIMOKA_COMMIT_BASE_URL || 'https://github.com/TensaiUB/limoka' }}"
+  GIT_DEPTH: 0
 
 jobs:
   before:
@@ -37,16 +37,16 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.11"
       - name: Install Python dependencies
         run: pip install requests
       - name: Sync main branch and create new branch
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git fetch origin
           git checkout main
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${REPO_URL}"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           echo "Synchronizing main with origin/main..."
           git reset --hard origin/main
           echo "Deleting remote branch ${BRANCH_NAME}..."
@@ -77,7 +77,7 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.11"
       - name: Install Python dependencies
         run: pip install requests
       - name: Debug file changes
@@ -86,13 +86,13 @@ jobs:
           git diff --stat
       - name: Clone and update repositories
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "Cloning and updating repositories..."
           python3 clone_repos.py || echo "Error running clone_repos.py, continuing with commit and push"
           git add .
           git commit -m "Added and updated repositories $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for commit"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${REPO_URL}"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ env.BRANCH_NAME }} --force
 
   parse:
@@ -127,10 +127,10 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.11"
       - name: Run parse scripts
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "Running parse after update..."
           git fetch origin
@@ -140,10 +140,12 @@ jobs:
           source venv/bin/activate
           pip install --upgrade pip
           pip install requests
+          export LIMOKA_GITHUB_OWNER="${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}"
+          export LIMOKA_GITHUB_REPO_NAME="${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}"
           python3 parse.py
-          git add modules.json
-          git commit -m "Updated modules.json after parse $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for modules.json"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${REPO_URL}"
+          git add modules.json diffs/
+          git commit -m "Updated modules.json and diffs after parse $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for modules.json"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ steps.setref.outputs.ref }}
 
   commit:
@@ -169,12 +171,12 @@ jobs:
           git diff --stat
       - name: Final commit
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git checkout ${{ env.BRANCH_NAME }}
           git add . || echo "No changes"
           git commit -m "Final commit $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for final commit"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${REPO_URL}"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
           git push origin ${{ env.BRANCH_NAME }} --force
 
   create_pr:
@@ -193,7 +195,7 @@ jobs:
           git config --global --list
       - name: Create Pull Request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "Checking branch status before PR..."
           git fetch origin
@@ -223,16 +225,20 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.11"
       - name: Install dependencies
         run: pip install aiohttp
-      - name: Send module diffs to channel
+      - name: Send module diffs to forum topic
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }}
+          TELEGRAM_TOPIC_ID: ${{ secrets.TELEGRAM_TOPIC_ID_UPDATE }}
         run: |
-          python3 update_diffs.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID_UPDATE }} --base_commit HEAD~1
-
+          export LIMOKA_GITHUB_OWNER="${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}"
+          export LIMOKA_GITHUB_REPO_NAME="${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}"
+          TOPIC_ARG=""
+          [ -n "$TELEGRAM_TOPIC_ID" ] && TOPIC_ARG="--topic_id $TELEGRAM_TOPIC_ID"
+          python3 update_diffs.py --token "$TELEGRAM_BOT_TOKEN" --chat_id "$TELEGRAM_CHAT_ID" --base_commit HEAD~1 $TOPIC_ARG
 
   backup:
     runs-on: ubuntu-latest
@@ -246,7 +252,7 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.11"
       - name: Install Python dependencies
         run: pip install aiohttp
       - name: Run backup script
@@ -254,4 +260,6 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          python backup.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID }}
+          export LIMOKA_GITHUB_OWNER="${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}"
+          export LIMOKA_GITHUB_REPO_NAME="${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}"
+          python3 backup.py --token ${{ secrets.TELEGRAM_BOT_TOKEN }} --chat_id ${{ secrets.TELEGRAM_CHAT_ID }}

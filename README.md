@@ -1,108 +1,82 @@
-# Limoka - Module Library for Hikka
+# Limoka — Module Library
 
 ## Description
 
-Limoka is an open-source repository hosting modules for Hikka, a modular Telegram userbot built on the Telethon library. The core module, `Limoka.py`, provides advanced search functionality within Telegram, while additional community-contributed modules extend Hikka with various tools and features. Developers can submit new modules via a [Telegram bot](https://t.me/limoka_applicationbot) for review and inclusion in the repository.
-
-Limoka serves as a centralized library, enabling users to enhance their Telegram experience through Python-based automation scripts integrated with Hikka.
+Limoka is a CI/CD-driven indexer for [Tensai userbot](https://github.com/TensaiUB/tensai) modules.
+It clones community repositories on a schedule, parses every `.py` module file using AST introspection,
+and produces a structured `modules.json` catalog consumed by the Tensai module store.
 
 ## Technology Stack
 
-- **Python**: Core language for module development, leveraging Python's simplicity and extensive ecosystem.
-- **Aiohttp**: For some requests to limoka repository
-- **Whoosh**: Search engine
-- **Hikka**: The userbot framework that Limoka modules extend, built on Telethon for Telegram API interactions.
-- **Git**: Version control for managing the repository and community contributions.
-- **CI/CD Tools**: Automated pipelines for testing and deploying module updates (see Infrastructure section).
-- **Optional Dependencies**: Libraries like `requests`, `aiohttp`, or `beautifulsoup4` for parsing or external API interactions, depending on module requirements.
-- **Parsing Tools**: Custom scripts using `ast` and `json` for extracting module metadata and commands.
-
-## Usage
-
-Once installed, Limoka modules are accessible via Hikka's command system in any Telegram chat where the userbot is active. The primary `Limoka.py` module enables search functionality with commands like `.limoka [query]`. Other modules may provide additional utilities, such as media processing or automation.
-
-To explore available commands:
-
-- Use `.help` to list all loaded modules.
-- Use `.help [module_name]` for specific module documentation.
-
-Refer to module docstrings or embedded documentation for detailed command usage.
-
-## Installation
-
-To integrate the Limoka module into your Hikka setup, follow these steps:
-
-1. **Ensure Hikka is Installed**:
-
-   - Install Hikka by following the official guide: Hikka Installation.
-   - Verify that Hikka is running and accessible via Telegram.
-
-2. **Install the Core Limoka Module**:
-
-   - In a Telegram chat where Hikka is active, run:
-
-     ```bash
-     .dlm https://raw.githubusercontent.com/MuRuLOSE/limoka/refs/heads/main/Limoka.py
-     ```
-   - This command downloads and installs the `Limoka.py` module directly into Hikka.
-
-3. **Verify Installation**:
-
-   - Use `.help` to confirm that the Limoka module is loaded.
-   - Check module-specific commands with `.help Limoka`.
-
-4. **Optional: Install Additional Modules**:
-
-   - Use `.dlm` with the module URL.
+- **Python 3.11+** — parser, reporter, backup scripts
+- **aiohttp** — async Telegram API calls (diff notifications, backup delivery)
+- **requests** — repository cloning helpers
+- **GitHub Actions / GitLab CI** — scheduled automation pipelines
 
 ## Infrastructure
 
-Limoka's infrastructure supports module development, contribution, and maintenance. Key components include:
+```
+limoka/
+├── limoka/
+│   ├── parser/          # AST-based module scanner & extractor
+│   ├── repository/      # Git repo cloner
+│   ├── reporter/        # Telegram diff notifications
+│   ├── backup/          # ZIP archiver + Telegram delivery
+│   └── utils/           # Git helpers
+├── parse.py             # Entry: scan repos → modules.json
+├── clone_repos.py       # Entry: clone/update repos from repositories.json
+├── update_diffs.py      # Entry: send module change diffs to Telegram
+├── backup.py            # Entry: archive repo and send to Telegram
+├── repositories.json    # List of module repositories to track
+└── modules.json         # Generated module catalog (auto-updated)
+```
 
-- **Modules**:
-  - **Search**: The core `Limoka.py` module for advanced search functionality in Telegram.
-  - **Other Tools**: Community-contributed modules for tasks like media processing, automation, or notifications.
-- **Repository**:
-  - Hosted on GitHub, enabling version control and pull request-based contributions.
-- **Parsing**:
-  - Custom Python scripts using `ast` and `json` to parse module metadata (e.g., developer info, commands, and docstrings) and generate `modules.json` and `developers.json` files.
-  - Supports extraction of `ru_doc`, `en_doc`, and other metadata for documentation purposes.
-- **Backups**:
-  - Regular backups of the repository to ensure data integrity and recovery.
-- **AI Categories**:
-  - AI-driven features, such as module categorization, depending on module implementations.
-- **CI/CD**:
-  - Automated pipelines for testing module compatibility with Hikka and deploying updates to the repository.
-- **Moderation**:
-  - All modules undergo moderation by Limoka reviewers.
+## Environment Variables
+
+All variables are read at runtime; **bold** ones are required for their respective jobs to work.
+
+### Git / Repository
+
+| Variable | Default | Used in | Description |
+|---|---|---|---|
+| `LIMOKA_GIT_REMOTE` | `github.com/TensaiUB/limoka.git` | GitHub CI | Override the git remote URL (useful for self-hosted mirrors) |
+| `LIMOKA_COMMIT_BASE_URL` | `https://github.com/TensaiUB/limoka` | GitHub CI | Base URL prepended to commit hashes in diff messages |
+| `LIMOKA_GITHUB_OWNER` | `TensaiUB` | GitHub CI, scripts | GitHub organisation or user that owns the limoka repository |
+| `LIMOKA_GITHUB_REPO_NAME` | `limoka` | GitHub CI, scripts | GitHub repository name |
+| `LIMOKA_COMMIT_BASE_URL` | `https://git.vsecoder.dev/root/limoka` | GitLab CI | Override commit base URL on GitLab |
+| `LIMOKA_GIT_REMOTE` | `git.vsecoder.dev/root/limoka.git` | GitLab CI | Override git remote on GitLab |
+
+### Authentication
+
+| Variable | Default | Used in | Description |
+|---|---|---|---|
+| **`GH_TOKEN`** | — | GitHub CI | GitHub Actions token for pushing branches and opening PRs (provided automatically by Actions) |
+| **`GITLAB_TOKEN`** | — | GitLab CI | Personal access token or CI token with `write_repository` scope for push + MR creation |
+
+### Telegram
+
+| Variable | Default | Used in | Description |
+|---|---|---|---|
+| **`TELEGRAM_BOT_TOKEN`** | — | `backup.py`, `update_diffs.py`, GitHub CI, GitLab CI | Bot token from [@BotFather](https://t.me/BotFather) used for all Telegram API calls |
+| **`TELEGRAM_CHAT_ID`** | — | `backup.py`, GitHub CI | Chat / channel ID where backup archive parts are sent |
+| **`TELEGRAM_CHAT_ID_UPDATE`** | — | `update_diffs.py`, GitHub CI | Forum supergroup chat ID where module diff notifications are posted |
+| `TELEGRAM_TOPIC_ID_UPDATE` | — | GitHub CI | `message_thread_id` of the updates topic inside the forum chat (optional — sends to General if omitted) |
+| `TELEGRAM_API_URL` | `https://api.telegram.org` | `update_diffs.py`, `backup.py` | Override Telegram Bot API URL (e.g. for a local Bot API server) |
+
+### CLI arguments (override env vars for one-off runs)
+
+`update_diffs.py` and `backup.py` accept CLI flags that take precedence over environment variables:
+
+```
+python3 update_diffs.py --token <BOT_TOKEN> --chat_id <CHAT_ID> [--base_commit HEAD~1]
+python3 backup.py       --token <BOT_TOKEN> --chat_id <CHAT_ID>
+```
 
 ## Contributing
 
-Limoka is a community-driven project, and contributions are welcome through two primary methods:
-
-1. **Applying to Become a Developer**:
-
-   - Contact the Limoka team via the Telegram bot: t.me/limoka_applicationbot.
-   - Submit details about your proposed module, including its functionality, purpose, and any relevant technical details.
-   - Upon approval, you will receive instructions to proceed with development and submission.
-
-2. **Contributing Code via Fork**:
-
-   - Fork the repository: github.com/MuRuLOSE/limoka.
-   - Make your changes
-   - Submit a pull request with a clear description of your changes.
-   - Maintainers will review your pull request for functionality, compatibility, and code quality.
-
-   ### DONT PULL REQUEST YOUR MODULES!
+1. Add your repository URL to `repositories.json`.
+2. Open a pull request — the CI pipeline will clone, parse, and validate the modules automatically.
 
 ## License
 
-This project is licensed under the MIT License.
-
-## Contact
-
-For questions, feedback, or module submission inquiries, contact the Limoka team:
-
-- Telegram (Feedback): t.me/limoka_feedback_bot
-- Telegram (Module Applications): t.me/limoka_applicationbot
-- GitHub Issues: github.com/MuRuLOSE/limoka/issues
+This project is licensed under the [MIT License](LICENSE).

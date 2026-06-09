@@ -2,19 +2,18 @@ stages:
   - before
   - update
   - parse
-  - categories
   - commit
   - create_mr
   - backup
-  - diff_after_merge
 
 variables:
   BRANCH_NAME: "update-submodules_${CI_COMMIT_SHA}"
-  REPO_URL: "git.vsecoder.dev/root/limoka.git"
+  REPO_URL: "${LIMOKA_GIT_REMOTE:-git.vsecoder.dev/root/limoka.git}"
   GITLAB_TOKEN: $GITLAB_TOKEN
-  GIT_DEPTH: 0 
+  COMMIT_BASE_URL: "${LIMOKA_COMMIT_BASE_URL:-https://git.vsecoder.dev/root/limoka}"
+  GIT_DEPTH: 0
 
-image: python:3.9
+image: python:3.11
 
 before_run:
   stage: before
@@ -46,10 +45,11 @@ update_repos:
       when: on_success
     - when: never
   script:
+    - pip install requests
     - git checkout ${BRANCH_NAME}
     - echo "Cloning and update repositories..."
     - python3 clone_repos.py
-    - git add *
+    - git add .
     - git commit -m "Added and updated repositories $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for commit"
     - git remote set-url origin "https://oauth2:${GITLAB_TOKEN}@${REPO_URL}"
     - git push origin ${BRANCH_NAME} --force
@@ -66,12 +66,7 @@ parse:
     - git checkout main
     - git reset --hard origin/main
     - python3 parse.py
-    - python3 -m venv venv
-    - source venv/bin/activate
-    - pip install --upgrade pip
-    - pip install scikit-learn tqdm
-    - python3 categories.py
-    - git add modules.json
+    - git add modules.json diffs/
     - git commit -m "Updated modules.json after merge $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for modules.json"
     - git remote set-url origin "https://oauth2:${GITLAB_TOKEN}@${REPO_URL}"
     - git push origin main
@@ -84,7 +79,7 @@ commit_changes:
     - when: never
   script:
     - git checkout ${BRANCH_NAME}
-    - git add * || echo "No changes"
+    - git add . || echo "No changes"
     - git commit -m "Финальный коммит $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes for final commit"
     - git remote set-url origin "https://oauth2:${GITLAB_TOKEN}@${REPO_URL}"
     - git push origin ${BRANCH_NAME} --force
@@ -126,35 +121,34 @@ backup:
     - echo "Files created after split:"
     - ls $CI_PROJECT_DIR/repository-part-*
     - |
-        COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
-        COMMIT_DATE="$(date --date="$(git log -1 --pretty=%ci)" +'%Y-%m-%d %H:%M:%S')"
-        COMMIT_HASH="$(git rev-parse --short=6 HEAD)"
-        COMMIT_URL="https://git.vsecoder.dev/root/limoka/commit/$(git rev-parse HEAD)"
-        MESSAGE="Commit Date: $COMMIT_DATE, Commit Message: $COMMIT_MESSAGE, Commit Hash: [\`$COMMIT_HASH\`]($COMMIT_URL)"
-        
-        echo "Sending .zip file parts to Telegram..."
-        
-        FIRST_PART=true
-        for part in $(ls $CI_PROJECT_DIR/repository-part-* | sort); do
-          if $FIRST_PART; then
-            TELEGRAM_API_URL="https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument"
-            echo "Отправка первого файла на Telegram: $TELEGRAM_API_URL"
-            curl -X POST "$TELEGRAM_API_URL" \
-              -F chat_id=$TELEGRAM_CHAT_ID \
-              -F document=@$part \
-              -F caption="$MESSAGE" \
-              -F parse_mode="Markdown"
-            FIRST_PART=false
-          else
-            TELEGRAM_API_URL="https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument"
-            echo "Отправка файла на Telegram: $TELEGRAM_API_URL"
-            curl -X POST "$TELEGRAM_API_URL" \
-              -F chat_id=$TELEGRAM_CHAT_ID \
-              -F document=@$part
-          fi
-        done
-        
+      COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
+      COMMIT_DATE="$(date --date="$(git log -1 --pretty=%ci)" +'%Y-%m-%d %H:%M:%S')"
+      COMMIT_HASH="$(git rev-parse --short=6 HEAD)"
+      COMMIT_URL="${COMMIT_BASE_URL}/commit/$(git rev-parse HEAD)"
+      MESSAGE="Commit Date: $COMMIT_DATE, Commit Message: $COMMIT_MESSAGE, Commit Hash: [\`$COMMIT_HASH\`]($COMMIT_URL)"
+
+      echo "Sending .zip file parts to Telegram..."
+
+      FIRST_PART=true
+      for part in $(ls $CI_PROJECT_DIR/repository-part-* | sort); do
+        if $FIRST_PART; then
+          TELEGRAM_API_URL="https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument"
+          echo "Отправка первого файла на Telegram: $TELEGRAM_API_URL"
+          curl -X POST "$TELEGRAM_API_URL" \
+            -F chat_id=$TELEGRAM_CHAT_ID \
+            -F document=@$part \
+            -F caption="$MESSAGE" \
+            -F parse_mode="Markdown"
+          FIRST_PART=false
+        else
+          TELEGRAM_API_URL="https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument"
+          echo "Отправка файла на Telegram: $TELEGRAM_API_URL"
+          curl -X POST "$TELEGRAM_API_URL" \
+            -F chat_id=$TELEGRAM_CHAT_ID \
+            -F document=@$part
+        fi
+      done
+
     - echo "Files sent to Telegram successfully!"
   only:
     - main
-

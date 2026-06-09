@@ -1,7 +1,0 @@
-# Enviroment files
-.venv
-# Ruff files
-.ruff_cache
-ruff.log
-ruff.log.2
-ruff.toml
