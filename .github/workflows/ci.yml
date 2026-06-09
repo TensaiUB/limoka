@@ -35,7 +35,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
       - name: Create update branch
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git fetch origin
           git checkout main
@@ -65,7 +65,7 @@ jobs:
       - run: pip install requests
       - name: Clone and update repositories
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           python3 clone_repos.py
           git add .
@@ -83,7 +83,6 @@ jobs:
     if: |
       always() && (
         needs.update.result == 'success' ||
-        (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
         (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
       )
     steps:
@@ -93,7 +92,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "value=${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
           else
-            echo "value=main" >> $GITHUB_OUTPUT
+            echo "value=${{ github.event.pull_request.head.sha || github.sha }}" >> $GITHUB_OUTPUT
           fi
       - uses: actions/checkout@v4
         with:
@@ -109,7 +108,7 @@ jobs:
           python-version: "3.11"
       - name: Parse modules
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           LIMOKA_GITHUB_OWNER: ${{ vars.LIMOKA_GITHUB_OWNER || 'TensaiUB' }}
           LIMOKA_GITHUB_REPO_NAME: ${{ vars.LIMOKA_GITHUB_REPO_NAME || 'limoka' }}
         run: |
@@ -118,8 +117,13 @@ jobs:
           python3 parse.py
           git add modules.json diffs/
           git commit -m "Update modules.json and diffs $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
-          git push origin ${{ steps.ref.outputs.value }}
+          if [[ -n "$GH_TOKEN" ]]; then
+            git remote set-url origin "https://x-access-token:${GH_TOKEN}@${REPO_URL}"
+            git push origin ${{ steps.ref.outputs.value }}
+          else
+            echo "GH_TOKEN not set — skipping push (set it in repo secrets)"
+            exit 1
+          fi
 
   # ── schedule / workflow_dispatch only ─────────────────────────────────────
 
@@ -142,7 +146,7 @@ jobs:
           git config core.fileMode false
       - name: Final commit
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git add . || true
           git commit -m "Final commit $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
@@ -162,7 +166,7 @@ jobs:
           fetch-depth: ${{ env.GIT_DEPTH }}
       - name: Create Pull Request
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git fetch origin
           if git ls-remote --exit-code --heads origin ${{ env.BRANCH_NAME }} >/dev/null 2>&1; then
