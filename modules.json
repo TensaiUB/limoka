@@ -1,54 +1,32 @@
 {
   "modules": {
-    "vsecoder/tensai_modules/Downloader.py": {
-      "name": "Downloader",
-      "description": "media downloader (youtube/instagram/etc)",
+    "vsecoder/tensai_modules/ymnow.py": {
+      "name": "Ymnow",
+      "description": "Module for yandex music.",
       "authors": [
         "@vsecoder"
       ],
-      "version": "1.0.0",
+      "version": null,
       "requires": [
-        "yt-dlp",
-        "aiohttp"
+        "yandex-music"
       ],
       "banner": null,
       "pic": null,
       "license": "MIT",
-      "sha256": "8b856bb5c79508ffa449054c95078b08ee63d6d59290fbcf64dfcbb719cceb57",
+      "sha256": "0d7fc2d71b072d160221c8e0e120ad263d26516bf262fee7398104f6a2f09a91",
       "handlers": {
-        "command": [
-          {
-            "name": "dl",
-            "original_name": "_cmd_dl",
-            "description": "{url} - download media/file",
-            "aliases": [
-              "dl",
-              "download"
-            ],
-            "only_me": true,
-            "flags": {}
-          },
-          {
-            "name": "dlclearcache",
-            "original_name": "_cmd_dlclearcache",
-            "description": "- clear downloader cache",
-            "aliases": [
-              "dlclearcache",
-              "dlcacheclear",
-              "dlcache"
-            ],
-            "only_me": true,
-            "flags": {}
-          }
-        ],
         "inline_command": [
           {
-            "name": "dl",
-            "original_name": "_inlinecmd_dl",
-            "description": "{url} - download media/file",
+            "name": "ym",
+            "original_name": "_inlinecmd_ym",
+            "description": {
+              "ru": "ym запрос - поиск треков; ymnow - текущий трек; ymchart chart_id - чарты",
+              "en": "ym query - search tracks; ymnow - now playing; ymchart chart_id - charts"
+            },
             "aliases": [
-              "dl",
-              "download"
+              "ym",
+              "ymnow",
+              "ymchart"
             ],
             "only_me": true,
             "flags": {}
@@ -59,6 +37,56 @@
       "has_config": true,
       "has_dialogs": false,
       "has_on_load": true,
+      "has_on_unload": false
+    },
+    "vsecoder/tensai_modules/SecretMessage.py": {
+      "name": "SecretMessage",
+      "description": {
+        "en": "Whisper secret messages to a specific user via inline mode",
+        "ru": "«Прошёптывание» секретных сообщений конкретному пользователю через инлайн"
+      },
+      "authors": [
+        "@xdesai",
+        "ported to Tensai"
+      ],
+      "version": null,
+      "requires": null,
+      "banner": null,
+      "pic": null,
+      "license": "MIT",
+      "sha256": "c3cc5039dbceaacba6e8482233556a4937fb963be7630458ef6ef3df3a4efd76",
+      "handlers": {
+        "inline_command": [
+          {
+            "name": "whisper",
+            "original_name": "_inlinecmd_whisper",
+            "description": {
+              "ru": "(id/username) (текст) — секретное сообщение для пользователя",
+              "en": "(id/username) (text) — secret message for a user"
+            },
+            "aliases": [
+              "whisper",
+              "wsp"
+            ],
+            "only_me": true,
+            "flags": {}
+          }
+        ],
+        "callback_query": [
+          {
+            "name": "_cb_open",
+            "original_name": "_cb_open",
+            "description": "",
+            "aliases": [],
+            "only_me": false,
+            "flags": {}
+          }
+        ]
+      },
+      "has_strings": true,
+      "has_config": false,
+      "has_dialogs": false,
+      "has_on_load": false,
       "has_on_unload": false
     },
     "vsecoder/tensai_modules/selflog.py": {
@@ -123,39 +151,42 @@
       "has_on_load": true,
       "has_on_unload": false
     },
-    "vsecoder/tensai_modules/ymnow.py": {
-      "name": "Ymnow",
-      "description": "Module for yandex music.",
+    "vsecoder/tensai_modules/Downloader.py": {
+      "name": "Downloader",
+      "description": "media downloader (youtube/instagram/etc)",
       "authors": [
         "@vsecoder"
       ],
-      "version": null,
+      "version": "1.0.0",
       "requires": [
-        "yandex-music"
+        "yt-dlp",
+        "aiohttp"
       ],
       "banner": null,
       "pic": null,
       "license": "MIT",
-      "sha256": "ee682937299165011ead34ce8c8a5e11a9d856a57ea13bf7e9e397ce84514762",
+      "sha256": "8b856bb5c79508ffa449054c95078b08ee63d6d59290fbcf64dfcbb719cceb57",
       "handlers": {
         "command": [
           {
-            "name": "ymnow",
-            "original_name": "_cmd_ymnow",
-            "description": "- Get current track from Yandex.Music",
+            "name": "dl",
+            "original_name": "_cmd_dl",
+            "description": "{url} - download media/file",
             "aliases": [
-              "ymnow",
-              "ynow"
+              "dl",
+              "download"
             ],
             "only_me": true,
             "flags": {}
           },
           {
-            "name": "ymsettoken",
-            "original_name": "_cmd_ymsettoken",
-            "description": "<token | clear> - Set Yandex.Music token",
+            "name": "dlclearcache",
+            "original_name": "_cmd_dlclearcache",
+            "description": "- clear downloader cache",
             "aliases": [
-              "ymsettoken"
+              "dlclearcache",
+              "dlcacheclear",
+              "dlcache"
             ],
             "only_me": true,
             "flags": {}
@@ -163,27 +194,13 @@
         ],
         "inline_command": [
           {
-            "name": "ym",
-            "original_name": "_inlinecmd_ym",
-            "description": {
-              "ru": "ym запрос - поиск треков; ymnow - текущий трек; ymchart chart_id - чарты",
-              "en": "ym query - search tracks; ymnow - now playing; ymchart chart_id - charts"
-            },
+            "name": "dl",
+            "original_name": "_inlinecmd_dl",
+            "description": "{url} - download media/file",
             "aliases": [
-              "ym",
-              "ymnow",
-              "ymchart"
+              "dl",
+              "download"
             ],
-            "only_me": true,
-            "flags": {}
-          }
-        ],
-        "callback_query": [
-          {
-            "name": "_cb_ym_action",
-            "original_name": "_cb_ym_action",
-            "description": "",
-            "aliases": [],
             "only_me": true,
             "flags": {}
           }
@@ -197,7 +214,7 @@
     }
   },
   "meta": {
-    "total_modules": 3,
-    "generated_at": "2026-06-09T14:33:39.318332"
+    "total_modules": 4,
+    "generated_at": "2026-06-12T03:29:47.390601"
   }
 }
