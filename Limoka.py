@@ -2,34 +2,63 @@
 # author: @vsecoder
 # requires: aiohttp
 
+"""Limoka — search the community-module catalog from inside Tensai.
+
+The catalog and a list of upstream developer repositories are fetched
+over HTTP.
+"""
+
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import html
 import logging
-from typing import Any
+from pathlib import Path
+from typing import Any, cast
 
 import aiohttp
 from aiogram import types
+from aiogram.types import BufferedInputFile
 
 from tensai import types as tensai_types
-from tensai.decorators import callback_query, command, inline_command
+from tensai.decorators import (
+    CommandInlineContext,
+    callback_query,
+    command,
+    full_command,
+)
 from tensai.loader import Module
 from tensai.main import loader as tensai_loader
+from tensai.utils.dialog import (
+    Button,
+    Dialog,
+    DialogContext,
+    DynamicMedia,
+    Format,
+    Media,
+    State,
+    StatesGroup,
+    Url,
+    Window,
+)
+from tensai.utils.inline_button import build_inline_button
 from tensai.utils.topics import TopicRegistry
 
-__version__ = "2.0.0"
+__version__ = "3.0.0"
 
 logger = logging.getLogger(__name__)
 
 LIMOKA_TOPIC = "Limoka"
+REPOSITORIES_URL = "https://raw.githubusercontent.com/TensaiUB/limoka/refs/heads/main/repositories.json"
+
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Search helpers (module-level, no class state needed)
+# Catalog helpers (pure functions over the raw JSON shape)
 # ──────────────────────────────────────────────────────────────────────────────
+
 
 def _desc(module: dict[str, Any], lang: str = "en") -> str:
-    """Return a plain-string description for the given language, or empty."""
     raw = module.get("description") or ""
     if isinstance(raw, dict):
         return raw.get(lang) or raw.get("en") or next(iter(raw.values()), "") or ""
@@ -44,12 +73,9 @@ def _handler_desc(h: dict[str, Any], lang: str = "en") -> str:
 
 
 def _score(module: dict[str, Any], tokens: list[str]) -> int:
-    """Score a module against query tokens. Higher = more relevant."""
     name = (module.get("name") or "").lower()
     desc = _desc(module).lower()
     authors = " ".join(module.get("authors") or []).lower()
-
-    # Collect all command names across all handler types
     cmd_names: list[str] = []
     for hlist in (module.get("handlers") or {}).values():
         for h in hlist:
@@ -57,20 +83,16 @@ def _score(module: dict[str, Any], tokens: list[str]) -> int:
                 cmd_names.append(h["name"].lower())
             for alias in h.get("aliases") or []:
                 cmd_names.append(alias.lower())
-
     score = 0
     for token in tokens:
         if not token:
             continue
-        # Module name
         if name == token:
             score += 1000
         elif name.startswith(token):
             score += 500
         elif token in name:
             score += 200
-
-        # Commands
         for cn in cmd_names:
             if cn == token:
                 score += 400
@@ -78,13 +100,10 @@ def _score(module: dict[str, Any], tokens: list[str]) -> int:
                 score += 150
             elif token in cn:
                 score += 50
-
-        # Description + authors (lower weight)
         if token in desc:
             score += 30
         if token in authors:
             score += 20
-
     return score
 
 
@@ -93,99 +112,148 @@ def _search(
     query: str,
     limit: int = 10,
 ) -> list[tuple[str, dict[str, Any]]]:
-    """Return (path, data) pairs sorted by relevance. Empty list if query < 2 chars."""
     query = query.strip()
     if len(query) < 2:
         return []
     tokens = query.lower().split()
-    scored = [
-        (path, module, _score(module, tokens))
-        for path, module in modules.items()
-    ]
+    scored = [(path, m, _score(m, tokens)) for path, m in modules.items()]
     scored = [(p, m, s) for p, m, s in scored if s > 0]
     scored.sort(key=lambda x: x[2], reverse=True)
-    return [(p, m) for p, m, _ in scored[:limit]]
+    return [(p, m) for p, m, _s in scored[:limit]]
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Card formatter (module-level for reuse in command and inline)
+# Search dialog
 # ──────────────────────────────────────────────────────────────────────────────
 
-def _format_card(
-    path: str,
-    module: dict[str, Any],
-    raw_base_url: str,
-    prefix: str = ".",
-    bot_username: str = "bot",
-    lang: str = "en",
-) -> str:
-    """Build an HTML module card in the requested format."""
-    name = html.escape(module.get("name") or path.split("/")[-1])
-    version = module.get("version") or "0.0.0"
-    source_url = f"{raw_base_url.rstrip('/')}/{path}"
 
-    # Line 1: bold name + version as a link to source
-    line1 = f'<b>{name}</b> <a href="{html.escape(source_url)}">v{html.escape(version)}</a>'
+class SearchSG(StatesGroup):
+    results = State()
 
-    # Line 2: authors + license in italics
-    authors = module.get("authors") or []
-    lic = module.get("license")
-    by_parts: list[str] = []
-    if authors:
-        by_parts.append("by " + html.escape(", ".join(authors)))
-    if lic:
-        by_parts.append(html.escape(lic))
-    line2 = "<i>" + "  •  ".join(by_parts) + "</i>" if by_parts else ""
 
-    # Description blockquote — trim to first non-empty paragraph
-    desc = _desc(module, lang)
-    if desc:
-        desc = desc.split("\n\n")[0].strip()
-    desc_block = f"\n<blockquote>{html.escape(desc)}</blockquote>" if desc else ""
+def _current_path(ctx: DialogContext) -> str:
+    paths: list[str] = list(ctx.data.get("paths") or [])
+    idx = int(ctx.data.get("index") or 0)
+    if 0 <= idx < len(paths):
+        return paths[idx]
+    return ""
 
-    # Commands blockquote — only command and inline_command types
-    handlers = module.get("handlers") or {}
-    cmd_handlers = handlers.get("command") or []
-    inline_handlers = handlers.get("inline_command") or []
 
-    cmd_lines: list[str] = []
-    for h in cmd_handlers:
-        cmd_name = h.get("name") or ""
-        if not cmd_name:
+def _search_text(ctx: DialogContext) -> str:
+    mod = cast("Limoka", ctx.module)
+    path = _current_path(ctx)
+    module = mod._modules.get(path) or {}
+    return mod._module_info_text(path, module)
+
+
+async def _search_getter(ctx: DialogContext) -> dict[str, Any]:
+    mod = cast("Limoka", ctx.module)
+    path = _current_path(ctx)
+    module = mod._modules.get(path) or {}
+    banner = module.get("banner")
+    if banner:
+        return {"banner": Media(source=str(banner), type="photo")}
+    return {}
+
+
+async def _prev_card(ctx: DialogContext, _cb: types.CallbackQuery) -> None:
+    idx = int(ctx.data.get("index") or 0)
+    if idx > 0:
+        ctx.data["index"] = idx - 1
+
+
+async def _next_card(ctx: DialogContext, _cb: types.CallbackQuery) -> None:
+    paths: list[str] = list(ctx.data.get("paths") or [])
+    idx = int(ctx.data.get("index") or 0)
+    if idx + 1 < len(paths):
+        ctx.data["index"] = idx + 1
+
+
+async def _install_current(ctx: DialogContext, cb: types.CallbackQuery) -> None:
+    mod = cast("Limoka", ctx.module)
+    path = _current_path(ctx)
+    if not path:
+        await cb.answer()
+        return
+    try:
+        name = await mod._install(path)
+        await cb.answer(
+            mod.strings("install_success").format(name=name), show_alert=True
+        )
+    except Exception as exc:
+        logger.error("Limoka: install failed for %s: %s", path, exc)
+        await cb.answer(mod.strings("install_failed"), show_alert=True)
+
+
+def _search_layout(ctx: DialogContext) -> list:
+    paths: list[str] = list(ctx.data.get("paths") or [])
+    idx = int(ctx.data.get("index") or 0)
+    total = max(1, len(paths))
+
+    nav: list = []
+    if idx > 0:
+        nav.append(Button(":e:previous", on_click=_prev_card, style="primary"))
+    nav.append(Button(f"{idx + 1}/{total}"))
+    if idx < total - 1:
+        nav.append(Button(":e:next", on_click=_next_card, style="primary"))
+
+    return [
+        nav,
+        [
+            Button(
+                Format("btn_install"),
+                on_click=_install_current,
+                style="primary",
+            )
+        ],
+    ]
+
+
+SEARCH_DIALOG = Dialog(
+    Window(
+        _search_text,
+        _search_layout,
+        media=DynamicMedia("banner"),
+        getter=_search_getter,
+        state=SearchSG.results,
+    ),
+)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Developer-repositories dialog (.modules)
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+class ReposSG(StatesGroup):
+    list = State()
+
+
+def _repos_layout(ctx: DialogContext) -> list:
+    repos: list[dict[str, Any]] = list(ctx.data.get("repos") or [])
+    rows: list = []
+    for r in repos:
+        url = str(r.get("url") or "")
+        if not url:
             continue
-        d = html.escape(_handler_desc(h, lang))
-        entry = f"<code>{html.escape(prefix)}{html.escape(cmd_name)}</code>"
-        if d:
-            entry += f" {d}"
-        cmd_lines.append(entry)
+        label = url.replace("https://github.com/", "").rstrip("/") or url
+        rows.append([Url(f":e:github {label}", url=url)])
+    return rows
 
-    for h in inline_handlers:
-        cmd_name = h.get("name") or ""
-        if not cmd_name:
-            continue
-        d = html.escape(_handler_desc(h, lang))
-        entry = f"<code>@{html.escape(bot_username)} {html.escape(cmd_name)}</code>"
-        if d:
-            entry += f" {d}"
-        cmd_lines.append(entry)
 
-    cmds_block = (
-        "\n<blockquote>" + "\n".join(cmd_lines) + "</blockquote>"
-        if cmd_lines
-        else ""
-    )
-
-    result = line1
-    if line2:
-        result += "\n" + line2
-    result += desc_block
-    result += cmds_block
-    return result
+REPOS_DIALOG = Dialog(
+    Window(
+        Format("modules_intro"),
+        _repos_layout,
+        state=ReposSG.list,
+    ),
+)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Module
 # ──────────────────────────────────────────────────────────────────────────────
+
 
 class Limoka(Module):
     """
@@ -196,57 +264,120 @@ class Limoka(Module):
     strings = tensai_types.ModuleStrings(
         tensai_types.Translation(
             "no_args",
-            en="<blockquote>❌ Usage: <code>{prefix}limoka &lt;query&gt;</code></blockquote>",
-            ru="<blockquote>❌ Использование: <code>{prefix}limoka &lt;запрос&gt;</code></blockquote>",
+            en="<blockquote>:e:cross Usage: <code>{prefix}limoka &lt;query&gt;</code></blockquote>",
+            ru="<blockquote>:e:cross Использование: <code>{prefix}limoka &lt;запрос&gt;</code></blockquote>",
         ),
         tensai_types.Translation(
             "loading",
-            en="<blockquote>⏳ Loading catalog…</blockquote>",
-            ru="<blockquote>⏳ Загружаю каталог…</blockquote>",
+            en="<blockquote>:e:hourglass Loading catalog…</blockquote>",
+            ru="<blockquote>:e:hourglass Загружаю каталог…</blockquote>",
         ),
         tensai_types.Translation(
             "load_error",
-            en="<blockquote>❌ Failed to load catalog. Try again later.</blockquote>",
-            ru="<blockquote>❌ Не удалось загрузить каталог. Попробуйте позже.</blockquote>",
+            en="<blockquote>:e:cross Failed to load catalog. Try again later.</blockquote>",
+            ru="<blockquote>:e:cross Не удалось загрузить каталог. Попробуйте позже.</blockquote>",
         ),
         tensai_types.Translation(
             "not_found",
-            en="<blockquote>❌ No modules found for <code>{query}</code></blockquote>",
-            ru="<blockquote>❌ Модули по запросу <code>{query}</code> не найдены</blockquote>",
+            en="<blockquote>:e:cross No modules found for <code>{query}</code></blockquote>",
+            ru="<blockquote>:e:cross Модули по запросу <code>{query}</code> не найдены</blockquote>",
         ),
         tensai_types.Translation(
-            "results_header",
-            en="<blockquote>🔍 <b>{count}</b> module(s) for <code>{query}</code>:</blockquote>",
-            ru="<blockquote>🔍 <b>{count}</b> модуль(ей) по запросу <code>{query}</code>:</blockquote>",
+            "btn_install",
+            en=":e:package Install",
+            ru=":e:package Установить",
         ),
         tensai_types.Translation(
-            "empty_catalog",
-            en="<blockquote>⚠️ Catalog is not loaded yet. Please wait a moment and try again.</blockquote>",
-            ru="<blockquote>⚠️ Каталог ещё не загружен. Подождите немного и попробуйте снова.</blockquote>",
+            "install_success",
+            en=":e:check {name} installed!",
+            ru=":e:check {name} установлен!",
         ),
+        tensai_types.Translation(
+            "install_failed",
+            en=":e:cross Installation failed",
+            ru=":e:cross Ошибка установки",
+        ),
+        # Inline-stage hint when query is missing.
+        tensai_types.Translation(
+            "inline_hint_title",
+            en="Limoka — search Tensai modules",
+            ru="Limoka — поиск модулей Tensai",
+        ),
+        tensai_types.Translation(
+            "inline_hint_description",
+            en="Type a few characters to search the catalog",
+            ru="Начни печатать, чтобы искать в каталоге",
+        ),
+        # .modules — developer repositories list.
+        tensai_types.Translation(
+            "modules_intro",
+            en=(
+                "<b>:e:github Developer repositories</b>\n"
+                "<blockquote>These GitHub repositories feed the Limoka "
+                "catalog. Tap to open in browser.</blockquote>"
+            ),
+            ru=(
+                "<b>:e:github Репозитории разработчиков</b>\n"
+                "<blockquote>Эти GitHub-репозитории питают каталог "
+                "Limoka. Нажми, чтобы открыть в браузере.</blockquote>"
+            ),
+        ),
+        tensai_types.Translation(
+            "repos_load_error",
+            en="<blockquote>:e:cross Failed to load repositories list.</blockquote>",
+            ru="<blockquote>:e:cross Не удалось загрузить список репозиториев.</blockquote>",
+        ),
+        tensai_types.Translation(
+            "module-info",
+            en=(
+                "<b>:e:folder Module</b> {module_title}\n\n"
+                "<i>:e:info {description}</i>\n\n"
+                "<b>:e:code Developer:</b> <code>{author}</code>"
+            ),
+            ru=(
+                "<b>:e:folder Модуль</b> {module_title}\n\n"
+                "<i>:e:info {description}</i>\n\n"
+                "<b>:e:code Разработчик:</b> <code>{author}</code>"
+            ),
+        ),
+        tensai_types.Translation(
+            "no-doc",
+            en="No description",
+            ru="Нет описания",
+        ),
+        tensai_types.Translation(
+            "not-mentioned",
+            en="Not mentioned",
+            ru="Не указан",
+        ),
+        # ── Update notifications
         tensai_types.Translation(
             "update_notify",
             en=(
-                "🔔 <b>{module_name}</b> has an update\n\n"
+                ":e:bell <b>{module_name}</b> has an update\n\n"
                 "<code>{commit_sha}</code> {commit_message}\n"
                 "<code>+{added} / -{removed}</code>"
             ),
             ru=(
-                "🔔 <b>{module_name}</b> обновился\n\n"
+                ":e:bell <b>{module_name}</b> обновился\n\n"
                 "<code>{commit_sha}</code> {commit_message}\n"
                 "<code>+{added} / -{removed}</code>"
             ),
         ),
         tensai_types.Translation(
-            "btn_view_diff", en="👁 View diff", ru="👁 Посмотреть diff",
+            "btn_view_diff",
+            en=":e:eye View diff",
+            ru=":e:eye Посмотреть diff",
         ),
         tensai_types.Translation(
-            "btn_dismiss", en="✅ Dismiss", ru="✅ Закрыть",
+            "btn_dismiss",
+            en=":e:check Dismiss",
+            ru=":e:check Закрыть",
         ),
         tensai_types.Translation(
             "diff_unavailable",
-            en="<blockquote>⚠️ Diff not available for this module.</blockquote>",
-            ru="<blockquote>⚠️ Diff для этого модуля недоступен.</blockquote>",
+            en="<blockquote>:e:alert Diff not available for this module.</blockquote>",
+            ru="<blockquote>:e:alert Diff для этого модуля недоступен.</blockquote>",
         ),
     )
 
@@ -264,6 +395,13 @@ class Limoka(Module):
             default="https://raw.githubusercontent.com/TensaiUB/limoka/refs/heads/main/",
             type=tensai_types.StringType(),
             description="Base URL for raw module file links.",
+        ),
+        tensai_types.ConfigValue(
+            key="repositories_url",
+            name="Repositories JSON URL",
+            default=REPOSITORIES_URL,
+            type=tensai_types.StringType(),
+            description="URL of the upstream developer repositories index (repositories.json).",
         ),
         tensai_types.ConfigValue(
             key="max_results",
@@ -285,7 +423,7 @@ class Limoka(Module):
     _generated_at: str | None = None
     _refresh_task: asyncio.Task | None = None
 
-    # ── Lifecycle ─────────────────────────────────────────────────────────────
+    # ── Lifecycle ────────────────────────────────────────────────────────────
 
     async def on_load(self) -> None:
         await self._load_catalog()
@@ -299,7 +437,7 @@ class Limoka(Module):
             except (asyncio.CancelledError, Exception):
                 pass
 
-    # ── Internal helpers ──────────────────────────────────────────────────────
+    # ── Catalog ──────────────────────────────────────────────────────────────
 
     async def _load_catalog(self) -> bool:
         url = str(self.config.get("modules_url") or "")
@@ -310,24 +448,19 @@ class Limoka(Module):
             async with aiohttp.ClientSession(timeout=timeout) as session:
                 async with session.get(url) as resp:
                     if resp.status != 200:
-                        logger.warning("Limoka: catalog fetch returned HTTP %s", resp.status)
+                        logger.warning(
+                            "Limoka: catalog fetch returned HTTP %s", resp.status
+                        )
                         return False
                     data = await resp.json(content_type=None)
-
             generated_at = (data.get("meta") or {}).get("generated_at")
             if generated_at and generated_at == self._generated_at:
-                return True  # catalog hasn't changed
-
-            prev_generated_at = self._generated_at
+                return True
+            prev = self._generated_at
             self._modules = data.get("modules") or {}
             self._generated_at = generated_at
-            logger.info(
-                "Limoka: catalog updated — %d modules (generated_at: %s)",
-                len(self._modules),
-                generated_at,
-            )
-            # Only check for module updates when this is not the initial load
-            if prev_generated_at is not None:
+            logger.info("Limoka: catalog updated — %d modules", len(self._modules))
+            if prev is not None:
                 await self._check_updates()
             return True
         except Exception as exc:
@@ -344,64 +477,125 @@ class Limoka(Module):
         timeout = aiohttp.ClientTimeout(total=15)
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(url) as resp:
-                if resp.status != 200:
-                    return None
-                return await resp.json(content_type=None)
+                return (
+                    await resp.json(content_type=None) if resp.status == 200 else None
+                )
 
     async def _fetch_bytes(self, url: str) -> bytes | None:
         timeout = aiohttp.ClientTimeout(total=15)
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(url) as resp:
-                if resp.status != 200:
-                    return None
-                return await resp.read()
+                return await resp.read() if resp.status == 200 else None
+
+    # ── Module info renderer ──────────────────────
+
+    def _module_info_text(self, path: str, module: dict[str, Any]) -> str:
+        lang = self.get_lang()
+        name = module.get("name") or path.split("/")[-1]
+        version = str(module.get("version") or "")
+        raw_base = str(self.config.get("raw_base_url") or "").rstrip("/")
+        source_url = f"{raw_base}/{path}" if path else ""
+
+        title_line = f"<b>{html.escape(str(name))}</b>"
+        if version and source_url:
+            title_line += (
+                f' <a href="{html.escape(source_url)}">v{html.escape(version)}</a>'
+            )
+        elif version:
+            title_line += f" v{html.escape(version)}"
+
+        handlers = module.get("handlers") or {}
+        prefix = self.get_prefix()
+        bot_username = self.get_bot_username()
+        cmd_lines: list[str] = []
+        for h in handlers.get("command") or []:
+            cmd_name = h.get("name") or ""
+            if not cmd_name:
+                continue
+            d = html.escape(_handler_desc(h, lang))
+            entry = f"<code>{html.escape(prefix)}{html.escape(cmd_name)}</code>"
+            if d:
+                entry += f" <i>{d}</i>"
+            cmd_lines.append(entry)
+        for h in handlers.get("inline_command") or []:
+            cmd_name = h.get("name") or ""
+            if not cmd_name:
+                continue
+            d = html.escape(_handler_desc(h, lang))
+            entry = f"<code>@{html.escape(bot_username)} {html.escape(cmd_name)}</code>"
+            if d:
+                entry += f" <i>{d}</i>"
+            cmd_lines.append(entry)
+
+        commands_block = (
+            "\n<blockquote expandable>" + "\n".join(cmd_lines) + "</blockquote>"
+            if cmd_lines
+            else ""
+        )
+        module_title = title_line + commands_block
+
+        description = html.escape(_desc(module, lang)) or self.strings("no-doc")
+        authors = ", ".join(
+            html.escape(a) for a in (module.get("authors") or [])
+        ) or self.strings("not-mentioned")
+
+        return self.strings("module-info").format(
+            module_title=module_title,
+            description=description,
+            author=authors,
+        )
+
+    # ── Install ──────────────────────────────────────────────────────────────
+
+    async def _install(self, path: str) -> str:
+        raw_base = str(self.config.get("raw_base_url") or "").rstrip("/")
+        url = f"{raw_base}/{path}"
+        filename = Path(path).name
+        content = await self._fetch_bytes(url)
+        if not content:
+            raise RuntimeError(f"Failed to fetch {url}")
+        tensai_loader.modules_dir.mkdir(parents=True, exist_ok=True)
+        destination = tensai_loader.modules_dir / filename
+        existing = tensai_loader.find_module(Path(filename).stem)
+        if existing is not None:
+            tensai_loader.unload_module(existing.name)
+        source = content.decode("utf-8")
+        head = source.splitlines()[:20]
+        if not any(line.lstrip().startswith("# source_url:") for line in head):
+            source = f"# source_url: {url}\n{source}"
+        destination.write_text(source, encoding="utf-8")
+        tensai_loader.load_module(destination, source_url=url)
+        loaded = tensai_loader.find_module(Path(filename).stem)
+        return loaded.name if loaded else Path(filename).stem
+
+    # ── Update notifications ─────────────────────────────────────────────────
 
     def _installed_limoka_modules(self) -> dict[str, Any]:
-        """Return {catalog_path: ModuleInfo} for modules installed from this Limoka instance.
-
-        Matches by source_url: if the module's source_url starts with raw_base_url,
-        we extract the catalog path and return it.
-
-        Falls back to name-based matching for modules loaded before source_url support
-        was added to the Tensai loader (source_url field absent or empty).
-        """
         raw_base = str(self.config.get("raw_base_url") or "").rstrip("/") + "/"
         result: dict[str, Any] = {}
-
         for mod_info in tensai_loader.modules.values():
             source_url: str = getattr(mod_info, "source_url", "") or ""
-
             if source_url.startswith(raw_base):
-                # Exact match: strip base URL to recover catalog path
-                catalog_path = source_url[len(raw_base):]
+                catalog_path = source_url[len(raw_base) :]
                 if catalog_path in self._modules:
                     result[catalog_path] = mod_info
                 continue
-
-            # Fallback: match by module name against catalog keys
             name: str = getattr(mod_info, "name", "") or ""
             if not name:
                 continue
-            for catalog_path, catalog_info in self._modules.items():
-                if (catalog_info.get("name") or "").lower() == name.lower():
+            for catalog_path, info in self._modules.items():
+                if (info.get("name") or "").lower() == name.lower():
                     result[catalog_path] = mod_info
                     break
-
         return result
 
     async def _check_updates(self) -> None:
-        """Compare installed module sha256 against catalog; notify on mismatch."""
         raw_base = str(self.config.get("raw_base_url") or "").rstrip("/")
-
-        # Load diff metadata (commit message, +/- lines) — best-effort
         diffs_by_key: dict[str, dict] = {}
         try:
             entries = await self._fetch_json(f"{raw_base}/diffs/index.json")
             if isinstance(entries, list):
-                for e in entries:
-                    key = e.get("diff_key") or ""
-                    if key:
-                        diffs_by_key[key] = e
+                diffs_by_key = {e["diff_key"]: e for e in entries if e.get("diff_key")}
         except Exception as exc:
             logger.debug("Limoka: diffs/index.json fetch failed: %s", exc)
 
@@ -410,46 +604,44 @@ class Limoka(Module):
             return
 
         notified: dict[str, str] = self.mdb.get("notified_diffs") or {}
-        installed = self._installed_limoka_modules()
-
-        for catalog_path, mod_info in installed.items():
-            catalog_entry = self._modules.get(catalog_path)
-            if not catalog_entry:
+        for catalog_path, mod_info in self._installed_limoka_modules().items():
+            entry = self._modules.get(catalog_path)
+            if not entry:
                 continue
-
-            catalog_sha = catalog_entry.get("sha256") or ""
-            installed_sha: str = getattr(mod_info, "sha256", "") or ""
-
-            # If both sha256 values are known, compare them; otherwise skip
-            if not catalog_sha or not installed_sha:
+            if not (catalog_sha := entry.get("sha256") or ""):
+                continue
+            if not (installed_sha := getattr(mod_info, "sha256", "") or ""):
                 continue
             if catalog_sha == installed_sha:
                 continue
 
-            # Module is outdated — find diff metadata if available
-            from limoka.parser.differ import _path_to_key
+            def _path_to_key(path: str) -> str:
+                return path.replace("/", "_").replace("\\", "_").removesuffix(".py")
+
             diff_key = _path_to_key(catalog_path)
-
             if notified.get(diff_key) == self._generated_at:
-                continue  # already notified about this version
+                continue
 
-            diff_entry = diffs_by_key.get(diff_key) or {
-                "module_name": catalog_entry.get("name") or diff_key,
-                "diff_key": diff_key,
-                "commit_message": "",
-                "commit_sha": "",
-                "added": 0,
-                "removed": 0,
-            }
-            await self._send_update_notification(owner_id, diff_entry)
+            await self._send_update_notification(
+                owner_id,
+                diffs_by_key.get(diff_key)
+                or {
+                    "module_name": entry.get("name") or diff_key,
+                    "diff_key": diff_key,
+                    "commit_message": "",
+                    "commit_sha": "",
+                    "added": 0,
+                    "removed": 0,
+                },
+            )
             notified[diff_key] = self._generated_at or ""
-
         self.mdb.set("notified_diffs", notified)
 
     async def _resolve_topic(self, owner_id: int) -> tuple[int, int | None] | None:
-        """Return (chat_id, topic_id) for the Limoka topic, or None on failure."""
         try:
-            return await TopicRegistry.resolve_destination(LIMOKA_TOPIC, owner_id=owner_id)
+            return await TopicRegistry.resolve_destination(
+                LIMOKA_TOPIC, owner_id=owner_id
+            )
         except Exception as exc:
             logger.error("Limoka: failed to resolve topic: %s", exc)
             return None
@@ -459,12 +651,10 @@ class Limoka(Module):
     ) -> None:
         if self.bot is None:
             return
-
         dest = await self._resolve_topic(owner_id)
         if dest is None:
             return
         chat_id, topic_id = dest
-
         diff_key = entry.get("diff_key") or ""
         text = self.strings("update_notify").format(
             module_name=html.escape(entry.get("module_name") or ""),
@@ -473,68 +663,49 @@ class Limoka(Module):
             added=entry.get("added") or 0,
             removed=entry.get("removed") or 0,
         )
-
-        markup = types.InlineKeyboardMarkup(inline_keyboard=[[
-            types.InlineKeyboardButton(
-                text=self.strings("btn_view_diff"),
-                callback_data=f"lm_diff:{diff_key}",
-            ),
-            types.InlineKeyboardButton(
-                text=self.strings("btn_dismiss"),
-                callback_data=f"lm_dismiss:{diff_key}",
-            ),
-        ]])
-
-        kwargs: dict[str, Any] = {"chat_id": chat_id, "text": text, "reply_markup": markup}
+        markup = types.InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    build_inline_button(
+                        text=self.strings("btn_view_diff"),
+                        callback_data=f"lm_diff:{diff_key}",
+                    ),
+                    build_inline_button(
+                        text=self.strings("btn_dismiss"),
+                        callback_data=f"lm_dismiss:{diff_key}",
+                    ),
+                ]
+            ]
+        )
+        kwargs: dict[str, Any] = {
+            "chat_id": chat_id,
+            "text": text,
+            "reply_markup": markup,
+        }
         if topic_id is not None:
             kwargs["message_thread_id"] = topic_id
-
         try:
             await self.bot.send_message(**kwargs)
         except Exception as exc:
             logger.error("Limoka: failed to send update notification: %s", exc)
 
-    def _do_search(self, query: str) -> list[tuple[str, dict[str, Any]]]:
-        limit = int(self.config.get("max_results") or 10)
-        return _search(self._modules, query, limit=limit)
-
-    def _card(self, path: str, module: dict[str, Any]) -> str:
-        return _format_card(
-            path,
-            module,
-            raw_base_url=str(self.config.get("raw_base_url") or ""),
-            prefix=self.get_prefix(),
-            bot_username=self.get_bot_username(),
-            lang=self.get_lang(),
-        )
-
-    # ── Callback handlers ─────────────────────────────────────────────────────
+    # ── Long-lived callback handlers (notification buttons) ─────────────────
 
     @callback_query(data=lambda d: bool(d and d.startswith("lm_diff:")))
     async def _cb_view_diff(self, cb: types.CallbackQuery) -> None:
         if self.bot is None:
             await cb.answer()
             return
-
         diff_key = (cb.data or "").split(":", 1)[1]
         raw_base = str(self.config.get("raw_base_url") or "").rstrip("/")
-        diff_url = f"{raw_base}/diffs/{diff_key}.diff"
-
-        try:
-            content = await self._fetch_bytes(diff_url)
-        except Exception:
-            content = None
-
+        content = await self._fetch_bytes(f"{raw_base}/diffs/{diff_key}.diff")
         if not content:
             await cb.answer(self.strings("diff_unavailable"), show_alert=True)
             return
-
         owner_id = self.get_user_me_id()
         dest = await self._resolve_topic(owner_id) if owner_id else None
-
-        from aiogram.types import BufferedInputFile
         doc_kwargs: dict[str, Any] = {
-            "document": BufferedInputFile(content, filename=f"{diff_key}.diff"),
+            "document": BufferedInputFile(content, filename=f"{diff_key}.diff")
         }
         if dest is not None:
             chat_id, topic_id = dest
@@ -543,128 +714,167 @@ class Limoka(Module):
                 doc_kwargs["message_thread_id"] = topic_id
         else:
             doc_kwargs["chat_id"] = cb.from_user.id
-
         try:
             await self.bot.send_document(**doc_kwargs)
         except Exception as exc:
-            logger.error("Limoka: failed to send diff document: %s", exc)
-
+            logger.error("Limoka: failed to send diff: %s", exc)
         await cb.answer()
 
     @callback_query(data=lambda d: bool(d and d.startswith("lm_dismiss:")))
     async def _cb_dismiss(self, cb: types.CallbackQuery) -> None:
-        if cb.message:
+        if isinstance(cb.message, types.Message):
             try:
                 await cb.message.delete()
             except Exception:
-                await cb.answer()
-        else:
-            await cb.answer()
+                pass
+        await cb.answer()
 
-    # ── Commands ──────────────────────────────────────────────────────────────
+    # ── User commands ───────────────────────────────────────────────────────
 
-    @command(aliases=["ls", "limoka"])
-    async def _cmd_limoka(self, message: types.Message) -> None:
+    @full_command(aliases=["ls", "limoka"])
+    async def limoka(self, ctx: CommandInlineContext) -> None:
         """
-        en: <query> — search modules in the Limoka catalog
-        ru: <запрос> — поиск модулей в каталоге Limoka
+        en: <query> — search the Limoka catalog (command + inline)
+        ru: <запрос> — поиск модулей в каталоге Limoka (команда + инлайн)
         """
-        query = self.get_args(message, raw=True)
-        if not query or not query.strip():
+        query = ctx.text().strip()
+
+        if ctx.is_chosen and ctx.chosen is not None:
+            rid = ctx.chosen.result_id or ""
+            if not rid.startswith("lm_inline:"):
+                return
+            try:
+                _prefix, session_key, idx_str = rid.split(":", 2)
+                idx = int(idx_str)
+            except ValueError:
+                return
+            sessions: dict[str, list[str]] = self.mdb.get("inline_sessions") or {}
+            paths = sessions.get(session_key) or []
+            if not paths or idx >= len(paths):
+                return
+            await self.start_dialog(
+                ctx.chosen,
+                SEARCH_DIALOG,
+                initial_data={"paths": list(paths), "index": idx},
+            )
+            return
+
+        if ctx.is_inline and ctx.inline_query is not None:
+            if len(query) < 2:
+                hint = self.make_article(
+                    article_id="limoka_hint",
+                    title=self.strings("inline_hint_title"),
+                    description=self.strings("inline_hint_description"),
+                    text=self.strings("no_args").format(prefix=self.get_prefix()),
+                )
+                await self.inline_articles(ctx.inline_query, [hint], is_personal=False)
+                return
+            if not self._modules:
+                await self._load_catalog()
+            results = _search(
+                self._modules,
+                query,
+                limit=int(self.config.get("max_results") or 10),
+            )
+            if not results:
+                await self.answer(
+                    ctx.inline_query, inline_results=[], inline_cache_time=30
+                )
+                return
+
+            session_key = hashlib.md5(query.lower().encode()).hexdigest()[:8]
+            sessions: dict[str, list[str]] = self.mdb.get("inline_sessions") or {}
+            sessions[session_key] = [p for p, _m in results]
+            if len(sessions) > 20:
+                sessions = dict(list(sessions.items())[-20:])
+            self.mdb.set("inline_sessions", sessions)
+
+            placeholder_kb = types.InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                        build_inline_button(
+                            text="ㅤ",
+                            callback_data="empty",
+                            style="primary",
+                        )
+                    ]
+                ]
+            )
+            loading_text = self.strings("loading")
+
+            articles = [
+                self.make_article(
+                    article_id=f"lm_inline:{session_key}:{idx}",
+                    title=str(module.get("name") or path.split("/")[-1]),
+                    description=(_desc(module, self.get_lang()) or path)[:120],
+                    text=loading_text,
+                    reply_markup=placeholder_kb,
+                    thumbnail_url=str(module.get("banner"))
+                    if module.get("banner")
+                    else None,
+                )
+                for idx, (path, module) in enumerate(results)
+            ]
+            await self.inline_articles(ctx.inline_query, articles, is_personal=False)
+            return
+
+        # ── Command stage: open the search dialog ────────────────────
+        if not ctx.message:
+            return
+        message = ctx.message
+
+        if not query:
             await self.answer(
-                message,
-                self.strings("no_args").format(prefix=self.get_prefix()),
+                message, self.strings("no_args").format(prefix=self.get_prefix())
             )
             return
 
         if not self._modules:
-            msg = await self.answer(message, self.strings("loading"))
+            loading = await self.answer(message, self.strings("loading"))
             ok = await self._load_catalog()
             if not ok or not self._modules:
-                await self.answer(msg, self.strings("load_error"))
+                await self.answer(
+                    loading if isinstance(loading, types.Message) else message,
+                    self.strings("load_error"),
+                )
                 return
-            # Replace the loading message with results
-            message = msg
+            message = loading if isinstance(loading, types.Message) else message
 
-        results = self._do_search(query.strip())
+        results = _search(
+            self._modules,
+            query,
+            limit=int(self.config.get("max_results") or 10),
+        )
         if not results:
             await self.answer(
                 message,
-                self.strings("not_found").format(query=html.escape(query.strip())),
+                self.strings("not_found").format(query=html.escape(query)),
             )
             return
 
-        if len(results) == 1:
-            path, module = results[0]
-            await self.answer(message, self._card(path, module))
-            return
-
-        # Multiple results — header list, then first card
-        header = self.strings("results_header").format(
-            count=len(results), query=html.escape(query.strip())
+        await self.start_dialog(
+            message,
+            SEARCH_DIALOG,
+            initial_data={
+                "paths": [p for p, _m in results],
+                "index": 0,
+            },
         )
-        lines = [header]
-        for i, (path, module) in enumerate(results, 1):
-            name = html.escape(module.get("name") or path.split("/")[-1])
-            desc = _desc(module, self.get_lang())
-            line = f"{i}. <b>{name}</b>"
-            if desc:
-                line += f" — <i>{html.escape(desc[:80])}</i>"
-            lines.append(line)
 
-        await self.answer(message, "\n".join(lines))
-
-    # ── Inline ────────────────────────────────────────────────────────────────
-
-    @inline_command(aliases=["ls", "limoka"])
-    async def _inlinecmd_limoka(self, query: types.InlineQuery) -> None:
+    @command(aliases=["modules"])
+    async def _cmd_modules(self, message: types.Message) -> None:
         """
-        en: <query> — search Limoka modules inline
-        ru: <запрос> — инлайн-поиск модулей Limoka
+        en: list developer GitHub repositories that feed the catalog
+        ru: список GitHub-репозиториев разработчиков из каталога
         """
-        q = (query.query or "").strip()
-        if len(q) < 2:
-            await self.answer(query, inline_results=[], inline_cache_time=0)
+        url = str(self.config.get("repositories_url") or REPOSITORIES_URL)
+        data = await self._fetch_json(url)
+        repos = (data or {}).get("repositories") if isinstance(data, dict) else None
+        if not repos:
+            await self.answer(message, self.strings("repos_load_error"))
             return
-
-        results = self._do_search(q)
-        if not results:
-            await self.answer(query, inline_results=[], inline_cache_time=30)
-            return
-
-        raw_base = str(self.config.get("raw_base_url") or "")
-        prefix = self.get_prefix()
-        bot_username = self.get_bot_username()
-        lang = self.get_lang()
-        articles: list[types.InlineQueryResultArticle] = []
-
-        for path, module in results:
-            name = module.get("name") or path.split("/")[-1]
-            desc = _desc(module, lang)
-            article_id = path.replace("/", "_").replace(".", "_")
-
-            articles.append(
-                types.InlineQueryResultArticle(
-                    id=article_id,
-                    title=name,
-                    description=desc[:120] if desc else path,
-                    input_message_content=types.InputTextMessageContent(
-                        message_text=_format_card(
-                            path, module,
-                            raw_base_url=raw_base,
-                            prefix=prefix,
-                            bot_username=bot_username,
-                            lang=lang,
-                        ),
-                        parse_mode="HTML",
-                        link_preview_options=types.LinkPreviewOptions(is_disabled=True),
-                    ),
-                )
-            )
-
-        await self.answer(
-            query,
-            inline_results=articles,
-            inline_is_personal=False,
-            inline_cache_time=60,
+        await self.start_dialog(
+            message,
+            REPOS_DIALOG,
+            initial_data={"repos": list(repos)},
         )
