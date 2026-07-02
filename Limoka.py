@@ -1,6 +1,7 @@
 # description: Browse and search Tensai modules from the Limoka catalog
 # author: @vsecoder
 # requires: aiohttp
+#
 
 """Limoka — search the community-module catalog from inside Tensai.
 
