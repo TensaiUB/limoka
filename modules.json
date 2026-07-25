@@ -1,44 +1,5 @@
 {
   "modules": {
-    "vsecoder/tensai_modules/ymnow.py": {
-      "name": "Ymnow",
-      "description": "Yandex Music — now playing, charts, inline search",
-      "authors": [
-        "@vsecoder"
-      ],
-      "version": "1.1.0",
-      "requires": [
-        "yandex-music"
-      ],
-      "banner": null,
-      "pic": null,
-      "license": "MIT",
-      "sha256": "d48a709189b2e7383863c52724a5ef2f8a3b3691e312cd180a1f4355deb38a75",
-      "handlers": {
-        "inline_command": [
-          {
-            "name": "ym",
-            "original_name": "_inlinecmd_ym",
-            "description": {
-              "ru": "ym запрос - поиск треков; ymnow - текущий трек; ymchart chart_id - чарты",
-              "en": "ym query - search tracks; ymnow - now playing; ymchart chart_id - charts"
-            },
-            "aliases": [
-              "ym",
-              "ymnow",
-              "ymchart"
-            ],
-            "only_me": true,
-            "flags": {}
-          }
-        ]
-      },
-      "has_strings": true,
-      "has_config": true,
-      "has_dialogs": false,
-      "has_on_load": true,
-      "has_on_unload": false
-    },
     "vsecoder/tensai_modules/SecretMessage.py": {
       "name": "SecretMessage",
       "description": {
@@ -89,57 +50,34 @@
       "has_on_load": false,
       "has_on_unload": false
     },
-    "vsecoder/tensai_modules/selflog.py": {
-      "name": "Selflog",
-      "description": "Selflog feed for the bot owner.\n\nAll events (self-destructed media, edits, deletes) flow into ONE\ntopic named ``Selflog`` in the bot's DM with the owner. Each post\nis tagged with hashtags so Telegram's in-topic search gives a\nusable filter:\n\n- ``#selflog``           — entire feed\n- ``#sd`` / ``#edit`` / ``#deleted`` — filter by event kind\n- ``#u<user_id>``        — filter by author of the original message",
+    "vsecoder/tensai_modules/ymnow.py": {
+      "name": "Ymnow",
+      "description": "Yandex Music — now playing, charts, inline search",
       "authors": [
         "@vsecoder"
       ],
       "version": "1.1.0",
-      "requires": null,
+      "requires": [
+        "yandex-music"
+      ],
       "banner": null,
       "pic": null,
       "license": "MIT",
-      "sha256": "30e82beae71ff2a98744efd1cd37f04af57324b9c49790315b76c7beff60fc09",
+      "sha256": "d48a709189b2e7383863c52724a5ef2f8a3b3691e312cd180a1f4355deb38a75",
       "handlers": {
-        "command": [
+        "inline_command": [
           {
-            "name": "selflogmode",
-            "original_name": "_cmd_selflogmode",
-            "description": "- enable or disable selflog mode",
+            "name": "ym",
+            "original_name": "_inlinecmd_ym",
+            "description": {
+              "ru": "ym запрос - поиск треков; ymnow - текущий трек; ymchart chart_id - чарты",
+              "en": "ym query - search tracks; ymnow - now playing; ymchart chart_id - charts"
+            },
             "aliases": [
-              "selflogmode"
+              "ym",
+              "ymnow",
+              "ymchart"
             ],
-            "only_me": true,
-            "flags": {}
-          }
-        ],
-        "business_message": [
-          {
-            "name": "selflog",
-            "original_name": "_bismsg_selflog",
-            "description": "",
-            "aliases": [],
-            "only_me": true,
-            "flags": {}
-          }
-        ],
-        "edited_business_message": [
-          {
-            "name": "selflog",
-            "original_name": "_bisedit_selflog",
-            "description": "",
-            "aliases": [],
-            "only_me": true,
-            "flags": {}
-          }
-        ],
-        "deleted_business_message": [
-          {
-            "name": "selflog",
-            "original_name": "_bisdel_selflog",
-            "description": "",
-            "aliases": [],
             "only_me": true,
             "flags": {}
           }
@@ -211,10 +149,72 @@
       "has_dialogs": false,
       "has_on_load": true,
       "has_on_unload": false
+    },
+    "vsecoder/tensai_modules/selflog.py": {
+      "name": "Selflog",
+      "description": "Selflog feed for the bot owner.\n\nAll events (self-destructed media, edits, deletes) flow into ONE\ntopic named ``Selflog`` in the bot's DM with the owner. Each post\nis tagged with hashtags so Telegram's in-topic search gives a\nusable filter:\n\n- ``#selflog``           — entire feed\n- ``#sd`` / ``#edit`` / ``#deleted`` — filter by event kind\n- ``#u<user_id>``        — filter by author of the original message",
+      "authors": [
+        "@vsecoder"
+      ],
+      "version": "1.1.0",
+      "requires": null,
+      "banner": null,
+      "pic": null,
+      "license": "MIT",
+      "sha256": "30e82beae71ff2a98744efd1cd37f04af57324b9c49790315b76c7beff60fc09",
+      "handlers": {
+        "command": [
+          {
+            "name": "selflogmode",
+            "original_name": "_cmd_selflogmode",
+            "description": "- enable or disable selflog mode",
+            "aliases": [
+              "selflogmode"
+            ],
+            "only_me": true,
+            "flags": {}
+          }
+        ],
+        "business_message": [
+          {
+            "name": "selflog",
+            "original_name": "_bismsg_selflog",
+            "description": "",
+            "aliases": [],
+            "only_me": true,
+            "flags": {}
+          }
+        ],
+        "edited_business_message": [
+          {
+            "name": "selflog",
+            "original_name": "_bisedit_selflog",
+            "description": "",
+            "aliases": [],
+            "only_me": true,
+            "flags": {}
+          }
+        ],
+        "deleted_business_message": [
+          {
+            "name": "selflog",
+            "original_name": "_bisdel_selflog",
+            "description": "",
+            "aliases": [],
+            "only_me": true,
+            "flags": {}
+          }
+        ]
+      },
+      "has_strings": true,
+      "has_config": true,
+      "has_dialogs": false,
+      "has_on_load": true,
+      "has_on_unload": false
     }
   },
   "meta": {
     "total_modules": 4,
-    "generated_at": "2026-06-23T02:48:07.142994"
+    "generated_at": "2026-07-25T02:11:15.274391"
   }
 }
