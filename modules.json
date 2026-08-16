@@ -39,56 +39,6 @@
       "has_on_load": true,
       "has_on_unload": false
     },
-    "vsecoder/tensai_modules/SecretMessage.py": {
-      "name": "SecretMessage",
-      "description": {
-        "en": "Whisper secret messages to a specific user via inline mode.",
-        "ru": "«Прошёптывание» секретных сообщений конкретному пользователю через инлайн."
-      },
-      "authors": [
-        "@xdesai",
-        "ported to Tensai"
-      ],
-      "version": "2.0.0",
-      "requires": null,
-      "banner": null,
-      "pic": null,
-      "license": "MIT",
-      "sha256": "668810f517b427101ae71b11fd1688b954643b1b86cd520c4b28b7676b0f19f2",
-      "handlers": {
-        "inline_command": [
-          {
-            "name": "whisper",
-            "original_name": "_inlinecmd_whisper",
-            "description": {
-              "ru": "@username (текст) — секретное сообщение для пользователя",
-              "en": "@username (text) — secret message for a user"
-            },
-            "aliases": [
-              "whisper",
-              "wsp"
-            ],
-            "only_me": true,
-            "flags": {}
-          }
-        ],
-        "callback_query": [
-          {
-            "name": "_cb_open",
-            "original_name": "_cb_open",
-            "description": "",
-            "aliases": [],
-            "only_me": false,
-            "flags": {}
-          }
-        ]
-      },
-      "has_strings": true,
-      "has_config": false,
-      "has_dialogs": false,
-      "has_on_load": false,
-      "has_on_unload": false
-    },
     "vsecoder/tensai_modules/selflog.py": {
       "name": "Selflog",
       "description": "Selflog feed for the bot owner.\n\nAll events (self-destructed media, edits, deletes) flow into ONE\ntopic named ``Selflog`` in the bot's DM with the owner. Each post\nis tagged with hashtags so Telegram's in-topic search gives a\nusable filter:\n\n- ``#selflog``           — entire feed\n- ``#sd`` / ``#edit`` / ``#deleted`` — filter by event kind\n- ``#u<user_id>``        — filter by author of the original message",
@@ -149,6 +99,56 @@
       "has_config": true,
       "has_dialogs": false,
       "has_on_load": true,
+      "has_on_unload": false
+    },
+    "vsecoder/tensai_modules/SecretMessage.py": {
+      "name": "SecretMessage",
+      "description": {
+        "en": "Whisper secret messages to a specific user via inline mode.",
+        "ru": "«Прошёптывание» секретных сообщений конкретному пользователю через инлайн."
+      },
+      "authors": [
+        "@xdesai",
+        "ported to Tensai"
+      ],
+      "version": "2.0.0",
+      "requires": null,
+      "banner": null,
+      "pic": null,
+      "license": "MIT",
+      "sha256": "668810f517b427101ae71b11fd1688b954643b1b86cd520c4b28b7676b0f19f2",
+      "handlers": {
+        "inline_command": [
+          {
+            "name": "whisper",
+            "original_name": "_inlinecmd_whisper",
+            "description": {
+              "ru": "@username (текст) — секретное сообщение для пользователя",
+              "en": "@username (text) — secret message for a user"
+            },
+            "aliases": [
+              "whisper",
+              "wsp"
+            ],
+            "only_me": true,
+            "flags": {}
+          }
+        ],
+        "callback_query": [
+          {
+            "name": "_cb_open",
+            "original_name": "_cb_open",
+            "description": "",
+            "aliases": [],
+            "only_me": false,
+            "flags": {}
+          }
+        ]
+      },
+      "has_strings": true,
+      "has_config": false,
+      "has_dialogs": false,
+      "has_on_load": false,
       "has_on_unload": false
     },
     "vsecoder/tensai_modules/Downloader.py": {
@@ -215,6 +215,6 @@
   },
   "meta": {
     "total_modules": 4,
-    "generated_at": "2026-06-23T02:48:07.142994"
+    "generated_at": "2026-08-16T01:00:19.663242"
   }
 }
